@@ -78,10 +78,23 @@ export EDITOR='nvim'
 alias cls="clear"
 alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"
 alias start="explorer.exe"
-
+## obsidian
+alias ov="cd /mnt/d/documents/StrocsVault/"
+alias pushov="export current_path=${0:a:h} && cd /mnt/d/documents/StrocsVault/ && git add . && git commit -m 'update vault' && git push origin main && cd $current_path"
+alias pullov="export current_path=${0:a:h} && cd /mnt/d/documents/StrocsVault/ && git pull && cd $current_path"
+## dev
 alias brd="bun run dev"
 alias prd="pnpm run dev"
 alias nrd="npm run dev"
+## git
+alias gs="git status"
+alias gco="git checkout"
+alias gpl="git pull"
+alias gcl="git clone"
+alias gm="git merge"
+
+## fzf for nvim ??
+alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
 export PATH="$PATH:/mnt/c/Windows/"
 
