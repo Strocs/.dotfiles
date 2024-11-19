@@ -7,14 +7,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-WM_VAR="/$TMUX"
-WM_CMD="tmux"
-
-function start_if_needed() {
-    if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
-        exec $WM_CMD
-    fi
-}
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -62,17 +54,17 @@ function start_if_needed() {
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(command-not-found)
+plugins=(
+	command-not-found
+       	zsh-syntax-highlighting
+	zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
 export EDITOR='nvim'
-
 
 # Aliases
 alias cls="clear"
@@ -96,6 +88,26 @@ alias gm="git merge"
 ## fzf for nvim ??
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
+# Support for Windows commands
 export PATH="$PATH:/mnt/c/Windows/"
 
-start_if_needed
+# BREW
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Carapace config (autocomplete)
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+
+# Zoxide (smart cd)
+eval "$(zoxide init zsh)"
+
+# Atuin (shell history)
+eval "$(atuin init zsh)"
+
+# TMUX
+WM_VAR="/$TMUX"
+
+if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
+	exec tmux
+fi
