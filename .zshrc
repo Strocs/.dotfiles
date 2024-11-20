@@ -67,7 +67,6 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='nvim'
 
 # Aliases
-alias cls="clear"
 alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"
 alias start="explorer.exe"
 ## obsidian
@@ -111,3 +110,4 @@ WM_VAR="/$TMUX"
 if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
 	exec tmux
 fi
+export PATH="/home/linuxbrew/.linuxbrew/opt/node@22/bin:$PATH"
