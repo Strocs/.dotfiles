@@ -49,3 +49,17 @@ plugins=(
 
 #### Atuin (shell history)
 `brew install atuin`
+
+## TMUX
+
+Install tmux if don't have it:
+``` 
+which tmux
+# if not found
+sudo apt-get install tmux
+```
+
+Then `C-Space + I` to install plugins.
+
+<!--TODO: Order installations and symlinks -->
+
