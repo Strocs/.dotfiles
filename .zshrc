@@ -110,4 +110,9 @@ WM_VAR="/$TMUX"
 if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
 	exec tmux
 fi
+
+# NodeJs
 export PATH="/home/linuxbrew/.linuxbrew/opt/node@22/bin:$PATH"
+
+# WSL
+export PATH="/usr/lib/wsl/lib:$PATH"
