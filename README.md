@@ -63,3 +63,5 @@ Then `C-Space + I` to install plugins.
 
 <!--TODO: Order installations and symlinks -->
 
+## BUN
+`brew install oven-sh/bun/bun`
