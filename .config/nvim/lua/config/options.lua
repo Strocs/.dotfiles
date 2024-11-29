@@ -7,6 +7,12 @@
 vim.g.lazyvim_prettier_needs_config = true
 
 vim.opt.sessionoptions =
-{ "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds", "localoptions" }
+  { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds", "localoptions" }
 
 vim.opt.spelllang = { "en" }
+
+vim.filetype.add({
+  extension = {
+    mdx = "markdown",
+  },
+})
