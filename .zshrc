@@ -77,6 +77,7 @@ alias pullov="export current_path=${0:a:h} && cd /mnt/d/documents/StrocsVault/ &
 alias brd="bun run dev"
 alias prd="pnpm run dev"
 alias nrd="npm run dev"
+alias py="python3"
 ## git
 alias gs="git status"
 alias gco="git checkout"
