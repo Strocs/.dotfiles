@@ -71,8 +71,8 @@ alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"
 alias start="explorer.exe"
 ## obsidian
 alias ov="cd /mnt/d/documents/StrocsVault/"
-alias pushov="export current_path=${0:a:h} && cd /mnt/d/documents/StrocsVault/ && git add . && git commit -m 'update vault' && git push origin main && cd $current_path"
-alias pullov="export current_path=${0:a:h} && cd /mnt/d/documents/StrocsVault/ && git pull && cd $current_path"
+alias pushov="export current_path=${0:a:h} && ov && git add . && git commit -m 'update vault' && git push origin main && cd $current_path"
+alias pullov="export current_path=${0:a:h} && ov && git pull && cd $current_path"
 ## dev
 alias brd="bun run dev"
 alias prd="pnpm run dev"
