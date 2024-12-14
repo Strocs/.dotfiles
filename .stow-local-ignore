@@ -1,6 +1,10 @@
 .termux/
+.termux/*
 wezterm/
 wezterm/*
+desktop.sh
+mobile.sh
+
 
 RCS
 .+,v
