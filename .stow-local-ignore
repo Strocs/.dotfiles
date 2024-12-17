@@ -5,6 +5,7 @@ wezterm/*
 desktop.sh
 mobile.sh
 
+*.bak
 
 RCS
 .+,v
