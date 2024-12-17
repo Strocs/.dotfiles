@@ -7,8 +7,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
+# Create folder and env for XDG_RUNTIME_DIR
 mkdir -p /tmp/${USER}-runtime && chmod -R 0700 /tmp/${USER}-runtime
-
 export XDG_RUNTIME_DIR=/tmp/${USER}-runtime
 
 # Uncomment the following line to use case-sensitive completion.
