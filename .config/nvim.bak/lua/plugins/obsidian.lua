@@ -1,11 +1,8 @@
 return {
-  -- Plugin: obsidian.nvim
-  -- URL: https://github.com/epwalsh/obsidian.nvim
-  -- Description: A Neovim plugin for writing and navigating Obsidian vaults
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
-  lazy = true,
-  ft = "markdown",
+  -- lazy = true,
+  -- ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
@@ -18,10 +15,10 @@ return {
       },
     },
 
-    -- completion = {
-    --   nvim_cmp = true,
-    --   min_chars = 2,
-    -- },
+    completion = {
+      nvim_cmp = true,
+      min_chars = 2,
+    },
 
     notes_subdir = "void",
     new_notes_location = "void",

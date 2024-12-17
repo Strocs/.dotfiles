@@ -1,8 +1,5 @@
 return {
   {
-    -- Plugin: sonokai
-    -- URL: https://github.com/sainnhe/sonokai
-    -- Description: High Contrast & Vivid Color Scheme based on Monokai Pro
     "sainnhe/sonokai",
     lazy = false,
     priority = 1000,
@@ -11,11 +8,19 @@ return {
       vim.g.sonokai_style = "shusia"
       vim.g.sonokai_better_performance = 1
       vim.g.sonokai_transparent_background = 2
-      vim.g.sonokai_diagnostic_virtual_text = "colored"
     end,
   },
   {
-    -- Implement theme by default
+    "catppuccin/nvim",
+    lazy = false,
+    priority = 1000,
+    name = "catppuccin",
+    opts = {
+      flavour = "mocha",
+      transparent_background = true,
+    },
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "sonokai",
