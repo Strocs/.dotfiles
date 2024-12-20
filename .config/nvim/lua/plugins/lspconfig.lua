@@ -7,5 +7,23 @@ return {
     inlay_hints = {
       enabled = false, -- Disable inlay hints
     },
+    -- setup = {
+    --   jdtls = function()
+    --     -- Your nvim-java configuration goes here
+    --     require("java").setup({
+    --       root_markers = {
+    --         "settings.gradle",
+    --         "settings.gradle.kts",
+    --         "pom.xml",
+    --         "build.gradle",
+    --         "mvnw",
+    --         "gradlew",
+    --         "build.gradle",
+    --         "build.gradle.kts",
+    --         ".git",
+    --       },
+    --     })
+    --   end,
+    -- },
   },
 }
