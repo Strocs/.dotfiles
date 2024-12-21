@@ -17,19 +17,19 @@ return {
         servers = {
           -- Your JDTLS configuration goes here
           jdtls = {
-            settings = {
-              java = {
-                configuration = {
-                  runtimes = {
-                    {
-                      name = "openjdk-23",
-                      path = "/home/linuxbrew/.linuxbrew/opt/openjdk/23.0.1",
-                      default = true,
-                    },
-                  },
-                },
-              },
-            },
+            -- settings = {
+            --   java = {
+            --     configuration = {
+            --       runtimes = {
+            --         {
+            --           name = "openjdk-23",
+            --           path = "/home/linuxbrew/.linuxbrew/opt/openjdk/23.0.1",
+            --           default = true,
+            --         },
+            --       },
+            --     },
+            --   },
+            -- },
           },
         },
         setup = {
