@@ -13,12 +13,23 @@ vim.keymap.set(
   { desc = "Delete other buffers but the current one" }
 )
 
--- -- Tmux Navigation --
--- local nvim_tmux_nav = require("nvim-tmux-navigation")
---
--- vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
--- vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
--- vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
--- vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
--- vim.keymap.set("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
--- vim.keymap.set("n", "<C-n>", nvim_tmux_nav.NvimTmuxNavigateNext)
+-- Obsidian
+vim.keymap.set("n", "<leader>o", "", { desc = "Obsidian" })
+vim.keymap.set(
+  "n",
+  "<leader>oc",
+  "<cmd>lua require('obsidian').util.toggle_checkbox()<CR>",
+  { desc = "Obsidian Check Checkbox" }
+)
+vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Obsidian Template" })
+vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open in Obsidian App" })
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show ObsidianBacklinks" })
+vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show ObsidianLinks" })
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<leader>od", "", { desc = "Daily Notes" })
+vim.keymap.set("n", "<leader>odn", "<cmd>ObsidianToday<CR>", { desc = "Open or Create a new Daily Note" })
+vim.keymap.set("n", "<leader>odk", "<cmd>ObsidianTomorrow<CR>", { desc = "Open next Daily Note" })
+vim.keymap.set("n", "<leader>odj", "<cmd>ObsidianYesterday<CR>", { desc = "Open Yesterday Note" })
+vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianPasteImg<CR>", { desc = "Paste Image from URL" })
+vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
+vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
