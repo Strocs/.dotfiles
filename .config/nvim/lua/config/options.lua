@@ -3,4 +3,4 @@
 -- Add any additional options here
 
 -- Prettier require a config file to auto format on save
--- vim.g.lazyvim_prettier_needs_config = true
+vim.g.lazyvim_prettier_needs_config = true
