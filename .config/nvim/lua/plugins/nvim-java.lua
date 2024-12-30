@@ -46,6 +46,12 @@ return {
                 "build.gradle",
                 "build.gradle.kts",
               },
+              java_test = {
+                version = "0.43.0",
+              },
+              spring_boot_tools = {
+                version = "1.59.0",
+              },
             })
           end,
         },
