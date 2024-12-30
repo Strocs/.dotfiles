@@ -72,6 +72,8 @@ export EDITOR='nvim'
 # Aliases
 alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"
 alias start="explorer.exe"
+alias nv="nvim ."
+alias cls="clear"
 ## obsidian
 alias ov="cd /mnt/d/documents/StrocsVault/"
 alias pushov="export current_path=${0:a:h} && ov && git add . && git commit -m 'update vault' && git push origin main && cd $current_path"
@@ -81,8 +83,10 @@ alias brd="bun run dev"
 alias prd="pnpm run dev"
 alias nrd="npm run dev"
 alias py="python3"
+alias lua="luajit"
 ## git
 alias gs="git status"
+alias gb="git branch"
 alias gco="git checkout"
 alias gpl="git pull"
 alias gcl="git clone"
