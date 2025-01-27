@@ -1,28 +1,25 @@
 # .Strocs
 
-dotfiles and custom plugins configs
+## Pre Install 
+`sudo apt-get install build-essential procps curl file git`
 
-```bash
-# install stow and git
-sudo apt-get install stow git
-
-# clone this repo
-git clone $thisrepo
-
-cd .dotfiles && stow .
-``` 
 
 ## Homebrew
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+```
 
 ## ZSH
-`sudo apt-get install zsh`
+`brew install zsh`
+`command -v zsh | sudo tee -a /etc/shells`
+`chsh -s ${which zsh}`
 
 #### Oh-my-zsh
 
 Install oh-my-zsh:
-`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-> Not overrides current .zshrc
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && `
 
 #### Install zsh plugins
 
@@ -32,23 +29,7 @@ Install oh-my-zsh:
 - zsh-syntax-highlighting
     `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
 
-Add to .zshrc:
-```shell
-plugins=(
-    # other plugins...
-    zsh-syntax-highlighting
-    zsh-autosuggestion
-)
-```
 
-#### Carapace (autocompletion)
-`brew install carapace`
-
-#### Zoxide (smart cd)
-`brew install zoxide`
-
-#### Atuin (shell history)
-`brew install atuin`
 
 ## TMUX
 
@@ -59,9 +40,18 @@ which tmux
 sudo apt-get install tmux
 ```
 
+#### Plugins
+`git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+
 Then `C-Space + I` to install plugins.
 
-<!--TODO: Order installations and symlinks -->
+## Tools
+`brew install stow carapace zoxide atuin lazygit neovim fzf ripgrep fd node@22 oven-sh/bun/bun gradle`
 
-## BUN
-`brew install oven-sh/bun/bun`
+- Carapace (autocompletion)
+- Zoxide (smart cd)
+- Atuin (shell history)
+
+## LazyVim
+`git clone https://github.com/LazyVim/starter ~/.config/nvim`
+
