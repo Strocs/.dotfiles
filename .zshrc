@@ -113,11 +113,11 @@ eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 
 # TMUX
-WM_VAR="/$TMUX"
-
-if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
-	exec tmux
-fi
+# WM_VAR="/$TMUX"
+#
+# if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
+# 	exec tmux
+# fi
 
 # NodeJs
 export PATH="/home/linuxbrew/.linuxbrew/opt/node@22/bin:$PATH"
