@@ -12,14 +12,17 @@ test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/bre
 ```
 
 ## ZSH
-`brew install zsh`
-`command -v zsh | sudo tee -a /etc/shells`
-`chsh -s ${which zsh}`
+```
+brew install zsh
+command -v zsh | sudo tee -a /etc/shells
+chsh -s ${which zsh}
+```
+
 
 #### Oh-my-zsh
 
 Install oh-my-zsh:
-`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && `
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
 
 #### Install zsh plugins
 
@@ -46,12 +49,21 @@ sudo apt-get install tmux
 Then `C-Space + I` to install plugins.
 
 ## Tools
-`brew install stow carapace zoxide atuin lazygit neovim fzf ripgrep fd node@22 oven-sh/bun/bun gradle`
+`brew install stow carapace zoxide atuin lazygit neovim fzf ripgrep fd`
 
 - Carapace (autocompletion)
 - Zoxide (smart cd)
 - Atuin (shell history)
 
-## LazyVim
-`git clone https://github.com/LazyVim/starter ~/.config/nvim`
+
+## Languages Tools
+
+#### Go
+`brew install go`
+
+#### Javascript / Typescript
+`brew install node@22 oven-sh/bun/bun`
+
+####  Java
+`brew install gradle`
 
