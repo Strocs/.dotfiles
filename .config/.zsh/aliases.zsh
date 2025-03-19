@@ -29,3 +29,15 @@ alias gco="git checkout"
 alias gpl="git pull"
 alias gcl="git clone"
 alias gm="git merge"
+
+# Build GO App on windows
+
+gobwin() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a module name (e.g., gobwin myapp)"
+    return 1
+  fi
+
+  local module_name="$1"
+  GOOS=windows GOARCH=amd64 go build -o "${module_name}.exe" && cp "${module_name}.exe" /mnt/d/Documents/Dev/executables
+}
