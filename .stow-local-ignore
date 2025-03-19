@@ -5,6 +5,9 @@ wezterm/*
 desktop.sh
 mobile.sh
 
+.config/go
+.config/fyne
+
 .*\.(bak|tmp)
 
 RCS
