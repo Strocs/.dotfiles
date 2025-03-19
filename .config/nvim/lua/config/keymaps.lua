@@ -33,3 +33,17 @@ vim.keymap.set("n", "<leader>odj", "<cmd>ObsidianYesterday<CR>", { desc = "Open 
 vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianPasteImg<CR>", { desc = "Paste Image from URL" })
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
 vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
+
+-- Disable key mappings in insert mode
+vim.api.nvim_set_keymap("i", "<A-j>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<A-k>", "<Nop>", { noremap = true, silent = true })
+
+-- Disable key mappings in normal mode
+vim.api.nvim_set_keymap("n", "<A-j>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-k>", "<Nop>", { noremap = true, silent = true })
+
+-- Disable key mappings in visual block mode
+vim.api.nvim_set_keymap("x", "<A-j>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("x", "<A-k>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("x", "J", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("x", "K", "<Nop>", { noremap = true, silent = true })
