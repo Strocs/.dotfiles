@@ -1,7 +1,7 @@
 # Window manager configuration
 
 # Configurable window manager settings
-WM_CMD="tmux"          # Options: "tmux" or "zellij"
+WM_CMD="zellij"          # Options: "tmux" or "zellij"
 
 # Function to start the window manager if conditions are met
 start_if_needed() {

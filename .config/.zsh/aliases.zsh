@@ -37,7 +37,7 @@ gobwin() {
     echo "Error: Please provide a module name (e.g., gobwin myapp)"
     return 1
   fi
-
   local module_name="$1"
-  GOOS=windows GOARCH=amd64 go build -o "${module_name}.exe" && cp "${module_name}.exe" /mnt/d/Documents/Dev/executables
+  CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ GOOS=windows GOARCH=amd64 go build -tags glfw -o "${module_name}.exe" && cp "${module_name}.exe" /mnt/d/Documents/Dev/executables
 }
+
