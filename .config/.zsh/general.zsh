@@ -15,7 +15,7 @@ export XDG_RUNTIME_DIR="/tmp/${USER}-runtime"
 # Editor
 export EDITOR='nvim'
 
-# Uncomment to enable options as needed
+# Uncomment to enable options as needed (FOR WHAT?)
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 # DISABLE_MAGIC_FUNCTIONS="true"
