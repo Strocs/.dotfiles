@@ -31,3 +31,5 @@ _darcs
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+
+.config/zellij
