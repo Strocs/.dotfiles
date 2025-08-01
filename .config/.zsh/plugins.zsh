@@ -7,11 +7,14 @@ plugins=(
   zsh-autosuggestions
 )
 
+# Source Oh My Zsh at the end to ensure all plugins are loaded
+source "$ZSH/oh-my-zsh.sh"
+
 # Zoxide (smart cd)
-# eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh)"
 
 # Atuin (shell history)
-# eval "$(atuin init zsh)"
+eval "$(atuin init zsh)"
 
 # Carapace (autocomplete)
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'

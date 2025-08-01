@@ -16,3 +16,11 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # PKG_CONFIG_PATH
 PKG_CONFIG_PATH_BASE="/usr/lib/x86_64-linux-gnu/pkgconfig"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH_BASE:$PKG_CONFIG_PATH"
+
+# pnpm
+export PNPM_HOME="/home/strocsdev/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

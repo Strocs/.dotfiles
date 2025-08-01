@@ -25,6 +25,3 @@ export EDITOR='nvim'
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
-
-# Source Oh My Zsh after basic configs
-source "$ZSH/oh-my-zsh.sh"
