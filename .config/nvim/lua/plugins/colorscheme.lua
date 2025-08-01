@@ -15,10 +15,31 @@ return {
     end,
   },
   {
+    "loctvl842/monokai-pro.nvim",
+    priority = 1000,
+    opts = {},
+  },
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000,
+    opts = {
+      style = "darker",
+      transparent = true,
+    },
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = {
+      -- transparent_background = true,
+    },
+  },
+  {
     -- Implement theme by default
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "sonokai",
+      colorscheme = "tokyonight",
     },
   },
 }
