@@ -5,6 +5,7 @@
         "-y",
         "@upstash/context7-mcp"
       ],
+      "autoApprove": [],
       "command": "npx"
     },
     "sequentialthinking": {

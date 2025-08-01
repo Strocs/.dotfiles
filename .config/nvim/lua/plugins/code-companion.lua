@@ -4,8 +4,23 @@ return {
     dependencies = {
       "ravitemer/mcphub.nvim",
     },
-    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
+    init = function()
+      vim.cmd([[cab cc CodeCompanion]])
+      require("plugins.codecompanion.codecompanion-notifier"):init()
+
+      local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+
+      vim.api.nvim_create_autocmd({ "User" }, {
+        pattern = "CodeCompanionInlineFinished",
+        group = group,
+        callback = function(request)
+          vim.lsp.buf.format({ bufnr = request.buf })
+        end,
+      })
+    end,
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     keys = {
+      { "<leader>a", "", mode = { "n", "v" }, desc = "AI Tools" },
       { "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "AI Toggle [C]hat" },
       { "<leader>an", "<cmd>CodeCompanionChat<cr>", mode = { "n", "v" }, desc = "AI [N]ew Chat" },
       { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "AI [A]ction" },
@@ -14,6 +29,132 @@ return {
       { "<leader>ae", "<cmd>CodeCompanion /explain<cr>", mode = { "v" }, desc = "AI [E]xplain" },
     },
     opts = {
+      ---@module "codecompanion"
+      ---@type CodeCompanion.Config
+
+      display = {
+        action_pallete = {
+          provider = "default",
+        },
+        chat = {
+          icons = {
+            tool_success = "󰸞",
+          },
+        },
+        diff = {
+          provider = "mini_diff",
+        },
+      },
+
+      opts = {
+        log_level = "DEBUG",
+        auto_tool_mode = true, -- Enable auto tool mode for trusted tasks
+      },
+
+      strategies = {
+        prompt_library = {
+          ["Document Function"] = {
+            strategy = "chat",
+            description = "Generate documentation for the selected function.",
+            opts = {
+              mapping = "<leader>ad",
+              modes = { "v" },
+              short_name = "doc",
+              auto_submit = true,
+              user_prompt = true,
+            },
+            prompts = {
+              {
+                role = "user",
+                content = function(context)
+                  local text = table.concat(context.lines, "\n")
+                  return "Please generate detailed documentation for the following function:\n\n```"
+                    .. context.filetype
+                    .. "\n"
+                    .. text
+                    .. "\n```"
+                end,
+                opts = { contains_code = true },
+              },
+            },
+          },
+          ["Optimize Code"] = {
+            strategy = "chat",
+            description = "Suggest optimizations for the selected code following best practices for the selected language.",
+            opts = {
+              mapping = "<leader>ao",
+              modes = { "v" },
+              short_name = "opt",
+              auto_submit = true,
+              user_prompt = true,
+            },
+            prompts = {
+              {
+                role = "user",
+                content = function(context)
+                  local text = table.concat(context.lines, "\n")
+                  return "Please review and optimize the following code for performance and readability:\n\n```"
+                    .. context.filetype
+                    .. "\n"
+                    .. text
+                    .. "\n```"
+                end,
+                opts = { contains_code = true },
+              },
+            },
+          },
+          ["Generate Unit Tests"] = {
+            strategy = "chat",
+            description = "Generate unit tests for the selected code.",
+            opts = {
+              mapping = "<leader>at",
+              modes = { "v" },
+              short_name = "test",
+              auto_submit = true,
+              user_prompt = true,
+            },
+            prompts = {
+              {
+                role = "user",
+                content = function(context)
+                  local text = table.concat(context.lines, "\n")
+                  return "Write comprehensive unit tests for the following code:\n\n```"
+                    .. context.filetype
+                    .. "\n"
+                    .. text
+                    .. "\n```"
+                end,
+                opts = { contains_code = true },
+              },
+            },
+          },
+        },
+        inline = {
+          name = "copilot",
+          model = "gpt-4.1",
+        },
+        chat = {
+          adapter = {
+            name = "copilot",
+            model = "gpt-4.1",
+          },
+          roles = {
+            user = "Strocs",
+          },
+          keymaps = {
+            send = {
+              modes = { n = "<CR>", i = "<C-CR>" },
+            },
+            completion = {
+              modes = {
+                i = "<C-x>",
+              },
+            },
+          },
+          tools = {},
+        },
+      },
+
       extensions = {
         mcphub = {
           callback = "mcphub.extensions.codecompanion",
@@ -31,41 +172,16 @@ return {
           },
         },
       },
-      -- adapters = {
-      --   copilot = function()
-      --     return require("codecompanion.adapters").extend("copilot", {
-      --       schema = {
-      --         model = {
-      --           default = "gpt-4.1",
-      --         },
-      --       },
-      --     })
-      --   end,
-      --   gemini = function()
-      --     return require("codecompanion.adapters").extend("gemini", {
-      --       env = {
-      --         api_key = "cmd:echo ${}",
-      --       },
-      --     })
-      --   end,
-      -- },
-      -- strategies = {
-      --   chat = {
-      --     adapter = {
-      --       name = "copilot",
-      --       model = "gpt-4.1",
-      --     },
-      --     roles = {
-      --       user = "strocs",
-      --     },
-      --   },
-      --   inline = {
-      --     adapter = {
-      --       name = "copilot",
-      --       model = "gpt-4.1",
-      --     },
-      --   },
-      -- },
     },
+  },
+  {
+    "echasnovski/mini.diff", -- Inline and better diff over the default
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
   },
 }

@@ -6,4 +6,8 @@ return {
     "akinsho/bufferline.nvim",
     enabled = false, -- Disable this plugin
   },
+  {
+    "nvim-java/nvim-java",
+    enabled = false,
+  },
 }
