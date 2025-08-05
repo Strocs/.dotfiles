@@ -25,3 +25,10 @@ export EDITOR='nvim'
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
+
+
+# Start WezTerm config sync daemon if not already running
+if ! pgrep -f "wezterm-config-sync-daemon.sh" > /dev/null; then
+  nohup /home/strocsdev/.dotfiles/wezterm/wezterm-config-sync-daemon.sh &
+fi
+
