@@ -30,14 +30,27 @@ The task of creating and pushing commits starts when I ask you to, and ends when
 4.  **Await Approval:** Do not proceed with staging files or creating commits until I approve the plan.
 5.  **Execute and Push:** Once the plan is approved, execute the commits as planned and push the changes to the remote repository.
 
+### Triggering Commit Creation
+
+I will use this key phrase to trigger the commit creation process:
+
+- Generate commits
+- Create commits
+- Make commits
+
 ### Confidence Mode
 
-If I explicitly tell you that I trust you, or to use "Confidence Mode", you should skip the approval steps (3 and 4). In this mode, you will:
+If I explicitly tell you that I trust you, or to use "Confidence Mode", you should skip the approval steps (3, 4 and 5). In this mode, you will:
 
 1.  Analyze the changes.
 2.  Generate the commits based on the logical grouping.
 3.  Directly execute the commits.
-4.  Push the changes to the remote repository without asking for my approval.
+4.  Finally, push the changes to the remote repository without asking for my approval.
+
+#### Trigger Examples with confidence mode
+- Generate commits, use confidence mode.
+- Create commit, I trust you
+- make commits, confidence mode
 
 ---
 ### Examples
