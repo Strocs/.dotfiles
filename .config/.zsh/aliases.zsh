@@ -3,6 +3,8 @@
 # General
 alias cls="clear"
 alias start="explorer.exe"
+alias dipv4='/home/strocsdev/.dotfiles/scripts/disable-lso-ipv4.sh' # Disable ipv4 of vEthernet for improve connections
+
 
 # File editing
 alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"

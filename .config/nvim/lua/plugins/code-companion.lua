@@ -52,83 +52,6 @@ return {
       },
 
       strategies = {
-        prompt_library = {
-          ["Document Function"] = {
-            strategy = "chat",
-            description = "Generate documentation for the selected function.",
-            opts = {
-              mapping = "<leader>ad",
-              modes = { "v" },
-              short_name = "doc",
-              auto_submit = true,
-              user_prompt = true,
-            },
-            prompts = {
-              {
-                role = "user",
-                content = function(context)
-                  local text = table.concat(context.lines, "\n")
-                  return "Please generate detailed documentation for the following function:\n\n```"
-                    .. context.filetype
-                    .. "\n"
-                    .. text
-                    .. "\n```"
-                end,
-                opts = { contains_code = true },
-              },
-            },
-          },
-          ["Optimize Code"] = {
-            strategy = "chat",
-            description = "Suggest optimizations for the selected code following best practices for the selected language.",
-            opts = {
-              mapping = "<leader>ao",
-              modes = { "v" },
-              short_name = "opt",
-              auto_submit = true,
-              user_prompt = true,
-            },
-            prompts = {
-              {
-                role = "user",
-                content = function(context)
-                  local text = table.concat(context.lines, "\n")
-                  return "Please review and optimize the following code for performance and readability:\n\n```"
-                    .. context.filetype
-                    .. "\n"
-                    .. text
-                    .. "\n```"
-                end,
-                opts = { contains_code = true },
-              },
-            },
-          },
-          ["Generate Unit Tests"] = {
-            strategy = "chat",
-            description = "Generate unit tests for the selected code.",
-            opts = {
-              mapping = "<leader>at",
-              modes = { "v" },
-              short_name = "test",
-              auto_submit = true,
-              user_prompt = true,
-            },
-            prompts = {
-              {
-                role = "user",
-                content = function(context)
-                  local text = table.concat(context.lines, "\n")
-                  return "Write comprehensive unit tests for the following code:\n\n```"
-                    .. context.filetype
-                    .. "\n"
-                    .. text
-                    .. "\n```"
-                end,
-                opts = { contains_code = true },
-              },
-            },
-          },
-        },
         inline = {
           name = "copilot",
           model = "gpt-4.1",
@@ -136,7 +59,7 @@ return {
         chat = {
           adapter = {
             name = "copilot",
-            model = "gpt-4.1",
+            model = "claude-3.7-sonnet",
           },
           roles = {
             user = "Strocs",

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "custom-tokyonight",
+  "keybinds": {
+    "leader": "ctrl+o",
+    "messages_page_up": "ctrl+k",
+    "messages_page_down": "ctrl+j",
+    "messages_previous": "alt+k",
+    "messages_next": "alt+j"
+  },
+  "agent": {
+    "brainstorm": {
+      "temperature": 0.8,
+      "prompt": "Eres un experto en producto y entiendes a la perfección el mercado. Ayuda a generar ideas de producto innovadoras y creativas basadas en las necesidades del usuario y las tendencias del mercado. Tu objetivo es proponer soluciones que sean viables y escalables. Primero generarás una lluvia de ideas, luego seleccionarás las más prometedoras y finalmente las desarrollarás en detalle. Asegúrate de considerar la viabilidad técnica y comercial de cada idea."
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "enabled": true
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "enabled": true
+    },
+    "github": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "enabled": true
+    }
+  }
+}

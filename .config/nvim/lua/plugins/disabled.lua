@@ -10,4 +10,8 @@ return {
     "nvim-java/nvim-java",
     enabled = false,
   },
+  {
+    "olimorris/codecompanion.nvim",
+    enabled = false,
+  },
 }
