@@ -1,7 +1,7 @@
 ---
 description: Reviews code for quality and best practices
 mode: subagent
-model: copilot/gpt-4.1
+model: github-copilot/gpt-4.1
 temperature: 0.1
 tools:
   write: false

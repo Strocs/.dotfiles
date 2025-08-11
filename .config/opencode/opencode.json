@@ -3,10 +3,14 @@
   "theme": "custom-tokyonight",
   "keybinds": {
     "leader": "ctrl+o",
-    "messages_page_up": "ctrl+k",
-    "messages_page_down": "ctrl+j",
-    "messages_previous": "alt+k",
-    "messages_next": "alt+j"
+    "messages_half_page_up": "alt+k",
+    "messages_half_page_down": "alt+j",
+    "messages_first": "ctrl+alt+k",
+    "messages_last": "ctrl+alt+j",
+    "messages_previous": "ctrl+alt+p",
+    "messages_next": "ctrl+alt+n",
+    "messages_page_up": "ctrl+alt+u",
+    "messages_page_down": "ctrl+alt+d"
   },
   "agent": {
     "brainstorm": {
