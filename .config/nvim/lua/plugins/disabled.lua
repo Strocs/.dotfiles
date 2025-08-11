@@ -11,7 +11,7 @@ return {
     enabled = false,
   },
   {
-    "olimorris/codecompanion.nvim",
+    "CopilotC-Nvim/CopilotChat.nvim",
     enabled = false,
   },
 }
