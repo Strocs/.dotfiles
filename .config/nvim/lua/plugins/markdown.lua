@@ -8,7 +8,6 @@ return {
     heading = {
       enabled = true,
       sign = true,
-      style = "full",
       icons = { "① ", "② ", "③ ", "④ ", "⑤ ", "⑥ " },
       left_pad = 1,
     },
@@ -17,6 +16,9 @@ return {
       icons = { "●", "○", "◆", "◇" },
       right_pad = 1,
       highlight = "render-markdownBullet",
+    },
+    latex = {
+      enabled = false,
     },
   },
 }
