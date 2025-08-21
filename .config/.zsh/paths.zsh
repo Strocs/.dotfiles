@@ -2,7 +2,7 @@
 
 # Define individual paths
 GO_PATH="$HOME/go/bin"                          # Go binaries
-WINDOWS_PATH="/mnt/c/Windows"                   # Windows system commands
+# WINDOWS_PATH="/mnt/c/Windows"                   # Windows system commands
 WSL_LIB_PATH="/usr/lib/wsl/lib"                 # WSL-specific libraries
 NODE_PATH="/home/linuxbrew/.linuxbrew/opt/node@24/bin"  # Node.js via Homebrew
 BREW_PATH="/home/linuxbrew/.linuxbrew/bin"      # Homebrew binaries
