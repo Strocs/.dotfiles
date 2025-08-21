@@ -1,29 +1,40 @@
 return {
-  -- Plugin: nvim-lspconfig
-  -- URL: https://github.com/neovim/nvim-lspconfig
-  -- Description: Quickstart configurations for the Neovim LSP client.
   "neovim/nvim-lspconfig",
-  opts = {
-    inlay_hints = {
-      enabled = false, -- Disable inlay hints
-    },
-    -- setup = {
-    --   jdtls = function()
-    --     -- Your nvim-java configuration goes here
-    --     require("java").setup({
-    --       root_markers = {
-    --         "settings.gradle",
-    --         "settings.gradle.kts",
-    --         "pom.xml",
-    --         "build.gradle",
-    --         "mvnw",
-    --         "gradlew",
-    --         "build.gradle",
-    --         "build.gradle.kts",
-    --         ".git",
-    --       },
-    --     })
-    --   end,
-    -- },
-  },
+  opts = function(_, opts)
+    -- Forcefully disable all TypeScript servers except vtsls
+    opts.servers = opts.servers or {}
+
+    -- Disable LazyVim's default TypeScript servers
+    opts.servers.tsserver = false
+    opts.servers.ts_ls = false
+    opts.servers.typescript_language_server = false
+
+    -- Configure vtsls with memory optimizations
+    opts.servers.vtsls = {
+      cmd = {
+        "vtsls",
+        "--stdio",
+        "--tsserver-max-memory=1024",
+      },
+      settings = {
+        typescript = {
+          workspaceSymbols = {
+            scope = "currentProject",
+          },
+        },
+        vtsls = {
+          experimental = {
+            completion = {
+              enableServerSideFuzzyMatch = false,
+            },
+          },
+        },
+      },
+    }
+
+    opts.inlay_hints = opts.inlay_hints or {}
+    opts.inlay_hints.enabled = false
+
+    return opts
+  end,
 }
