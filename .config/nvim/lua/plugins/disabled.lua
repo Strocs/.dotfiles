@@ -10,8 +10,4 @@ return {
     "nvim-java/nvim-java",
     enabled = false,
   },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    enabled = false,
-  },
 }
