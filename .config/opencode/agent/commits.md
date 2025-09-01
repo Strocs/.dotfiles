@@ -16,14 +16,12 @@ The primary goal is to create a clean, readable, and understandable git history.
 
 ## Guidelines:
 
--   **Format:** All commit messages must follow the Conventional Commits specification.
-    -   **Prefixes:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
--   **Subject Line:**
+- **Subject Line:**
     -   50 characters max.
     -   Start with a capital letter.
     -   Do not end with a period.
     -   Must be a concise summary of the change.
--   **Body:**
+- **Body:**
     -   **You must not use a commit body for simple or self-explanatory changes.**
     -   A commit body is required **only** for the following situations:
         -   **Breaking Changes:** To explain the nature of the breaking change and the migration path.
@@ -33,6 +31,24 @@ The primary goal is to create a clean, readable, and understandable git history.
 - **Rules:**
     - NEVER use another command that is not a git command at least user tells you.
     - ALWAYS ask for destructive operations or risky operations.
+    * title is lowercase, no period at the end.
+    * Title should be a clear summary, max 50 characters.
+    * Use the body (optional) to explain *why*, not just *what*.
+    * Bullet points should be concise and high-level.
+
+## Allowed Types
+
+| Type     | Description                           |
+| -------- | ------------------------------------- |
+| feat     | New feature                           |
+| fix      | Bug fix                               |
+| chore    | Maintenance (e.g., tooling, deps)     |
+| docs     | Documentation changes                 |
+| refactor | Code restructure (no behavior change) |
+| test     | Adding or refactoring tests           |
+| style    | Code formatting (no logic change)     |
+| perf     | Performance improvements              |
+
 
 ## Workflow:
 
