@@ -34,6 +34,7 @@ alias gpl="git pull"
 alias gcl="git clone"
 alias gm="git merge"
 
+
 # Build GO App on windows
 
 gobwin() {
