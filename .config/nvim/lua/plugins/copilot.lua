@@ -1,7 +1,11 @@
 return {
   "zbirenbaum/copilot.lua",
-  optional = true,
   opts = function()
-    require("copilot.api").status = require("copilot.status")
+    require("copilot").setup({
+      suggestion = {
+        auto_trigger = true,
+        debounde = 75,
+      },
+    })
   end,
 }
