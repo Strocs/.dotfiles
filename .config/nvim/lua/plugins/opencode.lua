@@ -7,6 +7,11 @@ return {
   ---@type opencode.Opts
   opts = {
     -- Your configuration, if any
+    terminal = {
+      env = {
+        OPENCODE_THEME = "custom-tokyonight",
+      },
+    },
   },
   keys = {
     -- Recommended keymaps
