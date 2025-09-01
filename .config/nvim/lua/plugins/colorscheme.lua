@@ -20,6 +20,9 @@ return {
     opts = {
       transparent = true,
       lualine_bold = true,
+      styles = {
+        floats = "transparent",
+      },
     },
   },
   {
