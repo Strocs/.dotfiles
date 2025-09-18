@@ -80,7 +80,7 @@ end)
 
 -- 8. Keymaps
 config.disable_default_key_bindings = true
-config.leader = { key = "b", mods = "CTRL" }
+config.leader = { key = "w", mods = "CTRL" }
 config.keys = {
 	{ key = "n", mods = "LEADER", action = wezterm.action.ToggleFullScreen },
 	{ key = "o", mods = "LEADER", action = wezterm.action.EmitEvent("toggle-opacity") },
