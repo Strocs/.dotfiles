@@ -6,7 +6,7 @@ return {
   ---@module 'oil'
   ---@type oil.SetupOpts
   dependencies = {
-    { "echasnovski/mini.icons" },
+    { "nvim-mini/mini.icons" },
   },
   opts = {
     keymaps = {
