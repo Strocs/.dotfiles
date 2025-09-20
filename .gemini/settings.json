@@ -1,0 +1,56 @@
+{
+  "general": {
+    "vimMode": true,
+    "preferredEditor": "nvim"
+  },
+  "ui": {
+    "theme": "GitHub"
+  },
+  "mcpServers": {
+    "context7": {
+      "type": "local",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  },
+  "telemetry": {
+    "enabled": false
+  },
+  "privacy": {
+    "usageStatisticsEnabled": true
+  },
+  "model": {
+    "name": "gemini-1.5-pro-latest",
+    "maxSessionTurns": 10,
+    "summarizeToolOutput": {
+      "run_shell_command": {
+        "tokenBudget": 100
+      }
+    }
+  },
+  "context": {
+    "fileName": [
+      "CONTEXT.md",
+      "GEMINI.md",
+      "AGENTS.md"
+    ],
+    "includeDirectories": [
+      "~/.config/opencode/agents"
+    ],
+    "loadFromIncludeDirectories": true,
+    "fileFiltering": {
+      "respectGitIgnore": false
+    }
+  }
+}
