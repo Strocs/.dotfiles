@@ -1,7 +1,15 @@
 # Environment variable and PATH modifications
 
+# Detect environment
+if [ -d "/data/data/com.termux" ] || [ -n "$PREFIX"]; then
+   export IS_TERMUX=true
+else 
+   export IS_TERMUX=false
+fi
+
 # Define individual paths
 GO_PATH="$HOME/go/bin"                          # Go binaries
+
 # WINDOWS_PATH="/mnt/c/Windows"                   # Windows system commands
 WSL_LIB_PATH="/usr/lib/wsl/lib"                 # WSL-specific libraries
 NODE_PATH="/home/linuxbrew/.linuxbrew/opt/node@24/bin"  # Node.js via Homebrew
@@ -18,7 +26,7 @@ PKG_CONFIG_PATH_BASE="/usr/lib/x86_64-linux-gnu/pkgconfig"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH_BASE:$PKG_CONFIG_PATH"
 
 # pnpm
-export PNPM_HOME="/home/strocsdev/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
