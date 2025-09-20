@@ -2,8 +2,7 @@
 .termux/*
 wezterm/
 wezterm/*
-desktop.sh
-mobile.sh
+scripts/
 
 .config/go
 .config/fyne
