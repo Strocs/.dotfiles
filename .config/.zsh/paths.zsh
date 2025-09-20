@@ -3,8 +3,6 @@
 # Detect environment
 if [ -d "/data/data/com.termux" ] || [ -n "$PREFIX"]; then
    export IS_TERMUX=true
-else 
-   export IS_TERMUX=false
 fi
 
 # Define individual paths
@@ -19,7 +17,7 @@ BREW_PATH="/home/linuxbrew/.linuxbrew/bin"      # Homebrew binaries
 export PATH="$GO_PATH:$WINDOWS_PATH:$WSL_LIB_PATH:$NODE_PATH:$BREW_PATH:$PATH"
 
 # Brew shell environment (adds more paths dynamically)
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -z "$IS_TERMUX" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # PKG_CONFIG_PATH
 PKG_CONFIG_PATH_BASE="/usr/lib/x86_64-linux-gnu/pkgconfig"
