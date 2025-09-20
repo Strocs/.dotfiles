@@ -2,7 +2,7 @@
 .termux/*
 wezterm/
 wezterm/*
-scripts/
+scripts/*
 
 .config/go
 .config/fyne
