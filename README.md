@@ -1,10 +1,14 @@
 # .Strocs
 
 ## Pre Install 
+Ubuntu:
 `sudo apt-get install build-essential procps curl file git`
 
+Termux:
+`pkg install build-essential procps curl file git`
 
-## Homebrew
+
+## Homebrew (only on PC)
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
@@ -32,6 +36,7 @@ Install oh-my-zsh:
 - zsh-syntax-highlighting
     `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
 
+- zsh-ai `git clone https://github.com/matheusml/zsh-ai ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-ai` 
 
 
 ## TMUX
@@ -49,7 +54,12 @@ sudo apt-get install tmux
 Then `C-Space + I` to install plugins.
 
 ## Tools
+Ubuntu:
 `brew install stow carapace zoxide atuin lazygit neovim fzf ripgrep fd`
+
+Termux:
+`pkg install stow carapace zoxide atuin neovim fzf ripgrep fd`
+
 
 - Carapace (autocompletion)
 - Zoxide (smart cd)
