@@ -32,6 +32,7 @@ alias gco="git checkout"
 alias gpl="git pull"
 alias gcl="git clone"
 alias gm="git merge"
+alias gp="git push"
 
 
 # Build GO App on windows
