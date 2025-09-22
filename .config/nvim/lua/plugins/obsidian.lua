@@ -17,7 +17,7 @@ return {
     workspaces = {
       {
         name = "notes",
-        path = "/mnt/d/Documents/StrocsVault/",
+        path = os.getenv("OBSIDIAN_VAULT_PATH") or "/mnt/d/Documents/StrocsVault",
       },
     },
 

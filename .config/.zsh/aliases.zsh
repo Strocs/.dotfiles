@@ -6,14 +6,14 @@ alias start="explorer.exe"
 alias dipv4='/home/strocsdev/.dotfiles/scripts/disable-lso-ipv4.sh' # Disable ipv4 of vEthernet for improve connections
 alias oc="opencode"
 
-
 # File editing
-alias wt="nvim /mnt/c/Users/iganm/.wezterm.lua"
+alias tconfig=$([ -z $IS_TERMUX ] && echo "/mnt/c/Users/iganm/.wezterm.lua" || echo "echo 'Please set termux config file path into aliases.zsh'")
 alias nv="nvim"
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
 # Obsidian vault
-alias ov="cd /mnt/d/documents/StrocsVault/"
+
+alias ov="cd $OBSIDIAN_VAULT_PATH"
 alias pushov="OV_TMP_PATH=$PWD && ov && git add . && git commit -m 'update vault' && git push && cd $OV_TMP_PATH"
 alias pullov="OV_TMP_PATH=$PWD && ov && git pull && cd $OV_TMP_PATH"
 
@@ -23,7 +23,6 @@ alias prd="pnpm run dev"
 alias nrd="npm run dev"
 alias py="python3"
 alias lua="luajit"
-alias buildwin="GOOS=windows GOARCH=amd64 go build -o testapp.exe && cp testapp.exe /mnt/d/Documents/Dev/"
 
 # Git
 alias lg="lazygit"
@@ -36,7 +35,7 @@ alias gm="git merge"
 
 
 # Build GO App on windows
-
+#
 gobwin() {
   if [ -z "$1" ]; then
     echo "Error: Please provide a module name (e.g., gobwin myapp)"
