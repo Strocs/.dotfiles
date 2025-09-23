@@ -7,7 +7,7 @@ alias dipv4='/home/strocsdev/.dotfiles/scripts/disable-lso-ipv4.sh' # Disable ip
 alias oc="opencode"
 
 # File editing
-alias tconfig=$([ -z $IS_TERMUX ] && echo "/mnt/c/Users/iganm/.wezterm.lua" || echo "echo 'Please set termux config file path into aliases.zsh'")
+alias tconfig=$([ -z $IS_TERMUX ] && echo "/mnt/c/Users/iganm/.wezterm.lua" || echo "$HOME/.termux/termux.properties")
 alias nv="nvim"
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 

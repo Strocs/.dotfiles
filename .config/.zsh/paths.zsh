@@ -9,7 +9,7 @@ fi
 GO_PATH="$HOME/go/bin"                          
 
 # Define obsidian vault path for non-mobile and mobile
-export OBSIDIAN_VAULT_PATH=$([ -z "$IS_TERMUX" ] && echo "/mnt/d/documents/StrocsVault/" || echo "echo 'Please define the path for obsidian vault'")
+export OBSIDIAN_VAULT_PATH=$([ -z "$IS_TERMUX" ] && echo "/mnt/d/documents/StrocsVault/" || echo "$HOME/storage/documents/obsidian-vault")
 
 # Desktop Linux/WSL-specific configuration (non-mobile)
 if [ -z "$IS_TERMUX" ]; then
