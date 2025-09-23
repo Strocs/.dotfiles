@@ -8,7 +8,7 @@
     "respectGitIgnore": false
   },
   "includeDirectories": [
-    "~/.config/opencode/agents"
+    "~/.config/opencode/agent"
   ],
   "loadMemoryFromIncludeDirectories": true,
   "mcpServers": {
