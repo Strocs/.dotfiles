@@ -15,4 +15,3 @@ ENCODED_CMD=$(echo "$CMD_TO_RUN" | iconv -t UTF-16LE | base64 -w 0)
 # Lanza powershell.exe, que a su vez lanza otra instancia de powershell.exe como administrador (-Verb RunAs).
 # La nueva instancia ejecuta el comando codificado y luego se cierra.
 pwsh.exe -Command "Start-Process pwsh.exe -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -EncodedCommand ${ENCODED_CMD}'"
-
