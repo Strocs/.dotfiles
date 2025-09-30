@@ -3,11 +3,11 @@
 # General
 alias cls="clear"
 alias start="explorer.exe"
-alias dipv4='/home/strocsdev/.dotfiles/scripts/disable-lso-ipv4.sh' # Disable ipv4 of vEthernet for improve connections
+alias dipv4="chmod -x $HOME/.dotfiles/scripts/disable-lso-ipv4.sh && $HOME/.dotfiles/scripts/disable-lso-ipv4.sh" # Disable ipv4 of vEthernet for improve connections
 alias oc="opencode"
 
 # File editing
-alias tconfig=$([ -z $IS_TERMUX ] && echo "/mnt/c/Users/iganm/.wezterm.lua" || echo "$HOME/.termux/termux.properties")
+alias tconf=$([ -z $IS_TERMUX ] && echo "nvim /mnt/c/Users/iganm/.wezterm.lua" || echo "nvim $HOME/.termux/termux.properties")
 alias nv="nvim"
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
