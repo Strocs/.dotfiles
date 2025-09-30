@@ -9,6 +9,26 @@ return {
     vim.g.opencode_opts = {
       -- Your configuration, if any
       terminal = {
+        cmd = "opencode",
+        -- This will default to false if `auto_insert` or `start_insert` are set to false.
+        -- But it's very confusing if the embedded terminal doesn't exit when `opencode` exits.
+        -- So override that.
+        auto_close = true,
+        win = {
+          -- "right" seems like a better default than `snacks.terminal`'s `"float"` default
+          position = "right",
+          -- Stay in the editor after opening the terminal
+          enter = true,
+          wo = {
+            -- Title is unnecessary - `opencode` TUI has its own footer
+            winbar = "",
+          },
+          bo = {
+            -- Make it easier to target for customization, and prevent possibly unintended `"snacks_terminal"` targeting.
+            -- e.g. the recommended edgy.nvim integration puts all `"snacks_terminal"` windows at the bottom.
+            filetype = "opencode_terminal",
+          },
+        },
         env = {
           OPENCODE_THEME = "custom-tokyonight",
         },
