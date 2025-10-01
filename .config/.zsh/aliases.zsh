@@ -3,7 +3,7 @@
 # General
 alias cls="clear"
 alias start="explorer.exe"
-alias dipv4="chmod -x $HOME/.dotfiles/scripts/disable-lso-ipv4.sh && $HOME/.dotfiles/scripts/disable-lso-ipv4.sh" # Disable ipv4 of vEthernet for improve connections
+alias dipv4="$HOME/.dotfiles/scripts/disable-lso-ipv4.sh" # Disable ipv4 of vEthernet for improve connections
 alias oc="opencode"
 
 # File editing
