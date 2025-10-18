@@ -23,3 +23,6 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 [ -r "$ZSH_CONFIG_DIR/wm.zsh" ] && source "$ZSH_CONFIG_DIR/wm.zsh"
 
 
+
+# Turso
+export PATH="$PATH:/home/strocsdev/.turso"
