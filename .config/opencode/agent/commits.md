@@ -1,6 +1,6 @@
 ---
 description: Generate git commits following best practices
-mode: primary
+mode: all 
 model: github-copilot/gpt-4.1
 temperature: 0.1
 tools:
@@ -73,6 +73,5 @@ The commit contains the following structural elements, to communicate intent to 
     -   The generated commit message (subject and body, if applicable).
     -   The list of files that will be included in that specific commit.
 4.  **Await Approval:** You must not proceed with staging files or creating commits until I approve the plan. If I am not happy with the proposed plan, you must ask for my feedback and propose a new plan, instead of taking any action that might be destructive.
-5.  **Execute and Push:** Once the plan is approved, you must execute the commits as planned and push the changes to the remote repository.
-
+5. **Create Commits**: Create commits in one single command line (add && commit), and execute it one by one.
 
