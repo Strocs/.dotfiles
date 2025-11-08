@@ -6,7 +6,7 @@ if [ -d "/data/data/com.termux" ] && [ -n "$PREFIX" ]; then
 fi
 
 # Define individual paths
-GO_PATH="$HOME/go/bin"                          
+GO_PATH="$HOME/go/bin"
 
 # Define obsidian vault path for non-mobile and mobile
 export OBSIDIAN_VAULT_PATH=$([ -z "$IS_TERMUX" ] && echo "/mnt/d/documents/StrocsVault/" || echo "$HOME/storage/documents/obsidian-vault")
