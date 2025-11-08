@@ -7,8 +7,6 @@
     "messages_half_page_down": "alt+j",
     "messages_first": "ctrl+alt+k",
     "messages_last": "ctrl+alt+j",
-    "messages_previous": "ctrl+alt+p",
-    "messages_next": "ctrl+alt+n",
     "messages_page_up": "ctrl+alt+u",
     "messages_page_down": "ctrl+alt+d"
   },
@@ -41,6 +39,14 @@
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
+      "enabled": true
+    },
+    "rhinomcp": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "rhinomcp"
+      ],
       "enabled": true
     }
   }
