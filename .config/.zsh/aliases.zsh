@@ -36,13 +36,9 @@ alias gp="git push"
 
 
 # Build GO App on windows
-#
-gobwin() {
-  if [ -z "$1" ]; then
-    echo "Error: Please provide a module name (e.g., gobwin myapp)"
-    return 1
-  fi
-  local module_name="$1"
-  CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ GOOS=windows GOARCH=amd64 go build -tags glfw -o "${module_name}.exe" && cp "${module_name}.exe" /mnt/d/Documents/Dev/executables
+gowin() {
+  local output="${@[-1]}"
+  local args="${@:1:-1}"
+  GOOS=windows GOARCH=amd64 go build $args -o "${output}.exe"
 }
 
