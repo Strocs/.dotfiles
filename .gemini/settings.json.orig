@@ -1,0 +1,40 @@
+{
+  "contextFileName": [
+    "CONTEXT.md",
+    "GEMINI.md",
+    "AGENTS.md"
+  ],
+  "fileFiltering": {
+    "respectGitIgnore": false
+  },
+  "includeDirectories": [
+    "~/.config/opencode/agent"
+  ],
+  "loadMemoryFromIncludeDirectories": true,
+  "mcpServers": {
+    "context7": {
+      "type": "local",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  },
+  "preferredEditor": "nvim",
+  "selectedAuthType": "oauth-personal",
+  "telemetry": {
+    "enabled": false
+  },
+  "theme": "GitHub",
+  "usageStatisticsEnabled": true,
+  "vimMode": true
+}

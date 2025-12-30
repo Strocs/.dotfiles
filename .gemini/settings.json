@@ -1,16 +1,18 @@
 {
-  "contextFileName": [
-    "CONTEXT.md",
-    "GEMINI.md",
-    "AGENTS.md"
-  ],
-  "fileFiltering": {
-    "respectGitIgnore": false
+  "context": {
+    "fileName": [
+      "CONTEXT.md",
+      "GEMINI.md",
+      "AGENTS.md"
+    ],
+    "fileFiltering": {
+      "respectGitIgnore": false
+    },
+    "includeDirectories": [
+      "~/.config/opencode/agent"
+    ],
+    "loadFromIncludeDirectories": true
   },
-  "includeDirectories": [
-    "~/.config/opencode/agent"
-  ],
-  "loadMemoryFromIncludeDirectories": true,
   "mcpServers": {
     "context7": {
       "type": "local",
@@ -29,12 +31,22 @@
       ]
     }
   },
-  "preferredEditor": "nvim",
-  "selectedAuthType": "oauth-personal",
+  "general": {
+    "preferredEditor": "nvim",
+    "vimMode": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
   "telemetry": {
     "enabled": false
   },
-  "theme": "GitHub",
-  "usageStatisticsEnabled": true,
-  "vimMode": true
+  "ui": {
+    "theme": "GitHub"
+  },
+  "privacy": {
+    "usageStatisticsEnabled": true
+  }
 }
