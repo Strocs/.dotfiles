@@ -26,3 +26,4 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 
 # Turso
 export PATH="$PATH:/home/strocsdev/.turso"
+alias xclean="/bin/bash $HOME/xclean.sh"
