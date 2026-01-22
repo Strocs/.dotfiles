@@ -1,6 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "theme": "custom-tokyonight",
+  "autoupdate": true,
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "git commit *": "ask",
+      "git push *": "ask",
+      "git push": "ask",
+      "git push --force *": "ask",
+      "git rebase *": "ask",
+      "git reset --hard *": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/secrets/**": "deny",
+      "**/credentials.json": "deny"
+    }
+  },
   "keybinds": {
     "leader": "ctrl+o",
     "messages_half_page_up": "alt+k",
@@ -8,16 +29,12 @@
     "messages_first": "ctrl+alt+k",
     "messages_last": "ctrl+alt+j",
     "messages_page_up": "ctrl+alt+u",
-    "messages_page_down": "ctrl+alt+d"
+    "messages_page_down": "ctrl+alt+d",
   },
   "mcp": {
     "context7": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp"
-      ],
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
       "enabled": true
     },
     "sequential-thinking": {
@@ -48,6 +65,23 @@
         "rhinomcp"
       ],
       "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~",
+      ],
     }
   }
 }
