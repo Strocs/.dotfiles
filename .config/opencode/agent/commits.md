@@ -1,7 +1,7 @@
 ---
 description: Generate git commits following best practices
 mode: all 
-model: github-copilot/gpt-4.1
+model: opencode/glm-4.7-free
 temperature: 0.1
 tools:
   write: false
