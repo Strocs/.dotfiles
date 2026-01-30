@@ -66,13 +66,21 @@
       ],
       "enabled": true
     },
-    "chrome-devtools": {
+    "playwright": {
       "type": "local",
       "command": [
         "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ]
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+        "--extension",
+        "--browser",
+        "msedge",
+      ],
+      "environment": {
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "xb4mTSw-7-YLbPFcRbRmospz82K00oEyB6UbdgPgAoM"
+      },
+      "enabled": true
     },
     "filesystem": {
       "type": "local",
