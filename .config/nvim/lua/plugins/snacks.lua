@@ -6,19 +6,20 @@ return {
   ---@type snacks.Config
   opts = {
     dashboard = {
+      enabled = false,
       preset = {
         header = [[
-     .M"""bgd mm                                                                  
-     ,MI    "Y MM                                                                 
-     `MMb.   mmMMmm `7Mb,od8 ,pW"Wq.   ,p6"bo  ,pP"Ybd                            
-       `YMMNq. MM     MM' "'6W'   `Wb 6M'  OO  8I   `"    ,,                      
-     .     `MM MM     MM    8M     M8 8M       `YMMMa.  `7MM                      
-     Mb     dM MM     MM    YA.   ,A9 YM.    , L.   I8    MM                      
-     P"Ybmmd"  `Mbmo.JMML.   `Ybmd9'   YMbmd'  M9mmmP,M""bMM  .gP"Ya `7M'   `MF'  
-                                                   ,AP    MM ,M'   Yb  VA   ,V    
-                                                   8MI    MM 8M""""""   VA ,V     
-                                                   `Mb    MM YM.    ,    VVV      
-                                                    `Wbmd"MML.`Mbmmd'     W       
+     .M"""bgd mm
+     ,MI    "Y MM
+     `MMb.   mmMMmm `7Mb,od8 ,pW"Wq.   ,p6"bo  ,pP"Ybd
+       `YMMNq. MM     MM' "'6W'   `Wb 6M'  OO  8I   `"    ,,
+     .     `MM MM     MM    8M     M8 8M       `YMMMa.  `7MM
+     Mb     dM MM     MM    YA.   ,A9 YM.    , L.   I8    MM
+     P"Ybmmd"  `Mbmo.JMML.   `Ybmd9'   YMbmd'  M9mmmP,M""bMM  .gP"Ya `7M'   `MF'
+                                                   ,AP    MM ,M'   Yb  VA   ,V
+                                                   8MI    MM 8M""""""   VA ,V
+                                                   `Mb    MM YM.    ,    VVV
+                                                    `Wbmd"MML.`Mbmmd'     W
           ]],
         -- stylua: ignore
         ---@type snacks.dashboard.Item[]
