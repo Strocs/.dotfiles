@@ -9,7 +9,7 @@ alias oc="opencode"
 # File editing
 alias tconf=$([ -z $IS_TERMUX ] && echo "nvim /mnt/c/Users/iganm/.wezterm.lua" || echo "nvim $HOME/.termux/termux.properties")
 alias nv="nvim"
-alias pnvim="NVIM_APPNAME='plainvim' nvim"
+alias nv2="NVIM_APPNAME='nvim2' nvim"
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
 # Obsidian vault
