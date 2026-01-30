@@ -1,3 +1,5 @@
+local theme = "tokyonight"
+
 return {
   {
     -- Plugin: sonokai
@@ -16,6 +18,7 @@ return {
   },
   {
     "folke/tokyonight.nvim",
+    lazy = false,
     priority = 1000,
     opts = {
       transparent = true,
@@ -24,12 +27,10 @@ return {
         floats = "transparent",
       },
     },
-  },
-  {
-    -- Implement theme by default
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "tokyonight",
-    },
+    config = function()
+      if theme == "tokyonight" then
+        vim.cmd.colorscheme("tokyonight")
+      end
+    end
   },
 }
