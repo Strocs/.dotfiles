@@ -3,6 +3,7 @@ return {
   dependencies = { 'mason.nvim' },
   lazy = true,
   cmd = 'ConformInfo',
+  event = { 'BufReadPost', 'BufNewFile' },
 
   keys = {
     {

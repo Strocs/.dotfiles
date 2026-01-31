@@ -3,7 +3,6 @@ return {
   -- URL: https://github.com/christoomey/vim-tmux-navigator
   -- Description: Seamless navigation between tmux panes and vim splits
   'christoomey/vim-tmux-navigator',
-  event = 'VeryLazy',
   cmd = {
     'TmuxNavigateLeft',
     'TmuxNavigateDown',
