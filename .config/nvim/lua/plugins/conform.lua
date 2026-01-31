@@ -1,35 +1,51 @@
 return {
-  "stevearc/conform.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  'stevearc/conform.nvim',
+  dependencies = { 'mason.nvim' },
+  lazy = true,
+  cmd = 'ConformInfo',
+
+  keys = {
+    {
+      '<leader>f',
+      function() require('conform').format() end,
+      mode = { 'n', 'x' },
+      desc = 'Format buffer with conform',
+    },
+  },
+
   config = function()
-    require("conform").setup({
+    require('conform').setup {
+      default_format_opts = {
+        timeout_ms = 3000,
+        async = false,
+        quiet = false,
+        lsp_format = 'fallback',
+      },
       formatters_by_ft = {
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        lua = { "stylua" },
-        go = { "gofmt" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        sql = { "sqlfluff" },
+        c = { 'clang-format' },
+        lua = { 'stylua' },
+        go = { 'gofmt' },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        sql = { 'sqlfluff' },
       },
       formatters = {
-        ["clang-format"] = {
-          prepend_args = { "-style=file", "-fallback-style=LLVM" },
+        injected = { options = { ignore_errors = true } },
+        ['clang-format'] = {
+          prepend_args = { '-style=file', '-fallback-style=LLVM' },
         },
         sqlfluff = {
-          args = { "format", "-" },
+          args = { 'format', '-' },
           timeout_ms = 60000,
         },
       },
       format_on_save = {
-        timeout_ms = 5000,
-        lsp_format = "fallback",
+        timeout_ms = 3000,
+        lsp_format = 'fallback',
       },
-    })
-
-    -- Keymap for manual formatting (outside of setup)
-    vim.keymap.set("n", "<leader>f", function()
-      require("conform").format({ async = true })
-    end, { desc = "Format buffer with conform" })
+    }
   end,
 }

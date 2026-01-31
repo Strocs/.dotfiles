@@ -1,36 +1,34 @@
-local theme = "tokyonight"
+local theme = 'tokyonight'
 
 return {
   {
     -- Plugin: sonokai
     -- URL: https://github.com/sainnhe/sonokai
     -- Description: High Contrast & Vivid Color Scheme based on Monokai Pro
-    "sainnhe/sonokai",
+    'sainnhe/sonokai',
     lazy = false,
     priority = 1000,
-    name = "sonokai",
+    name = 'sonokai',
     config = function()
-      vim.g.sonokai_style = "shusia"
+      vim.g.sonokai_style = 'shusia'
       vim.g.sonokai_better_performance = 1
       vim.g.sonokai_transparent_background = 2
-      vim.g.sonokai_diagnostic_virtual_text = "colored"
+      vim.g.sonokai_diagnostic_virtual_text = 'colored'
     end,
   },
   {
-    "folke/tokyonight.nvim",
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
     opts = {
       transparent = true,
       lualine_bold = true,
       styles = {
-        floats = "transparent",
+        floats = 'transparent',
       },
     },
     config = function()
-      if theme == "tokyonight" then
-        vim.cmd.colorscheme("tokyonight")
-      end
-    end
+      if theme == 'tokyonight' then vim.cmd.colorscheme 'tokyonight' end
+    end,
   },
 }
