@@ -1,7 +1,3 @@
--- Completion with blink.cmp + Copilot integration
--- Replaces nvim-cmp with blink.cmp for better performance
--- Reference: https://github.com/saghen/blink.cmp
-
 return {
   'saghen/blink.cmp',
   dependencies = {

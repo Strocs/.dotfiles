@@ -1,7 +1,3 @@
--- LSP configuration using modern Neovim 0.11+ vim.lsp.config() API
--- This is the recommended approach for Neovim 0.11+
--- Reference: https://neovim.io/doc/user/lsp.html
-
 return {
   {
     'williamboman/mason.nvim',
@@ -22,7 +18,7 @@ return {
         settings = {
           Lua = {
             diagnostics = {
-              globals = { 'vim' },
+              globals = { 'vim', 'Snacks' },
             },
           },
         },
