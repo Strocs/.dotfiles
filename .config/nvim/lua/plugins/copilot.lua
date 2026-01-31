@@ -9,7 +9,7 @@ return {
       auto_trigger = true,
       debounce = 75,
       keymap = {
-        accept = false, -- Disable default keymap, we'll handle in cmp
+        accept = false,
         next = '<M-]>',
         prev = '<M-[>',
       },
