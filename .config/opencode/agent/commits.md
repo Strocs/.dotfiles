@@ -1,7 +1,7 @@
 ---
 description: Generate git commits following best practices
 mode: all 
-model: opencode/glm-4.7-free
+model: opencode/kimi-k2.5
 temperature: 0.1
 tools:
   write: false
