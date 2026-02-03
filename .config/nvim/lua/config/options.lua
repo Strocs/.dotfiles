@@ -28,3 +28,15 @@ vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append '@-@'
 
 vim.opt.updatetime = 50
+
+vim.filetype.add {
+  extension = {
+    env = 'sh',
+  },
+  filename = {
+    ['.env'] = 'sh',
+  },
+  pattern = {
+    ['%.env%.[%w_.-]+'] = 'sh',
+  },
+}
