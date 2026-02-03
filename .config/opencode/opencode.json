@@ -2,6 +2,30 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "custom-tokyonight",
   "autoupdate": true,
+  "model": "github-copulot/gpt-5-mini",
+  "small_model": "github-copilot/gpt-4.1",
+  "username": "Strocs",
+  "compaction": {
+    "auto": false,
+    "prune": true
+  },
+  "agent": {
+    "explore": {
+      "model": "github-copilot/gpt-5-mini"
+    },
+    "general": {
+      "model": "github-copilot/gpt-5-mini"
+    },
+    "title": {
+      "model": "github-copilot/gpt-4.1"
+    },
+    "summary": {
+      "model": "github-copilot/gpt-5-mini"
+    },
+    "compaction": {
+      "model": "github-copilot/gpt-5-mini"
+    }
+  },
   "permission": {
     "bash": {
       "*": "allow",
@@ -29,7 +53,7 @@
     "messages_first": "ctrl+alt+k",
     "messages_last": "ctrl+alt+j",
     "messages_page_up": "ctrl+alt+u",
-    "messages_page_down": "ctrl+alt+d",
+    "messages_page_down": "ctrl+alt+d"
   },
   "mcp": {
     "context7": {
@@ -48,11 +72,7 @@
     },
     "github": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
@@ -60,10 +80,7 @@
     },
     "rhinomcp": {
       "type": "local",
-      "command": [
-        "uvx",
-        "rhinomcp"
-      ],
+      "command": ["uvx", "rhinomcp"],
       "enabled": true
     },
     "playwright": {
@@ -75,7 +92,7 @@
         "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
         "--extension",
         "--browser",
-        "msedge",
+        "msedge"
       ],
       "environment": {
         "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "xb4mTSw-7-YLbPFcRbRmospz82K00oEyB6UbdgPgAoM"
@@ -84,12 +101,7 @@
     },
     "filesystem": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "~",
-      ],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "~"]
     }
   }
 }
