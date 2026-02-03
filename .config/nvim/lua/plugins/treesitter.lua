@@ -54,10 +54,7 @@ return {
       vim.api.nvim_create_autocmd('BufReadPost', {
         group = vim.api.nvim_create_augroup('TreesitterInit', { clear = true }),
         callback = function()
-          vim.defer_fn(function()
-            local ts_enabled, ts_status = pcall(vim.treesitter.start, vim.api.nvim_get_current_buf())
-            if not ts_enabled then print 'Treesitter highlight no pudo inicializarse automáticamente' end
-          end, 10)
+          vim.defer_fn(function() pcall(vim.treesitter.start, vim.api.nvim_get_current_buf()) end, 10)
         end,
       })
     end,
