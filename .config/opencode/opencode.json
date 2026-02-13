@@ -2,8 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "custom-tokyonight",
   "autoupdate": true,
-  "model": "github-copulot/gpt-5-mini",
-  "small_model": "github-copilot/gpt-4.1",
+  "model": "github-copilot/claude-sonnet-4.5",
+  "small_model": "github-copilot/gpt-5-mini",
   "username": "Strocs",
   "compaction": {
     "auto": false,
@@ -11,16 +11,16 @@
   },
   "agent": {
     "explore": {
-      "model": "github-copilot/gpt-5-mini"
+      "model": "github-copilot/claude-sonnet-4.5"
     },
     "general": {
-      "model": "github-copilot/gpt-5-mini"
+      "model": "github-copilot/claude-sonnet-4.5"
     },
     "title": {
       "model": "github-copilot/gpt-4.1"
     },
     "summary": {
-      "model": "github-copilot/gpt-5-mini"
+      "model": "github-copilot/claude-sonnet-4.5"
     },
     "compaction": {
       "model": "github-copilot/gpt-5-mini"
@@ -53,7 +53,10 @@
     "messages_first": "ctrl+alt+k",
     "messages_last": "ctrl+alt+j",
     "messages_page_up": "ctrl+alt+u",
-    "messages_page_down": "ctrl+alt+d"
+    "messages_page_down": "ctrl+alt+d",
+    "session_child_cycle": "alt+n",
+    "session_child_cycle_reverse": "alt+p",
+    "sidebar_toggle": "ctrl+b"
   },
   "mcp": {
     "context7": {
@@ -76,12 +79,12 @@
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
-      "enabled": true
+      "enabled": false
     },
     "rhinomcp": {
       "type": "local",
       "command": ["uvx", "rhinomcp"],
-      "enabled": true
+      "enabled": false
     },
     "playwright": {
       "type": "local",
@@ -95,7 +98,7 @@
         "msedge"
       ],
       "environment": {
-        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "xb4mTSw-7-YLbPFcRbRmospz82K00oEyB6UbdgPgAoM"
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "{env:PLAYWRIGHT_MCP_EXTENSION_TOKEN}"
       },
       "enabled": true
     },
@@ -103,5 +106,114 @@
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "~"]
     }
-  }
+  },
+  "provider": {
+    "google": {
+      "name": "Google",
+      "models": {
+        "antigravity-gemini-3-pro": {
+          "name": "Gemini 3 Pro (Antigravity)",
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "thinkingLevel": "low"
+            },
+            "high": {
+              "thinkingLevel": "high"
+            }
+          }
+        },
+        "antigravity-gemini-3-flash": {
+          "name": "Gemini 3 Flash (Antigravity)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": {
+            "minimal": {
+              "thinkingLevel": "minimal"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            },
+            "medium": {
+              "thinkingLevel": "medium"
+            },
+            "high": {
+              "thinkingLevel": "high"
+            }
+          }
+        },
+        "antigravity-claude-sonnet-4-5": {
+          "name": "Claude Sonnet 4.5 (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          }
+        },
+        "antigravity-claude-sonnet-4-5-thinking": {
+          "name": "Claude Sonnet 4.5 Thinking (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingBudget": 8192
+              }
+            },
+            "max": {
+              "thinkingConfig": {
+                "thinkingBudget": 32768
+              }
+            }
+          }
+        },
+        "antigravity-claude-opus-4-5-thinking": {
+          "name": "Claude Opus 4.5 Thinking (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingBudget": 8192
+              }
+            },
+            "max": {
+              "thinkingConfig": {
+                "thinkingBudget": 32768
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "plugin": ["oh-my-opencode@latest", "opencode-antigravity-auth@1.5.1"]
 }
