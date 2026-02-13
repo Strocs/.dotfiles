@@ -1,0 +1,99 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "github-copilot/claude-sonnet-4.5",
+      "variant": "max"
+    },
+    "hephaestus": {
+      "model": "github-copilot/claude-sonnet-4.5",
+      "variant": "medium"
+    },
+    "oracle": {
+      "model": "github-copilot/gpt-5.2",
+      "variant": "high"
+    },
+    "librarian": {
+      "model": "github-copilot/claude-sonnet-4.5"
+    },
+    "explore": {
+      "model": "github-copilot/claude-haiku-4-5"
+    },
+    "multimodal-looker": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "prometheus": {
+      "model": "opencode/kimi-k2.5-free",
+      "variant": "max"
+    },
+    "metis": {
+      "model": "github-copilot/claude-opus-4.6",
+      "variant": "max"
+    },
+    "momus": {
+      "model": "github-copilot/gpt-5.2",
+      "variant": "medium"
+    },
+    "atlas": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "sisyphus-junior": {
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "google/antigravity-gemini-3-pro"
+    }
+  },
+  "skills": {
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+        "--extension",
+        "--browser",
+        "msedge"
+      ],
+      "environment": {
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "{env:PLAYWRIGHT_MCP_EXTENSION_TOKEN}"
+      },
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "github-copilot/gemini-3-pro-preview"
+    },
+    "ultrabrain": {
+      "model": "github-copilot/claude-sonnet-4.5",
+      "variant": "xhigh"
+    },
+    "deep": {
+      "model": "github-copilot/claude-sonnet-4.5",
+      "variant": "medium"
+    },
+    "artistry": {
+      "model": "github-copilot/gemini-3-pro-preview",
+      "variant": "high"
+    },
+    "quick": {
+      "model": "github-copilot/claude-haiku-4.5"
+    },
+    "unspecified-low": {
+      "model": "github-copilot/claude-sonnet-4.5"
+    },
+    "unspecified-high": {
+      "model": "github-copilot/claude-sonnet-4.5"
+    },
+    "writing": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    }
+  }
+}
