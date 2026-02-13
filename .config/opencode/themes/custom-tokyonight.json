@@ -77,11 +77,11 @@
     },
     "background": "none",
     "backgroundPanel": {
-      "dark": "darkStep2",
+      "dark": "none",
       "light": "lightStep2"
     },
     "backgroundElement": {
-      "dark": "darkStep2",
+      "dark": "none",
       "light": "lightStep3"
     },
     "border": {
@@ -129,7 +129,7 @@
       "light": "#f7d8db"
     },
     "diffContextBg": {
-      "dark": "darkStep2",
+      "dark": "none",
       "light": "lightStep2"
     },
     "diffLineNumber": {
