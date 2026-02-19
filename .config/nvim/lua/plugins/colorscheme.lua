@@ -27,8 +27,9 @@ return {
         floats = 'transparent',
       },
     },
-    config = function()
+    config = function(_, opts)
       if theme ~= 'tokyonight' then return end
+      require('tokyonight').setup(opts)
       vim.cmd.colorscheme 'tokyonight'
     end,
   },

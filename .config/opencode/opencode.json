@@ -21,9 +21,6 @@
     },
     "summary": {
       "model": "github-copilot/claude-sonnet-4.5"
-    },
-    "compaction": {
-      "model": "github-copilot/gpt-5-mini"
     }
   },
   "permission": {
@@ -155,8 +152,8 @@
             }
           }
         },
-        "antigravity-claude-sonnet-4-5": {
-          "name": "Claude Sonnet 4.5 (Antigravity)",
+        "antigravity-claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6 (Antigravity)",
           "limit": {
             "context": 200000,
             "output": 64000
@@ -166,8 +163,8 @@
             "output": ["text"]
           }
         },
-        "antigravity-claude-sonnet-4-5-thinking": {
-          "name": "Claude Sonnet 4.5 Thinking (Antigravity)",
+        "antigravity-claude-sonnet-4-6-thinking": {
+          "name": "Claude Sonnet 4.6 Thinking (Antigravity)",
           "limit": {
             "context": 200000,
             "output": 64000
@@ -189,7 +186,7 @@
             }
           }
         },
-        "antigravity-claude-opus-4-5-thinking": {
+        "antigravity-claude-opus-4-6-thinking": {
           "name": "Claude Opus 4.5 Thinking (Antigravity)",
           "limit": {
             "context": 200000,
@@ -215,5 +212,5 @@
       }
     }
   },
-  "plugin": ["oh-my-opencode@latest", "opencode-antigravity-auth@1.5.1"]
+  "plugin": ["oh-my-opencode@latest", "opencode-antigravity-auth@1.5.2"]
 }

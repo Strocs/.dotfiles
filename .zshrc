@@ -34,3 +34,4 @@ alias xclean="/bin/bash $HOME/xclean.sh"
 
 # Remove duplicate entries from PATH
 typeset -U PATH
+alias xclean="/bin/bash $HOME/xclean.sh"
