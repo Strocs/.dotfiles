@@ -1,16 +1,17 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false,
   "git_master": {
     "commit_footer": false,
     "include_co_authored_by": false
   },
   "agents": {
     "sisyphus": {
-      "model": "opencode/kimi-k2.5-free",
+      "model": "opencode/glm-5-free",
       "variant": "max"
     },
     "hephaestus": {
-      "model": "opencode/kimi-k2.5-free",
+      "model": "opencode/glm-5-free",
       "variant": "medium"
     },
     "oracle": {
@@ -27,7 +28,7 @@
       "model": "github-copilot/gemini-3-pro-preview"
     },
     "prometheus": {
-      "model": "opencode/kimi-k2.5-free",
+      "model": "opencode/glm-5-free",
       "variant": "max"
     },
     "metis": {
@@ -39,13 +40,13 @@
       "variant": "max"
     },
     "atlas": {
-      "model": "google/antigravity-claude-sonnet-4-6"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "sisyphus-junior": {
       "model": "github-copilot/claude-opus-4.6"
     },
     "frontend-ui-ux-engineer": {
-      "model": "google/antigravity-claude-sonnet-4-6"
+      "model": "google/claude-sonnet-4-6"
     }
   },
   "skills": {
