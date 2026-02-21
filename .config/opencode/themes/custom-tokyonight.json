@@ -77,7 +77,7 @@
     },
     "background": "none",
     "backgroundPanel": {
-      "dark": "none",
+      "dark": "darkStep3",
       "light": "lightStep2"
     },
     "backgroundElement": {
