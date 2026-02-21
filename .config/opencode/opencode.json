@@ -51,8 +51,9 @@
     "messages_last": "ctrl+alt+j",
     "messages_page_up": "ctrl+alt+u",
     "messages_page_down": "ctrl+alt+d",
-    "session_child_cycle": "alt+n",
-    "session_child_cycle_reverse": "alt+p",
+    "session_child_cycle": "alt+l",
+    "session_child_cycle_reverse": "alt+h",
+    "session_parent": "alt+p",
     "sidebar_toggle": "ctrl+b"
   },
   "mcp": {
