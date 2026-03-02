@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "custom-tokyonight",
+  "keybinds": {
+    "leader": "ctrl+o",
+    "messages_half_page_up": "alt+k",
+    "messages_half_page_down": "alt+j",
+    "messages_first": "ctrl+alt+k",
+    "messages_last": "ctrl+alt+j",
+    "messages_page_up": "ctrl+alt+u",
+    "messages_page_down": "ctrl+alt+d",
+    "session_child_cycle": "alt+l",
+    "session_child_cycle_reverse": "alt+h",
+    "session_parent": "alt+p",
+    "sidebar_toggle": "ctrl+b"
+  }
+}
