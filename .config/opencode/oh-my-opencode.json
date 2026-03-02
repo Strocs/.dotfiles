@@ -7,11 +7,11 @@
   },
   "agents": {
     "sisyphus": {
-      "model": "opencode/glm-5-free",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "max"
     },
     "hephaestus": {
-      "model": "opencode/glm-5-free",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "medium"
     },
     "oracle": {
@@ -25,10 +25,10 @@
       "model": "github-copilot/claude-haiku-4.5"
     },
     "multimodal-looker": {
-      "model": "github-copilot/gemini-3-pro-preview"
+      "model": "github-copilot/gemini-3.1-pro-preview"
     },
     "prometheus": {
-      "model": "opencode/glm-5-free",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "max"
     },
     "metis": {
@@ -46,7 +46,7 @@
       "model": "github-copilot/claude-opus-4.6"
     },
     "frontend-ui-ux-engineer": {
-      "model": "google/claude-sonnet-4-6"
+      "model": "google/antigravity-claude-opus-4.6"
     }
   },
   "skills": {
@@ -74,7 +74,7 @@
   },
   "categories": {
     "visual-engineering": {
-      "model": "github-copilot/gemini-3-pro-preview"
+      "model": "github-copilot/gemini-3.1-pro-preview"
     },
     "ultrabrain": {
       "model": "github-copilot/claude-opus-4.6",
@@ -85,7 +85,7 @@
       "variant": "medium"
     },
     "artistry": {
-      "model": "github-copilot/gemini-3-pro-preview",
+      "model": "github-copilot/gemini-3.1-pro-preview",
       "variant": "high"
     },
     "quick": {
