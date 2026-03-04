@@ -7,22 +7,27 @@ return {
   version = '1.*',
 
   opts = {
+    completion = {
+      list = {
+        selection = {
+          preselect = false, -- Disable preselecting the first item in the completion list
+        },
+      },
+    },
     keymap = {
       preset = 'default',
       ['<Tab>'] = {
-        function(cmp)
+        function()
           local ok, copilot_suggestion = pcall(require, 'copilot.suggestion')
 
           if ok and copilot_suggestion.is_visible() then
-            if cmp.is_visible() and cmp.get_selected_item_idx() ~= nil then return cmp.accept() end
             copilot_suggestion.accept()
             return true
           end
 
-          if cmp.is_visible() then return cmp.accept() end
-
           return nil
         end,
+        'snippet_forward',
         'fallback',
       },
     },
