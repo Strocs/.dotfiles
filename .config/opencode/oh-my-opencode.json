@@ -1,34 +1,34 @@
 {
-  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
-  "google_auth": false,
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
+  "auto_update": true,
   "git_master": {
     "commit_footer": false,
     "include_co_authored_by": false
   },
   "agents": {
     "sisyphus": {
-      "model": "github-copilot/claude-sonnet-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "max"
     },
     "hephaestus": {
-      "model": "github-copilot/claude-sonnet-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "medium"
     },
     "oracle": {
-      "model": "github-copilot/claude-opus-4.6",
+      "model": "github-copilot/gpt-5.2",
       "variant": "high"
     },
     "librarian": {
-      "model": "github-copilot/claude-opus-4.6"
+      "model": "zai-coding-plan/glm-4.7"
     },
     "explore": {
-      "model": "github-copilot/claude-haiku-4.5"
+      "model": "github-copilot/claude-haiku-4-5"
     },
     "multimodal-looker": {
-      "model": "github-copilot/gemini-3.1-pro-preview"
+      "model": "google/gemini-3-flash-preview"
     },
     "prometheus": {
-      "model": "github-copilot/claude-sonnet-4.6",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "max"
     },
     "metis": {
@@ -36,45 +36,17 @@
       "variant": "max"
     },
     "momus": {
-      "model": "github-copilot/claude-opus-4.6",
-      "variant": "max"
+      "model": "github-copilot/gpt-5.2",
+      "variant": "medium"
     },
     "atlas": {
       "model": "github-copilot/claude-sonnet-4.6"
-    },
-    "sisyphus-junior": {
-      "model": "github-copilot/claude-opus-4.6"
-    },
-    "frontend-ui-ux-engineer": {
-      "model": "google/antigravity-claude-opus-4.6"
-    }
-  },
-  "skills": {
-    "playwright": {
-      "type": "local",
-      "command": [
-        "npx",
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
-        "--extension",
-        "--browser",
-        "msedge"
-      ],
-      "environment": {
-        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "{env:PLAYWRIGHT_MCP_EXTENSION_TOKEN}"
-      },
-      "enabled": true
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "github-copilot/gemini-3.1-pro-preview"
+      "model": "github-copilot/gemini-3.1-pro-preview",
+      "variant": "high"
     },
     "ultrabrain": {
       "model": "github-copilot/claude-opus-4.6",
@@ -89,10 +61,10 @@
       "variant": "high"
     },
     "quick": {
-      "model": "github-copilot/claude-haiku-4.5"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "unspecified-low": {
-      "model": "github-copilot/claude-sonnet-4.6"
+      "model": "github-copilot/claude-sonnet-4.5"
     },
     "unspecified-high": {
       "model": "github-copilot/claude-opus-4.6"
