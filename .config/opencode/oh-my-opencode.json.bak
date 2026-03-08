@@ -7,28 +7,28 @@
   },
   "agents": {
     "sisyphus": {
-      "model": "github-copilot/claude-opus-4.6",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "max"
     },
     "hephaestus": {
-      "model": "github-copilot/claude-opus-4.6",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "medium"
     },
     "oracle": {
-      "model": "github-copilot/gpt-5.2",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "high"
     },
     "librarian": {
-      "model": "zai-coding-plan/glm-4.7"
+      "model": "github-copilor/claude-haiku-4.5"
     },
     "explore": {
-      "model": "github-copilot/claude-haiku-4-5"
+      "model": "github-copilot/claude-haiku-4.5"
     },
     "multimodal-looker": {
       "model": "google/gemini-3-flash-preview"
     },
     "prometheus": {
-      "model": "github-copilot/claude-opus-4.6",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "max"
     },
     "metis": {
@@ -36,7 +36,7 @@
       "variant": "max"
     },
     "momus": {
-      "model": "github-copilot/gpt-5.2",
+      "model": "github-copilot/claude-opus-4.6",
       "variant": "medium"
     },
     "atlas": {
