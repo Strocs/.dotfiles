@@ -13,5 +13,10 @@
     "session_child_cycle_reverse": "alt+h",
     "session_parent": "alt+p",
     "sidebar_toggle": "ctrl+b"
-  }
+  },
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "diff_style": "stacked"
 }
+
