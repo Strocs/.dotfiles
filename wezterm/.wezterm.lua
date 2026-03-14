@@ -21,16 +21,17 @@ config.font_size = 11
 -- 4. Colors & Theme
 local theme = "tokyonight_moon"
 local scheme = wezterm.color.get_builtin_schemes()[theme]
+scheme.background = "#1e2030"
 config.color_scheme = theme
 config.color_schemes = { [theme] = scheme }
-config.window_background_opacity = 1
+config.window_background_opacity = 0.8
 
 -- 5. Window
-config.initial_rows = 53
-config.initial_cols = 210
+config.initial_rows = 51
+config.initial_cols = 209
 config.window_padding = { left = 3, right = 0, top = 0, bottom = 0 }
 local border_color = scheme.ansi[8]
-local border_width = 2
+local border_width = 0
 config.window_frame = {
 	border_left_width = border_width,
 	border_right_width = border_width,
@@ -41,7 +42,7 @@ config.window_frame = {
 	border_top_color = border_color,
 	border_bottom_color = border_color,
 }
-config.window_decorations = "NONE"
+config.window_decorations = "NONE | RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false
 config.enable_kitty_graphics = true
