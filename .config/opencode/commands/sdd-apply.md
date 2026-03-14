@@ -14,9 +14,19 @@ CONTEXT:
 - Artifact store mode: engram
 
 TASK:
-Find the active SDD change artifacts (proposal, specs, design, tasks). Read them to understand what needs to be implemented.
+Implement the remaining incomplete tasks for the active SDD change.
 
-Implement the remaining incomplete tasks. For each task:
+ENGRAM PERSISTENCE (artifact store mode: engram):
+Read dependencies (two-step for each — search results are TRUNCATED, always call mem_get_observation for full content):
+  mem_search(query: "sdd/{change-name}/spec", project: "{project}") → mem_get_observation(id)
+  mem_search(query: "sdd/{change-name}/design", project: "{project}") → mem_get_observation(id)
+  mem_search(query: "sdd/{change-name}/tasks", project: "{project}") → mem_get_observation(id) — save this ID for updates
+Update tasks as you complete them:
+  mem_update(id: {tasks-observation-id}, content: "{updated tasks with [x] marks}")
+Save progress:
+  mem_save(title: "sdd/{change-name}/apply-progress", topic_key: "sdd/{change-name}/apply-progress", type: "architecture", project: "{project}", content: "{progress report}")
+
+For each task:
 1. Read the relevant spec scenarios (acceptance criteria)
 2. Read the design decisions (technical approach)
 3. Read existing code patterns in the project
