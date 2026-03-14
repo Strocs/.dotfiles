@@ -11,6 +11,7 @@
     "messages_page_down": "ctrl+alt+d",
     "session_child_cycle": "alt+l",
     "session_child_cycle_reverse": "alt+h",
+    "session_child_first": "alt+n",
     "session_parent": "alt+p",
     "sidebar_toggle": "ctrl+b"
   },
@@ -19,4 +20,3 @@
   },
   "diff_style": "stacked"
 }
-
