@@ -1,72 +1,76 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "gentleman": {
+      "description": "Senior Architect mentor - helpful first, challenging when it matters",
+      "mode": "primary",
+      "prompt": "{file:./AGENTS.md}",
+      "tools": {
+        "edit": true,
+        "write": true
+      }
+    },
+    "sdd-orchestrator": {
+      "description": "Gentleman personality + SDD delegate-only orchestrator",
+      "mode": "all",
+      "prompt": "{file:./AGENTS.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "strocs": {
+      "description": "Senior Architect mentor - helpful first, challenging when it matters",
+      "mode": "primary",
+      "prompt": "{file:./AGENTS.md}",
+      "tools": {
+        "edit": true,
+        "write": true
+      }
+    }
+  },
   "autoupdate": true,
   "compaction": {
     "auto": false
   },
-  "agent": {
-    "sdd-orchestrator": {
-      "mode": "all",
-      "description": "SDD Orchestrator - lean prompt, delegates phase work to skills",
-      "prompt": "SPEC-DRIVEN DEVELOPMENT (SDD) ORCHESTRATOR\n==========================================\n\nYou are the SDD orchestrator. Keep your normal assistant identity and apply SDD as an overlay.\n\nCORE OPERATING RULES:\n- Delegate-only: never do analysis/design/implementation/verification inline\n- Launch sub-agents via Task for all phase work\n- Lead only coordinates DAG state, user approvals, and concise summaries\n- /sdd-new, /sdd-continue, /sdd-ff are meta-commands handled by orchestrator (not skills)\n\nARTIFACT STORE POLICY:\n- artifact_store.mode: engram | openspec | none\n- Default: engram when available; openspec only if user explicitly requests file artifacts; otherwise none\n- In none mode, do not write project files; return inline and recommend enabling engram/openspec\n\nCOMMANDS:\n- /sdd-init -> sdd-init\n- /sdd-explore <topic> -> sdd-explore\n- /sdd-new <change> -> sdd-explore then sdd-propose\n- /sdd-continue [change] -> create next missing artifact\n- /sdd-ff [change] -> sdd-propose -> sdd-spec -> sdd-design -> sdd-tasks\n- /sdd-apply [change] -> sdd-apply in batches\n- /sdd-verify [change] -> sdd-verify\n- /sdd-archive [change] -> sdd-archive\n\nDEPENDENCY GRAPH:\nproposal -> specs --> tasks -> apply -> verify -> archive\n             ^\n             |\n           design\n\nRESULT CONTRACT:\nEach phase returns: status, executive_summary, artifacts, next_recommended, risks.\n\nSTATE AND CONVENTIONS (SOURCE OF TRUTH):\nKeep this prompt lean. Do not inline full persistence or naming specs.\nUse shared files under ~/.config/opencode/skills/_shared/:\n- engram-convention.md\n- persistence-contract.md\n- openspec-convention.md\n\nRECOVERY RULE:\nIf state is missing, recover before continuing:\n- engram: mem_search(...) then mem_get_observation(...)\n- openspec: read openspec/changes/*/state.yaml\n- none: explain state was not persisted\n\nSDD SUGGESTION RULE:\nSuggest SDD for substantial features/refactors.\nDo not force SDD for small fixes/questions.",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "bash": true
-      }
-    }
-  },
-  "permission": {
-    "bash": {
-      "*": "allow",
-      "git commit *": "ask",
-      "git push *": "ask",
-      "git push": "ask",
-      "git push --force *": "ask",
-      "git rebase *": "ask",
-      "git reset --hard *": "ask"
-    },
-    "read": {
-      "*": "allow",
-      "*.env": "deny",
-      "*.env.*": "deny",
-      "**/.env": "deny",
-      "**/.env.*": "deny",
-      "**/secrets/**": "deny",
-      "**/credentials.json": "deny"
-    }
-  },
   "mcp": {
     "context7": {
+      "enabled": true,
       "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true
+      "url": "https://mcp.context7.com/mcp"
     },
-    "sequential-thinking": {
-      "type": "local",
+    "engram": {
+      "command": [
+        "engram",
+        "mcp"
+      ],
+      "enabled": true,
+      "type": "local"
+    },
+    "filesystem": {
       "command": [
         "npx",
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "@modelcontextprotocol/server-filesystem",
+        "~"
       ],
-      "enabled": true
+      "type": "local"
     },
     "github": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": false,
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
-      "enabled": false
-    },
-    "rhinomcp": {
-      "type": "local",
-      "command": ["uvx", "rhinomcp"],
-      "enabled": false
+      "type": "local"
     },
     "playwright": {
-      "type": "local",
       "command": [
         "npx",
         "@playwright/mcp@latest",
@@ -76,104 +80,72 @@
         "--browser",
         "msedge"
       ],
+      "enabled": true,
       "environment": {
         "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "{env:PLAYWRIGHT_MCP_EXTENSION_TOKEN}"
       },
-      "enabled": true
+      "type": "local"
     },
-    "filesystem": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "~"]
+    "rhinomcp": {
+      "command": [
+        "uvx",
+        "rhinomcp"
+      ],
+      "enabled": false,
+      "type": "local"
+    },
+    "sequential-thinking": {
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "enabled": true,
+      "type": "local"
     }
   },
-  "plugin": ["opencode-antigravity-auth@latest"],
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "git commit *": "ask",
+      "git push": "ask",
+      "git push *": "ask",
+      "git push --force *": "ask",
+      "git rebase *": "ask",
+      "git reset --hard *": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/credentials.json": "deny",
+      "**/secrets/**": "deny",
+      "*.env": "deny",
+      "*.env.*": "deny"
+    }
+  },
+  "plugin": [
+    "opencode-antigravity-auth"
+  ],
   "provider": {
     "google": {
       "models": {
-        "antigravity-gemini-3-pro": {
-          "name": "Gemini 3 Pro (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-gemini-3-flash": {
-          "name": "Gemini 3 Flash (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "minimal": {
-              "thinkingLevel": "minimal"
-            },
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "medium": {
-              "thinkingLevel": "medium"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-claude-sonnet-4-6": {
-          "name": "Claude Sonnet 4.6 (Antigravity)",
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
-        },
         "antigravity-claude-opus-4-6-thinking": {
-          "name": "Claude Opus 4.6 Thinking (Antigravity)",
           "limit": {
             "context": 200000,
             "output": 64000
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
           },
+          "name": "Claude Opus 4.6 Thinking (Antigravity)",
           "variants": {
             "low": {
               "thinkingConfig": {
@@ -187,74 +159,207 @@
             }
           }
         },
-        "gemini-2.5-flash": {
-          "name": "Gemini 2.5 Flash (Gemini CLI)",
+        "antigravity-claude-sonnet-4-6": {
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Claude Sonnet 4.6 (Antigravity)"
+        },
+        "antigravity-gemini-3-flash": {
           "limit": {
             "context": 1048576,
             "output": 65536
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3 Flash (Antigravity)",
+          "variants": {
+            "high": {
+              "thinkingLevel": "high"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            },
+            "medium": {
+              "thinkingLevel": "medium"
+            },
+            "minimal": {
+              "thinkingLevel": "minimal"
+            }
           }
+        },
+        "antigravity-gemini-3-pro": {
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3 Pro (Antigravity)",
+          "variants": {
+            "high": {
+              "thinkingLevel": "high"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            }
+          }
+        },
+        "antigravity-gemini-3.1-pro": {
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3.1 Pro (Antigravity)",
+          "variants": {
+            "high": {
+              "thinkingLevel": "high"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            }
+          }
+        },
+        "gemini-2.5-flash": {
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 2.5 Flash (Gemini CLI)"
         },
         "gemini-2.5-pro": {
-          "name": "Gemini 2.5 Pro (Gemini CLI)",
           "limit": {
             "context": 1048576,
             "output": 65536
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 2.5 Pro (Gemini CLI)"
         },
         "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash Preview (Gemini CLI)",
           "limit": {
             "context": 1048576,
             "output": 65536
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3 Flash Preview (Gemini CLI)"
         },
         "gemini-3-pro-preview": {
-          "name": "Gemini 3 Pro Preview (Gemini CLI)",
           "limit": {
             "context": 1048576,
             "output": 65535
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3 Pro Preview (Gemini CLI)"
         },
         "gemini-3.1-pro-preview": {
-          "name": "Gemini 3.1 Pro Preview (Gemini CLI)",
           "limit": {
             "context": 1048576,
             "output": 65535
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3.1 Pro Preview (Gemini CLI)"
         },
         "gemini-3.1-pro-preview-customtools": {
-          "name": "Gemini 3.1 Pro Preview Custom Tools (Gemini CLI)",
           "limit": {
             "context": 1048576,
             "output": 65535
           },
           "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Gemini 3.1 Pro Preview Custom Tools (Gemini CLI)"
         }
       }
     }
   }
 }
-
