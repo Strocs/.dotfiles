@@ -27,7 +27,7 @@ vim.lsp.config('lua_ls', {
 
 -- Astro LSP with on_attach to watch ts/js files
 vim.lsp.config('astro', {
-  on_attach = function(client, bufnr)
+  on_attach = function(client)
     vim.api.nvim_create_autocmd('BufWritePost', {
       pattern = { '*.js', '*.ts', '*.jsx', '*.tsx' },
       group = vim.api.nvim_create_augroup('astro_ondidchangetsorjsfile', { clear = true }),

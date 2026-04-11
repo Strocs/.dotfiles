@@ -5,6 +5,7 @@ vim.pack.add {
 
 require('blink.cmp').setup {
   completion = {
+    accept = {},
     list = {
       selection = {
         preselect = false,
