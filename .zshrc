@@ -23,15 +23,9 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 [ -r "$ZSH_CONFIG_DIR/wm.zsh" ] && source "$ZSH_CONFIG_DIR/wm.zsh"
 
 
-
-# Turso
-export PATH="$PATH:/home/strocsdev/.turso"
-
 alias xclean="/bin/bash $HOME/xclean.sh"
-
-# bun completions
-[ -s "/home/strocs/.bun/_bun" ] && source "/home/strocs/.bun/_bun"
 
 # Remove duplicate entries from PATH
 typeset -U PATH
 alias xclean="/bin/bash $HOME/xclean.sh"
+

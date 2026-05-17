@@ -31,9 +31,17 @@ if [ -z "$IS_TERMUX" ]; then
   export PKG_CONFIG_PATH="$PKG_CONFIG_PATH_BASE:$PKG_CONFIG_PATH"
 fi
 
-# pnpm package manager setup
-export PNPM_HOME="$HOME/.local/share/pnpm"
+# bun completions
+[ -s "/home/strocs/.bun/_bun" ] && source "/home/strocs/.bun/_bun"
+
+# pnpm
+export PNPM_HOME="/home/strocsdev/.local/share/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
+# pnpm end
+
+# Turso
+export PATH="$PATH:/home/strocsdev/.turso"
+
