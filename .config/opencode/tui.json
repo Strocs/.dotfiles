@@ -1,22 +1,27 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "theme": "custom-tokyonight",
+  "diff_style": "stacked",
   "keybinds": {
     "leader": "ctrl+o",
-    "messages_half_page_up": "alt+k",
-    "messages_half_page_down": "alt+j",
     "messages_first": "ctrl+alt+k",
+    "messages_half_page_down": "alt+j",
+    "messages_half_page_up": "alt+k",
     "messages_last": "ctrl+alt+j",
-    "messages_page_up": "ctrl+alt+u",
     "messages_page_down": "ctrl+alt+d",
+    "messages_page_up": "ctrl+alt+u",
     "session_child_cycle": "alt+l",
     "session_child_cycle_reverse": "alt+h",
     "session_child_first": "alt+n",
     "session_parent": "alt+p",
     "sidebar_toggle": "ctrl+b"
   },
+  "plugin": [
+    "opencode-subagent-statusline",
+    "opencode-sdd-engram-manage",
+    "/home/strocsdev/.config/opencode/tui-plugins/gentle-logo.tsx"
+  ],
   "scroll_acceleration": {
     "enabled": true
   },
-  "diff_style": "stacked"
+  "theme": "custom-tokyonight"
 }
