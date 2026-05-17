@@ -1,5 +1,3 @@
-vim.pack.add { 'https://github.com/stevearc/oil.nvim' }
-
 require('oil').setup {
   keymaps = {
     ['g?'] = { 'actions.show_help', mode = 'n' },

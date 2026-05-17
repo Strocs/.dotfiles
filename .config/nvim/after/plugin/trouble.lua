@@ -1,6 +1,7 @@
-vim.pack.add { 'https://github.com/folke/trouble.nvim' }
+local ok, trouble = pcall(require, 'trouble')
+if not ok then return end
 
-require('trouble').setup {
+trouble.setup {
   modes = {
     lsp = {
       win = { position = 'right' },

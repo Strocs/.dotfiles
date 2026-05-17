@@ -1,6 +1,7 @@
-vim.pack.add { 'https://github.com/MagicDuck/grug-far.nvim' }
+local ok, grug_far = pcall(require, 'grug-far')
+if not ok then return end
 
-require('grug-far').setup { headerMaxWidth = 80 }
+grug_far.setup { headerMaxWidth = 80 }
 
 vim.keymap.set({ 'n', 'x' }, '<leader>sr', function()
   local grug = require 'grug-far'

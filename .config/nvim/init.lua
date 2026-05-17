@@ -25,6 +25,6 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
--- NOTE: vim.pack.add() is called in each plugin/ file (multi-file approach).
--- The plugin/ directory is sourced alphabetically by Neovim at startup,
--- which installs + loads all plugins in the correct dependency order.
+-- Centralized plugin bootstrap — all vim.pack.add() calls in one place.
+-- Plugin configuration lives in after/plugin/ (sourced alphabetically after this).
+require 'config.plugins'

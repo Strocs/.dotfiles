@@ -1,9 +1,3 @@
-vim.pack.add {
-  'https://github.com/sainnhe/sonokai',
-  'https://github.com/folke/tokyonight.nvim',
-  'https://github.com/khoido2003/monokai-v2.nvim',
-}
-
 local theme = 'tokyonight'
 
 -- Sonokai

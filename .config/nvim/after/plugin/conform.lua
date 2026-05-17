@@ -1,5 +1,3 @@
-vim.pack.add { 'https://github.com/stevearc/conform.nvim' }
-
 require('conform').setup {
   default_format_opts = {
     timeout_ms = 3000,

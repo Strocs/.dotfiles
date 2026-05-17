@@ -1,8 +1,3 @@
-vim.pack.add {
-  'https://github.com/nvim-lua/plenary.nvim',
-  { src = 'https://github.com/ThePrimeagen/harpoon', version = 'harpoon2' },
-}
-
 require('harpoon').setup {
   menu = {
     width = vim.api.nvim_win_get_width(0) - 4,

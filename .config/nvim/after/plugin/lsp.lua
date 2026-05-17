@@ -1,18 +1,17 @@
-vim.pack.add {
-  'https://github.com/williamboman/mason.nvim',
-  'https://github.com/williamboman/mason-lspconfig.nvim',
-  'https://github.com/neovim/nvim-lspconfig',
-}
+-- Mason (optional — may be unavailable on first bootstrap)
+local mason_ok, mason = pcall(require, 'mason')
+if mason_ok then
+  mason.setup {}
 
--- Mason
-require('mason').setup {}
-
--- Mason-LSPConfig
-require('mason-lspconfig').setup {
-  ensure_installed = {
-    'lua_ls',
-  },
-}
+  local mlsp_ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
+  if mlsp_ok then
+    mason_lspconfig.setup {
+      ensure_installed = {
+        'lua_ls',
+      },
+    }
+  end
+end
 
 -- lua_ls with custom settings and globals
 vim.lsp.config('lua_ls', {
