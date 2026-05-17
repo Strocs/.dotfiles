@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "id": "Freemium.json/2026-05-17T02-18-05-707Z-98047f.json",
+  "profileFile": "Freemium.json",
+  "createdAt": "2026-05-17T02:18:05.707Z",
+  "source": "bulk",
+  "operation": {
+    "target": "primary",
+    "mode": "fill-only",
+    "source": "bulk",
+    "changedPhases": 11
+  },
+  "operationSummary": "Set all primary phases: 11 primary, 0 fallback",
+  "beforeRaw": "{\n  \"models\": {}\n}",
+  "preview": {
+    "models": {},
+    "fallback": {}
+  }
+}

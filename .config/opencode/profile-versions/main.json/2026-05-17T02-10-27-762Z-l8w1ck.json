@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-10-27-762Z-l8w1ck.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:10:27.762Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "sdd-archive",
+    "field": "primary",
+    "modelId": "opencode-go/deepseek-v4-flash",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set sdd-archive primary model to opencode-go/deepseek-v4-flash",
+  "beforeRaw": "{\n  \"models\": {\n    \"sdd-apply\": \"opencode-go/minimax-m2.7\",\n    \"gentle-orchestrator\": \"opencode-go/deepseek-v4-pro\"\n  }\n}",
+  "preview": {
+    "models": {
+      "sdd-apply": "opencode-go/minimax-m2.7",
+      "gentle-orchestrator": "opencode-go/deepseek-v4-pro"
+    },
+    "fallback": {}
+  }
+}

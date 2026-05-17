@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-10-58-038Z-simn04.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:10:58.038Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "sdd-explore",
+    "field": "primary",
+    "modelId": "opencode-go/deepseek-v4-pro",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set sdd-explore primary model to opencode-go/deepseek-v4-pro",
+  "beforeRaw": "{\n  \"models\": {\n    \"sdd-apply\": \"opencode-go/minimax-m2.7\",\n    \"sdd-archive\": \"opencode-go/deepseek-v4-flash\",\n    \"sdd-design\": \"opencode-go/kimi-k2.6\",\n    \"gentle-orchestrator\": \"opencode-go/deepseek-v4-pro\"\n  }\n}",
+  "preview": {
+    "models": {
+      "sdd-apply": "opencode-go/minimax-m2.7",
+      "sdd-archive": "opencode-go/deepseek-v4-flash",
+      "sdd-design": "opencode-go/kimi-k2.6",
+      "gentle-orchestrator": "opencode-go/deepseek-v4-pro"
+    },
+    "fallback": {}
+  }
+}

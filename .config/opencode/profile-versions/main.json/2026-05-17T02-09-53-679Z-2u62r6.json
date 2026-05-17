@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-09-53-679Z-2u62r6.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:09:53.679Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "gentle-orchestrator",
+    "field": "primary",
+    "modelId": "opencode-go/deepseek-v4-pro",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set gentle-orchestrator primary model to opencode-go/deepseek-v4-pro",
+  "beforeRaw": "{\n  \"models\": {}\n}",
+  "preview": {
+    "models": {},
+    "fallback": {}
+  }
+}

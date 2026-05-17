@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-10-11-393Z-8eydze.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:10:11.393Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "sdd-apply",
+    "field": "primary",
+    "modelId": "opencode-go/minimax-m2.7",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set sdd-apply primary model to opencode-go/minimax-m2.7",
+  "beforeRaw": "{\n  \"models\": {\n    \"gentle-orchestrator\": \"opencode-go/deepseek-v4-pro\"\n  }\n}",
+  "preview": {
+    "models": {
+      "gentle-orchestrator": "opencode-go/deepseek-v4-pro"
+    },
+    "fallback": {}
+  }
+}

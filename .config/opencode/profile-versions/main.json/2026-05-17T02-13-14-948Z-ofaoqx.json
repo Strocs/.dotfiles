@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-13-14-948Z-ofaoqx.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:13:14.948Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "sdd-archive",
+    "field": "fallback",
+    "modelId": "opencode/deepseek-v4-flash-free",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set sdd-archive fallback model to opencode/deepseek-v4-flash-free",
+  "beforeRaw": "{\n  \"models\": {\n    \"sdd-apply\": \"opencode-go/minimax-m2.7\",\n    \"sdd-archive\": \"opencode-go/deepseek-v4-flash\",\n    \"sdd-design\": \"opencode-go/kimi-k2.6\",\n    \"sdd-explore\": \"opencode-go/deepseek-v4-pro\",\n    \"sdd-init\": \"opencode-go/minimax-m2.7\",\n    \"sdd-onboard\": \"opencode-go/deepseek-v4-pro\",\n    \"sdd-propose\": \"opencode-go/deepseek-v4-pro\",\n    \"sdd-spec\": \"opencode-go/deepseek-v4-pro\",\n    \"sdd-tasks\": \"opencode-go/kimi-k2.6\",\n    \"sdd-verify\": \"opencode-go/deepseek-v4-pro\",\n    \"gentle-orchestrator\": \"opencode-go/deepseek-v4-pro\"\n  },\n  \"fallback\": {\n    \"sdd-apply\": \"opencode/qwen3.6-plus-free\"\n  }\n}",
+  "preview": {
+    "models": {
+      "sdd-apply": "opencode-go/minimax-m2.7",
+      "sdd-archive": "opencode-go/deepseek-v4-flash",
+      "sdd-design": "opencode-go/kimi-k2.6",
+      "sdd-explore": "opencode-go/deepseek-v4-pro",
+      "sdd-init": "opencode-go/minimax-m2.7",
+      "sdd-onboard": "opencode-go/deepseek-v4-pro",
+      "sdd-propose": "opencode-go/deepseek-v4-pro",
+      "sdd-spec": "opencode-go/deepseek-v4-pro",
+      "sdd-tasks": "opencode-go/kimi-k2.6",
+      "sdd-verify": "opencode-go/deepseek-v4-pro",
+      "gentle-orchestrator": "opencode-go/deepseek-v4-pro"
+    },
+    "fallback": {
+      "sdd-apply": "opencode/qwen3.6-plus-free"
+    }
+  }
+}

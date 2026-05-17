@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "main.json/2026-05-17T02-10-50-761Z-kjqpez.json",
+  "profileFile": "main.json",
+  "createdAt": "2026-05-17T02:10:50.761Z",
+  "source": "phase",
+  "operation": {
+    "source": "phase",
+    "phase": "sdd-design",
+    "field": "primary",
+    "modelId": "opencode-go/kimi-k2.6",
+    "changedPhases": 1
+  },
+  "operationSummary": "Set sdd-design primary model to opencode-go/kimi-k2.6",
+  "beforeRaw": "{\n  \"models\": {\n    \"sdd-apply\": \"opencode-go/minimax-m2.7\",\n    \"sdd-archive\": \"opencode-go/deepseek-v4-flash\",\n    \"gentle-orchestrator\": \"opencode-go/deepseek-v4-pro\"\n  }\n}",
+  "preview": {
+    "models": {
+      "sdd-apply": "opencode-go/minimax-m2.7",
+      "sdd-archive": "opencode-go/deepseek-v4-flash",
+      "gentle-orchestrator": "opencode-go/deepseek-v4-pro"
+    },
+    "fallback": {}
+  }
+}

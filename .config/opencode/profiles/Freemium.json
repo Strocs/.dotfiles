@@ -1,0 +1,15 @@
+{
+  "models": {
+    "sdd-apply": "opencode/qwen3.6-plus-free",
+    "sdd-archive": "opencode/qwen3.6-plus-free",
+    "sdd-design": "opencode/qwen3.6-plus-free",
+    "sdd-explore": "opencode/qwen3.6-plus-free",
+    "sdd-init": "opencode/qwen3.6-plus-free",
+    "sdd-onboard": "opencode/qwen3.6-plus-free",
+    "sdd-propose": "opencode/qwen3.6-plus-free",
+    "sdd-spec": "opencode/qwen3.6-plus-free",
+    "sdd-tasks": "opencode/qwen3.6-plus-free",
+    "sdd-verify": "opencode/qwen3.6-plus-free",
+    "gentle-orchestrator": "opencode/qwen3.6-plus-free"
+  }
+}
