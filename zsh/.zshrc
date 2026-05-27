@@ -22,10 +22,21 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 #    The 'exec' command replaces the shell process, so it must be last.
 [ -r "$ZSH_CONFIG_DIR/wm.zsh" ] && source "$ZSH_CONFIG_DIR/wm.zsh"
 
-
-alias xclean="/bin/bash $HOME/xclean.sh"
-
 # Remove duplicate entries from PATH
 typeset -U PATH
 alias xclean="/bin/bash $HOME/xclean.sh"
 
+
+# Turso
+export PATH="$PATH:/home/strocs/.turso"
+
+# pnpm
+export PNPM_HOME="/home/strocs/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
+# opencode
+export PATH=/home/strocs/.opencode/bin:$PATH

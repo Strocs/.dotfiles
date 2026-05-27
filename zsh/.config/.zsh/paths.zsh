@@ -16,14 +16,9 @@ if [ -z "$IS_TERMUX" ]; then
 
   WINDOWS_PATH="/mnt/c/Windows"                   # Windows system commands
   WSL_LIB_PATH="/usr/lib/wsl/lib"                 # WSL-specific libraries
-  NODE_PATH="/home/linuxbrew/.linuxbrew/opt/node@24/bin"  # Node.js via Homebrew
-  BREW_PATH="/home/linuxbrew/.linuxbrew/bin"      # Homebrew binaries
-
+  LOCAL_BIN_PATH="/home/strocs/.local/bin"
   # Consolidate into PATH
-  export PATH="$GO_PATH:$WINDOWS_PATH:$WSL_LIB_PATH:$NODE_PATH:$BREW_PATH:$PATH"
-
-  # Brew shell environment (adds more paths dynamically)
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  export PATH="$GO_PATH:$WINDOWS_PATH:$WSL_LIB_PATH:$LOCAL_BIN_PATH:$PATH"
 
   # PKG_CONFIG_PATH for development libraries
   PKG_CONFIG_PATH_BASE="/usr/lib/x86_64-linux-gnu/pkgconfig"
@@ -35,7 +30,7 @@ fi
 [ -s "/home/strocs/.bun/_bun" ] && source "/home/strocs/.bun/_bun"
 
 # pnpm
-export PNPM_HOME="/home/strocsdev/.local/share/pnpm"
+export PNPM_HOME="/home/strocs/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
@@ -43,5 +38,5 @@ esac
 # pnpm end
 
 # Turso
-export PATH="$PATH:/home/strocsdev/.turso"
+export PATH="$PATH:/home/strocs/.turso"
 
