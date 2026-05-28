@@ -1,0 +1,63 @@
+{
+	"subagents": {
+		"agentOverrides": {
+			"sdd-init": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-explore": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-proposal": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-spec": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-design": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-tasks": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-apply": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-verify": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-sync": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-archive": {
+				"model": "opencode-go/deepseek-v4-flash"
+			},
+			"context-builder": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"delegate": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"oracle": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"planner": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"researcher": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"reviewer": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"scout": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"sdd-onboard": {
+				"model": "opencode-go/deepseek-v4-pro"
+			},
+			"worker": {
+				"model": "opencode-go/deepseek-v4-pro"
+			}
+		}
+	}
+}

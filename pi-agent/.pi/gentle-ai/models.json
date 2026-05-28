@@ -1,0 +1,32 @@
+{
+  "sdd-init": {
+    "model": "opencode-go/minimax-m2.7"
+  },
+  "sdd-explore": {
+    "model": "opencode-go/deepseek-v4-pro"
+  },
+  "sdd-spec": {
+    "model": "opencode-go/deepseek-v4-pro"
+  },
+  "sdd-verify": {
+    "model": "opencode-go/deepseek-v4-pro"
+  },
+  "sdd-archive": {
+    "model": "opencode/deepseek-v4-flash-free"
+  },
+  "sdd-design": {
+    "model": "opencode-go/kimi-k2.6"
+  },
+  "sdd-tasks": {
+    "model": "opencode-go/kimi-k2.6"
+  },
+  "sdd-apply": {
+    "model": "opencode-go/minimax-m2.7"
+  },
+  "sdd-sync": {
+    "model": "opencode-go/deepseek-v4-pro"
+  },
+  "sdd-proposal": {
+    "model": "opencode-go/deepseek-v4-pro"
+  }
+}
