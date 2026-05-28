@@ -27,8 +27,8 @@ config.color_schemes = { [theme] = scheme }
 config.window_background_opacity = 0.8
 
 -- 5. Window
-config.initial_rows = 51
-config.initial_cols = 209
+config.initial_rows = 52
+config.initial_cols = 211
 config.window_padding = { left = 3, right = 0, top = 0, bottom = 0 }
 local border_color = scheme.ansi[8]
 local border_width = 0
@@ -46,9 +46,10 @@ config.window_decorations = "NONE | RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false
 config.enable_kitty_graphics = true
+config.enable_kitty_keyboard = true
 
 -- 6. Domain/Startup
-config.default_domain = "WSL:Ubuntu"
+config.default_domain = "WSL:archlinux"
 
 -- 7. Events
 wezterm.on("toggle-opacity", function(window)
@@ -62,7 +63,7 @@ wezterm.on("toggle-opacity", function(window)
 end)
 
 wezterm.on("gui-startup", function(cmd)
-	mux.spawn_window(cmd or { position = { x = 14, y = 10 } })
+	mux.spawn_window(cmd or { position = { x = 1, y = 7 } })
 end)
 
 wezterm.on("window-focus-changed", function(window, pane)
@@ -83,7 +84,7 @@ end)
 config.disable_default_key_bindings = true
 config.leader = { key = "w", mods = "CTRL" }
 config.keys = {
-	{ key = "n", mods = "LEADER", action = wezterm.action.ToggleFullScreen },
+	{ key = "m", mods = "LEADER", action = wezterm.action.ToggleFullScreen },
 	{ key = "o", mods = "LEADER", action = wezterm.action.EmitEvent("toggle-opacity") },
 	{
 		key = "w",
