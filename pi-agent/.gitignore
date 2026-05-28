@@ -7,3 +7,9 @@
 .pi-lens/
 
 # npm node_modules (managed by npm/.gitignore)
+
+# Platform-specific binaries
+.pi/agent/bin/
+
+# API credentials (never commit)
+.pi/agent/auth.json
