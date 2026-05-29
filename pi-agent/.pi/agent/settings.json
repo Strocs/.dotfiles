@@ -5,7 +5,7 @@
   "defaultModel": "deepseek-v4-flash-free",
   "defaultProvider": "opencode",
   "defaultThinkingLevel": "high",
-  "lastChangelogVersion": "0.75.5",
+  "lastChangelogVersion": "0.76.0",
   "packages": [
     "npm:gentle-pi",
     "npm:gentle-engram",
@@ -21,8 +21,9 @@
   ],
   "theme": "dark",
   "terminal": {
-    "clearOnShrink": false
+    "clearOnShrink": false,
+    "showTerminalProgress": true
   },
-  "editorPaddingX": 1,
-  "quietStartup": true
+  "editorPaddingX": 0,
+  "quietStartup": false
 }
