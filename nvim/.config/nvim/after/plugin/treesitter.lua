@@ -1,42 +1,3 @@
-local TS = require 'nvim-treesitter'
-
-TS.setup {
-  ensure_installed = {
-    'bash',
-    'c',
-    'diff',
-    'html',
-    'javascript',
-    'jsdoc',
-    'json',
-    'jsonc',
-    'lua',
-    'luadoc',
-    'luap',
-    'markdown',
-    'markdown_inline',
-    'printf',
-    'python',
-    'query',
-    'regex',
-    'toml',
-    'tsx',
-    'typescript',
-    'vim',
-    'vimdoc',
-    'xml',
-    'yaml',
-    'astro',
-    'go',
-  },
-  sync_install = false,
-  auto_install = true,
-
-  indent = { enable = true },
-  highlight = { enable = true },
-  folds = { enable = true },
-}
-
 -- Treesitter Context
 require('treesitter-context').setup {}
 
@@ -50,3 +11,26 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 -- Autotag
 require('nvim-ts-autotag').setup {}
+
+-- Modern ensure_installed (no-op if already installed, async)
+require('nvim-treesitter').install {
+  'typescript',
+  'tsx',
+  'javascript',
+  'jsdoc',
+  'html',
+  'css',
+  'json',
+  'markdown',
+  'markdown_inline',
+  'astro',
+  'lua',
+  'luadoc',
+  'luap',
+  'yaml',
+  'bash',
+  'c',
+  'python',
+  'go',
+  'regex',
+}

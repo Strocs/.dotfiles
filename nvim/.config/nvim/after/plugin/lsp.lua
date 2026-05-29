@@ -8,6 +8,16 @@ if mason_ok then
     mason_lspconfig.setup {
       ensure_installed = {
         'lua_ls',
+        'vtsls',
+        'cssls',
+        'html',
+        'tailwindcss',
+        'astro',
+        'jsonls',
+        'eslint',
+        'yamlls',
+        'pyright',
+        'gopls',
       },
     }
   end
