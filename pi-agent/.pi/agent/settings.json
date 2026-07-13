@@ -2,8 +2,8 @@
   "compaction": {
     "enabled": true
   },
-  "defaultModel": "qwen3.7-plus",
-  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash-free",
+  "defaultProvider": "opencode",
   "defaultThinkingLevel": "high",
   "editorPaddingX": 0,
   "lastChangelogVersion": "0.80.6",
