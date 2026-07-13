@@ -46,7 +46,7 @@ config.window_decorations = "NONE | RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false
 config.enable_kitty_graphics = true
-config.enable_kitty_keyboard = true
+-- config.enable_csi_u_key_encoding = true
 
 -- 6. Domain/Startup
 config.default_domain = "WSL:archlinux"
@@ -101,6 +101,7 @@ config.keys = {
 	{ key = "c", mods = "CTRL|SHIFT", action = wezterm.action.CopyTo("Clipboard") },
 	{ key = "v", mods = "CTRL|SHIFT", action = wezterm.action.PasteFrom("Clipboard") },
 	{ key = "Tab", mods = "CTRL", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "j", mods = "ALT", action = wezterm.action.ScrollByPage(0.5) },
+	{ key = "k", mods = "ALT", action = wezterm.action.ScrollByPage(-0.5) },
 }
-
 return config

@@ -23,6 +23,17 @@ if mason_ok then
   end
 end
 
+-- Suppress Tailwind-specific at-rule warnings (@theme, @apply, etc.)
+vim.lsp.config('cssls', {
+  settings = {
+    css = {
+      lint = {
+        unknownAtRules = 'ignore',
+      },
+    },
+  },
+})
+
 -- lua_ls with custom settings and globals
 vim.lsp.config('lua_ls', {
   settings = {
