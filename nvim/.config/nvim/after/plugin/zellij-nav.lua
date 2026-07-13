@@ -1,9 +1,9 @@
-require('zellij-nav').setup()
+vim.keymap.set('n', '<C-h>', '<Cmd>ZellijNavigateLeft<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-j>', '<Cmd>ZellijNavigateDown<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', '<Cmd>ZellijNavigateUp<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-l>', '<Cmd>ZellijNavigateRight<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<c-h>', '<CMD>ZellijNavigateLeft<cr>')
-vim.keymap.set('n', '<c-j>', '<CMD>ZellijNavigateDown<cr>')
-vim.keymap.set('n', '<c-k>', '<CMD>ZellijNavigateUp<cr>')
-vim.keymap.set('n', '<c-l>', '<CMD>ZellijNavigateRight<cr>')
+require('zellij-nav').setup()
 
 vim.api.nvim_create_autocmd('VimLeavePre', {
   callback = function()
