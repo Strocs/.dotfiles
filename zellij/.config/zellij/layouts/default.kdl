@@ -1,0 +1,36 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="file:~/.config/zellij/plugins/zjstatus-v0.23.0.wasm" {
+                color_fg        "#e3e1e4"
+                color_base      "#1e2030"
+                color_secondary "#24283b"
+                color_active    "#353956"
+                color_muted     "#565f89"
+
+                format_left   "#[fg=$fg,bg=$secondary] {session} #[fg=$secondary]{tabs}"
+                format_center ""
+                format_right  "{command_ram}"
+                format_space  ""
+
+                format_hide_on_overlength "true"
+                format_precedence         "lrc"
+                hide_frame_for_single_pane "false"
+
+                tab_normal            "#[fg=$muted] {index} {name} "
+                tab_active            "#[fg=$active]#[fg=$fg,bg=$active] {index} {name} #[fg=$active]"
+                tab_rename            "#[fg=$muted]#[fg=$fg,bg=$muted] {index} {name} #[fg=$muted]"
+                tab_separator         ""
+                tab_sync_indicator    "S "
+                tab_fullscreen_indicator "F "
+                tab_floating_indicator   "+ "
+
+                command_ram_command    "awk 'function memory(kb, decimals) { if (kb < 1048576) return sprintf(\"%.0f MB\", kb / 1024); return sprintf(\"%.*f GB\", decimals, kb / 1048576) } /MemTotal:/ { total=$2 } /MemAvailable:/ { available=$2 } END { if (total > 0) printf \"RAM %s / %s\", memory(total-available, 1), memory(total, 0) }' /proc/meminfo"
+                command_ram_format     "#[fg=$secondary]#[fg=#484f73,bg=$secondary] {stdout} "
+                command_ram_interval   "5"
+                command_ram_rendermode "static"
+            }
+        }
+        children
+    }
+}

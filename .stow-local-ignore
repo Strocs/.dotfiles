@@ -1,3 +1,5 @@
+\.atl/
+
 .termux/
 .termux/*
 wezterm/

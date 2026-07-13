@@ -23,7 +23,7 @@ vim.pack.add({
   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
   'https://github.com/sudo-tee/opencode.nvim',
   'https://github.com/chrisgrieser/nvim-rip-substitute',
-  'https://github.com/christoomey/vim-tmux-navigator',
+  'https://github.com/swaits/zellij-nav.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/windwp/nvim-ts-autotag',

@@ -1,0 +1,40 @@
+themes {
+    strocs-monochrome {
+        fg 227 225 228
+        bg 30 32 48
+        black 65 72 104
+        red 53 57 86
+        green 86 95 137
+        yellow 255 150 108
+        blue 86 95 137
+        magenta 86 95 137
+        cyan 36 40 59
+        white 227 225 228
+        orange 255 150 108
+
+        frame_unselected {
+            base 30 32 48
+            background 30 32 48
+            emphasis_0 30 32 48
+            emphasis_1 30 32 48
+            emphasis_2 30 32 48
+            emphasis_3 30 32 48
+        }
+        frame_selected {
+            base 86 95 137
+            background 30 32 48
+            emphasis_0 53 57 86
+            emphasis_1 65 72 104
+            emphasis_2 86 95 137
+            emphasis_3 227 225 228
+        }
+        frame_highlight {
+            base 255 150 108
+            background 30 32 48
+            emphasis_0 53 57 86
+            emphasis_1 65 72 104
+            emphasis_2 86 95 137
+            emphasis_3 227 225 228
+        }
+    }
+}

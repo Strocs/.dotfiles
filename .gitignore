@@ -1,2 +1,11 @@
 # Local Pi runtime state
 .atl/
+
+# Symlinks (stow targets, not repo source)
+/.config
+
+# Runtime auth databases
+nvim/.config/github-copilot/
+
+# Pi-agent runtime state (LMDB frecency/history)
+pi-agent/.pi/agent/pi-pretty/

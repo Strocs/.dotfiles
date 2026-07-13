@@ -1,5 +1,0 @@
-vim.keymap.set({ 'n', 'i' }, '<c-h>', '<CMD>TmuxNavigateLeft<cr>')
-vim.keymap.set({ 'n', 'i' }, '<c-j>', '<CMD>TmuxNavigateDown<cr>')
-vim.keymap.set({ 'n', 'i' }, '<c-k>', '<CMD>TmuxNavigateUp<cr>')
-vim.keymap.set({ 'n', 'i' }, '<c-l>', '<CMD>TmuxNavigateRight<cr>')
-vim.keymap.set({ 'n', 'i' }, '<c-\\>', '<CMD>TmuxNavigatePrevious<cr>')

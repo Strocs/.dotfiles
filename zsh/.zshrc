@@ -18,7 +18,12 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 # 4. Load aliases.
 [ -r "$ZSH_CONFIG_DIR/aliases.zsh" ] && source "$ZSH_CONFIG_DIR/aliases.zsh"
 
-# 5. Execute the window manager as the final step.
+# 5. Load shell integrations after the framework and aliases.
+[[ -r "$HOME/.config/zellij/hooks/tab-names.zsh" &&
+   -n $commands[zsh] && -n $commands[zellij] ]] &&
+  source "$HOME/.config/zellij/hooks/tab-names.zsh"
+
+# 6. Execute the window manager as the final step.
 #    The 'exec' command replaces the shell process, so it must be last.
 [ -r "$ZSH_CONFIG_DIR/wm.zsh" ] && source "$ZSH_CONFIG_DIR/wm.zsh"
 
