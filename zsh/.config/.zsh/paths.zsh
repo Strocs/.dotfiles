@@ -41,3 +41,10 @@ esac
 # Turso
 export PATH="$PATH:/home/strocs/.turso"
 
+# opencode
+export PATH=/home/strocs/.opencode/bin:$PATH
+
+# Brew
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
