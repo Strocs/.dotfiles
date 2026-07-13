@@ -1,6 +1,7 @@
 ---
 name: sdd-spec
 description: Write SDD delta specs with requirements and scenarios.
+model: opencode-go/deepseek-v4-pro
 tools: read, grep, glob, write, edit
 ---
 
@@ -106,9 +107,12 @@ The system MUST ...
 ### Requirement: {Requirement Being Removed}
 
 (Reason: {why this requirement is being removed})
+(Migration: {consumer/data/docs/test migration guidance, or "None"})
 ```
 
 Omit empty operation sections only when they would add noise. Do not invent implementation details.
+
+`## RENAMED Requirements` is intentionally unsupported in gentle-pi until `lib/openspec-deltas.ts` implements executable rename semantics. Do not emit RENAMED sections; model renames as explicit ADDED/MODIFIED/REMOVED changes with Reason/Migration notes or block and ask for implementation support.
 
 ## MODIFIED Requirements Workflow
 
@@ -121,6 +125,10 @@ Omit empty operation sections only when they would add noise. Do not invent impl
 5. Add `(Previously: ...)` under the requirement text.
 
 If you are only adding behavior without changing existing behavior, use `## ADDED Requirements` instead of `## MODIFIED Requirements`.
+
+## REMOVED Requirements Workflow
+
+For each removed requirement, include `(Reason: ...)`. Include `(Migration: ...)` when consumers, persisted behavior, documentation, tests, or follow-up cleanup are affected; use `(Migration: None)` only when there is no migration impact.
 
 ## Full Spec Format for New Domains
 

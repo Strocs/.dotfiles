@@ -1,7 +1,11 @@
 ---
 name: sdd-full
-description: Run the full SDD lifecycle for a change when explicitly approved.
+description: Run the full SDD lifecycle for a change in auto mode or explicit full-lifecycle approval.
 ---
+
+## Interactive mode guard
+
+This chain is a continuous lifecycle pipeline. Use it only in auto mode or explicit full-lifecycle approval. In interactive mode the parent/orchestrator must stop at each phase boundary, present the current artifact, and ask the user before continuing. Approval to start SDD is not approval of the generated proposal, specs, design, tasks, apply, verify, sync, or archive phases.
 
 ## sdd-init
 
@@ -27,7 +31,7 @@ output: proposal.md
 outputMode: file-only
 progress: true
 
-Create or update the OpenSpec proposal for {task} using the exploration notes and the previous step output.
+Create or update the OpenSpec proposal for {task} using the exploration notes and the previous step output. If this is an interactive SDD run and the parent has not already supplied proposal-shaping answers, surface the missing questions in the result so the parent can ask before treating the proposal as approved.
 
 ## sdd-spec
 
@@ -36,7 +40,7 @@ output: spec.md
 outputMode: file-only
 progress: true
 
-Write delta specs for {task} from the approved proposal. Preserve RFC 2119 requirements and Given/When/Then scenarios.
+Write delta specs for {task} from the parent-approved proposal. Preserve RFC 2119 requirements and Given/When/Then scenarios. In interactive mode, do not treat chain execution alone as proposal approval.
 
 ## sdd-design
 

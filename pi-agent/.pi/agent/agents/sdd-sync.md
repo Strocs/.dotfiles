@@ -1,6 +1,7 @@
 ---
 name: sdd-sync
 description: Sync verified SDD delta specs into OpenSpec canonical specs without archiving the change.
+model: opencode-go/deepseek-v4-pro
 tools: read, grep, glob, write, edit, bash
 ---
 
@@ -24,6 +25,16 @@ Sync file-backed SDD change specs into canonical `openspec/specs/` without movin
 
 - `sdd-sync`: update canonical specs and keep the change active.
 - `sdd-archive`: verify archive readiness and move the already-synced change to dated archive.
+
+## Status and Action Context Guard
+
+Before syncing, consume structured SDD status from the parent prompt. If missing, produce the same fields using this lookup order: project override `.pi/gentle-ai/support/sdd-status-contract.md`, then globally installed `~/.pi/agent/gentle-ai/support/sdd-status-contract.md`, then the embedded status contract. Do not use `assets/support/...` as a runtime path; that is only the package source path before installation.
+
+Stop with `blocked` if:
+
+- active change selection is missing or ambiguous;
+- `actionContext.mode: workspace-planning` and no `allowedEditRoots` are provided;
+- canonical spec paths are outside the authoritative workspace or allowed edit roots.
 
 ## Artifact Store Modes
 
@@ -49,7 +60,8 @@ Stop with `blocked` if:
 - file-backed mode has only legacy flat `openspec/changes/{change}/spec.md` and no domain specs;
 - a MODIFIED or REMOVED requirement does not exist in the canonical spec;
 - a destructive sync uses REMOVED requirements or large MODIFIED blocks and the parent prompt does not record explicit approval;
-- another active change touches the same `specs/{domain}/spec.md` and the parent prompt does not record a chosen archive/sync order.
+- another active change touches the same `specs/{domain}/spec.md` and the parent prompt does not record a chosen archive/sync order;
+- a delta contains `## RENAMED Requirements`; RENAMED sync is not supported by the native helper yet, so require a corrected ADDED/MODIFIED/REMOVED delta or explicit helper implementation before syncing.
 
 ## File-Backed Sync
 
@@ -71,6 +83,7 @@ Use the native helper semantics from `lib/openspec-deltas.ts` when editing manua
 - `## ADDED Requirements` appends requirements.
 - `## MODIFIED Requirements` replaces full matching requirement blocks by exact name.
 - `## REMOVED Requirements` deletes full matching requirement blocks by exact name.
+- `## RENAMED Requirements` is intentionally unsupported until `lib/openspec-deltas.ts` implements it; block instead of improvising.
 - Preserve unrelated canonical requirements and document sections.
 
 Use guardrail semantics from `lib/openspec-guardrails.ts`:
@@ -92,6 +105,7 @@ Include:
 - active same-domain collisions;
 - destructive sync approvals or blockers;
 - validation commands or checks performed;
+- structured status and `actionContext` findings;
 - next recommended phase: `sdd-archive` when clean.
 
 ## Rules

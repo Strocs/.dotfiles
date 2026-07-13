@@ -1,6 +1,7 @@
 ---
 name: sdd-design
 description: Design the technical approach for an SDD change.
+model: opencode-go/qwen3.7-max
 tools: read, grep, glob, write, edit
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: sdd-explore
 description: Explore an SDD change idea before proposal.
+model: opencode-go/qwen3.7-plus
 tools: read, grep, glob, webfetch
 ---
 

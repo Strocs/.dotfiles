@@ -1,6 +1,7 @@
 ---
 name: sdd-verify
 description: Verify implementation against SDD specs, tasks, strict TDD evidence, and review workload boundaries.
+model: opencode-go/deepseek-v4-pro
 tools: read, grep, glob, bash, write, edit
 ---
 
@@ -19,9 +20,20 @@ The parent/orchestrator owns memory retrieval: use memory context passed in the 
 When callable memory tools are available, save significant discoveries, decisions, bug fixes, and completed SDD phase artifacts before returning. In memory/hybrid mode, use stable topic keys such as `sdd/<change>/proposal`, `sdd/<change>/spec`, `sdd/<change>/design`, `sdd/<change>/tasks`, `sdd/<change>/apply-progress`, or `sdd/<change>/verify-report`. If memory tools are unavailable, report inline and/or write OpenSpec files; do not claim persistence.
 
 
+## Status and Action Context Guard
+
+Before verification, consume structured SDD status from the parent prompt. If missing, produce the same fields using this lookup order: project override `.pi/gentle-ai/support/sdd-status-contract.md`, then globally installed `~/.pi/agent/gentle-ai/support/sdd-status-contract.md`, then the embedded status contract. Do not use `assets/support/...` as a runtime path; that is only the package source path before installation.
+
+Stop with `blocked` if:
+
+- active change selection is missing or ambiguous;
+- `tasks.md` / the tasks artifact is missing or empty;
+- `actionContext.mode: workspace-planning` and no `allowedEditRoots` are provided;
+- implementation ownership or target files cannot be proven inside the authoritative workspace or allowed edit roots.
+
 ## Inputs
 
-Read specs, design, tasks, apply-progress, changed code, tests, and `openspec/config.yaml` when present.
+Read structured status, specs, design, tasks, apply-progress, changed code, tests, and `openspec/config.yaml` when present.
 
 ## Verification
 
@@ -49,13 +61,32 @@ Verify that implementation respected the `Review Workload Forecast` from `tasks.
 - If `Chain strategy` was set, confirm the returned PR/work boundary matches it.
 - Flag scope creep beyond assigned tasks as WARNING or CRITICAL depending on risk.
 
+## Task Checkbox Verification
+
+Scan `openspec/changes/{change}/tasks.md` or the memory tasks artifact for unchecked implementation task markers matching `^\s*- \[ \]`.
+
+If unchecked implementation tasks remain:
+
+- mark each as a CRITICAL completeness issue and archive blocker;
+- include the exact unchecked lines;
+- do not return a clean `PASS` or say ready for archive while unchecked implementation tasks remain.
+
+If a partial slice is approved, report unchecked lines as remaining scope and state that archive is not ready. Archive exceptions are limited to non-critical partial archives or stale-checkbox reconciliation proven by apply-progress/verify-report; they do not turn incomplete tasks into a clean verification pass.
+
+## Graceful Artifact Handling
+
+- Tasks only: verify task completion only, skip spec/design checks, and say what was skipped.
+- Tasks + specs: verify task completion and spec requirement/scenario coverage, skip design coherence with a note.
+- Full artifacts: verify tasks, specs, design, implementation, tests, and review workload.
+
 ## Report
 
 Write `openspec/changes/{change}/verify-report.md` with:
 
 - pass/fail status;
 - spec coverage;
-- task completion status;
+- task completion status, including exact unchecked `- [ ]` implementation task lines or confirmation that none remain;
+- structured status and `actionContext` findings;
 - test/validation commands;
 - strict TDD compliance when active;
 - assertion quality findings when active;

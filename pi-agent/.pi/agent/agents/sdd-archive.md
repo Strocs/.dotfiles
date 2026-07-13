@@ -1,6 +1,7 @@
 ---
 name: sdd-archive
 description: Archive a verified SDD change into OpenSpec source specs.
+model: opencode/deepseek-v4-flash-free
 tools: read, grep, glob, write, edit, bash
 ---
 
@@ -22,6 +23,18 @@ When callable memory tools are available, save significant discoveries, decision
 
 Archive a completed SDD change. In file-backed modes, this requires canonical spec sync to be complete (normally via `sdd-sync`), then moves the active change folder to the dated archive. In Engram-only mode, this records traceability without creating a canonical merge layer.
 
+## Status and Action Context Guard
+
+Before archive work, consume structured SDD status from the parent prompt. If missing, produce the same fields using this lookup order: project override `.pi/gentle-ai/support/sdd-status-contract.md`, then globally installed `~/.pi/agent/gentle-ai/support/sdd-status-contract.md`, then the embedded status contract. Do not use `assets/support/...` as a runtime path; that is only the package source path before installation.
+
+Stop with `blocked` if:
+
+- active change selection is missing or ambiguous;
+- `actionContext.mode: workspace-planning` and no `allowedEditRoots` are provided;
+- archive paths, sync fallback writes, or move targets are outside the authoritative workspace or allowed edit roots.
+
+Archive does not own normal task completion. `sdd-apply` owns persisted task checkbox updates; `sdd-verify` and `sdd-archive` validate them.
+
 ## Archive Preconditions
 
 Before archiving, read:
@@ -39,10 +52,29 @@ Stop with `blocked` if:
 - the verification report is missing;
 - the verification report is not clearly passing, or contains unresolved `FAIL`, `BLOCKED`, `CRITICAL`, or verification blockers;
 - required artifacts are missing;
-- tasks are incomplete and no explicit archive exception is recorded;
+- tasks are incomplete and no explicit stale-checkbox reconciliation proof is recorded;
+- `tasks.md` or the memory tasks artifact contains unchecked implementation task markers matching `^\s*- \[ \]` and no explicit stale-checkbox reconciliation instruction names those exact unchecked tasks with proof from apply-progress and verify-report;
 - file-backed mode has no successful `sync-report.md` and the parent prompt does not explicitly approve archive-time sync fallback;
 - a legacy flat `openspec/changes/{change}/spec.md` is the only spec artifact in file-backed mode;
 - the merge would be destructive and the parent prompt does not include explicit confirmation.
+
+## Final Task Completion Gate
+
+Immediately before any archive-time sync fallback, archive report write, or folder move, re-read the persisted tasks artifact:
+
+- `openspec` / `both`: `openspec/changes/{change}/tasks.md`
+- `engram`: `sdd/{change}/tasks` observation when memory tools are explicitly available
+
+If any implementation task remains unchecked (`- [ ]`):
+
+1. STOP with status `blocked`.
+2. Do not perform archive-time sync fallback.
+3. Do not move the change to `openspec/changes/archive/`.
+4. Report the exact unchecked lines and state that `sdd-apply` must be rerun or corrected so it marks completed tasks in the persisted tasks artifact.
+
+Only perform a mechanical checkbox repair during archive when the parent prompt explicitly instructs stale-checkbox reconciliation and `apply-progress.md` plus `verify-report.md` prove every unchecked task is complete. If this exceptional repair is performed, record the exact reconciliation reason and lines changed in `archive-report.md`.
+
+CRITICAL verification issues always block archive and cannot be overridden. Explicit recorded exceptions are limited to non-critical partial archives or stale-checkbox reconciliation when apply-progress and verify-report prove completion. Missing proposal/spec/design artifacts require an explicit intentional partial-archive approval.
 
 ## Artifact Store Modes
 
@@ -53,7 +85,9 @@ Stop with `blocked` if:
 
 ## Archive-Time Sync Fallback
 
-Prefer `sdd-sync` before `sdd-archive`. If no successful `sync-report.md` exists, archive may perform the same file-backed sync only when the parent prompt explicitly approves archive-time sync fallback.
+Prefer `sdd-sync` before `sdd-archive`. File-backed archive requires a successful `sync-report.md`; archive may perform the same file-backed sync only when the parent prompt explicitly approves archive-time sync fallback.
+
+Do not start archive-time sync fallback until the Final Task Completion Gate passes.
 
 For each domain spec in:
 
@@ -129,6 +163,9 @@ Include:
 - domains synced;
 - ADDED/MODIFIED/REMOVED requirement names;
 - active same-domain change warnings;
+- unchecked implementation task lines or confirmation that no `- [ ]` implementation task boxes remain;
+- non-critical partial archive approval or stale-checkbox reconciliation details when present;
+- structured status and `actionContext` findings;
 - destructive merge approvals or blockers;
 - archived path;
 - memory observation IDs when using Engram or `both` / `hybrid` mode.
@@ -136,6 +173,7 @@ Include:
 ## Rules
 
 - Read verify report before archiving.
+- Re-read the persisted tasks artifact before any sync fallback or move; block on unchecked implementation tasks unless explicit stale-checkbox reconciliation is recorded and backed by apply-progress/verify-report proof.
 - Require file-backed specs to be synced before moving the change to archive; use archive-time sync fallback only with explicit parent approval.
 - Preserve audit trail; never delete active artifacts silently.
 - Apply `rules.archive` from `openspec/config.yaml` when present.

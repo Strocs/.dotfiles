@@ -1,7 +1,11 @@
 ---
 name: sdd-plan
-description: Plan an SDD change through proposal, spec, design, and tasks.
+description: Plan an SDD change through proposal, spec, design, and tasks; safe for auto mode or explicit all-planning approval.
 ---
+
+## Interactive mode guard
+
+This chain is a continuous planning pipeline. Use it only in auto mode or explicit all-planning approval. In interactive mode the parent/orchestrator must stop after sdd-proposal, present the proposal, and ask the user before continuing to sdd-spec, sdd-design, and sdd-tasks.
 
 ## sdd-init
 
@@ -18,7 +22,7 @@ output: proposal.md
 outputMode: file-only
 progress: true
 
-Create or update the OpenSpec proposal for {task}. Use prior exploration if it is available in the project artifacts.
+Create or update the OpenSpec proposal for {task}. Use prior exploration if it is available in the project artifacts. If this is an interactive SDD run and the parent has not already supplied proposal-shaping answers, surface the missing questions in the result so the parent can ask before treating the proposal as approved.
 
 ## sdd-spec
 

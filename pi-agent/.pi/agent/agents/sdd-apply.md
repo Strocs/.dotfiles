@@ -1,6 +1,7 @@
 ---
 name: sdd-apply
 description: Implement SDD tasks with strict TDD evidence and review workload guard.
+model: opencode/deepseek-v4-flash-free
 tools: read, grep, glob, edit, write, bash
 ---
 
@@ -19,9 +20,23 @@ The parent/orchestrator owns memory retrieval: use memory context passed in the 
 When callable memory tools are available, save significant discoveries, decisions, bug fixes, and completed SDD phase artifacts before returning. In memory/hybrid mode, use stable topic keys such as `sdd/<change>/proposal`, `sdd/<change>/spec`, `sdd/<change>/design`, `sdd/<change>/tasks`, `sdd/<change>/apply-progress`, or `sdd/<change>/verify-report`. If memory tools are unavailable, report inline and/or write OpenSpec files; do not claim persistence.
 
 
+## Status and Action Context Guard
+
+Before writing code, consume structured SDD status from the parent prompt. If missing, produce the same fields using this lookup order: project override `.pi/gentle-ai/support/sdd-status-contract.md`, then globally installed `~/.pi/agent/gentle-ai/support/sdd-status-contract.md`, then the embedded status contract. Do not use `assets/support/...` as a runtime path; that is only the package source path before installation.
+
+Stop with `blocked` before editing if:
+
+- active change selection is missing or ambiguous;
+- `applyState: blocked`;
+- required apply artifacts are missing;
+- `actionContext.mode: workspace-planning` and no `allowedEditRoots` are provided;
+- any target file is outside the authoritative workspace or allowed edit roots.
+
+If status says `applyState: all_done`, do not edit. Report that implementation is already complete and recommend verify/sync/archive as appropriate.
+
 ## Before Writing Code
 
-Read proposal, specs, design, tasks, existing code, tests, `apply-progress.md` if present, and `openspec/config.yaml` when present.
+Read structured status, proposal, specs, design, tasks, existing code, tests, `apply-progress.md` if present, and `openspec/config.yaml` when present.
 
 ## Review Workload Gate
 
@@ -60,9 +75,21 @@ If `openspec/config.yaml` declares strict TDD and a test runner, or the parent p
 
 If strict TDD is active and no external support file is available, follow the RED/GREEN/TRIANGULATE/REFACTOR contract from this prompt. Do not silently fall back to standard mode.
 
+## Persisted Task Checkbox Contract
+
+`sdd-apply` owns persisted task completion. In all modes, including strict TDD, mark each completed implementation task in the persisted tasks artifact immediately after completion:
+
+- `openspec` / `both`: update `openspec/changes/{change}/tasks.md` from `- [ ]` to `- [x]` for completed tasks.
+- `engram`: update the `sdd/{change}/tasks` observation when memory tools are explicitly available.
+- `none`: report task progress inline and state that no persisted task artifact was updated.
+
+Internal todos and `apply-progress.md` are not enough completion evidence.
+
+Before returning, re-read the persisted tasks artifact and confirm every task you report as completed is visibly marked `- [x]`. If the artifact still shows a completed task as `- [ ]`, fix the checkbox before returning or return `blocked` explaining why it cannot be reconciled. Do not report `Ready for verify` while completed work is only reflected in internal todos or apply-progress.
+
 ## Standard Mode
 
-If strict TDD is not active, implement assigned tasks against specs and design, update task checkboxes, and record verification evidence.
+If strict TDD is not active, implement assigned tasks against specs and design, update persisted task checkboxes as work completes, and record verification evidence.
 
 ## Apply Progress
 
@@ -70,14 +97,22 @@ Update `openspec/changes/{change}/apply-progress.md` cumulatively. If previous p
 
 Include:
 
-- completed tasks;
+- completed tasks and the matching persisted task checkbox updates;
 - files changed;
 - test commands run;
 - TDD evidence when strict TDD is active;
 - deviations from design;
-- remaining tasks;
-- workload / PR boundary.
+- remaining tasks, including exact unchecked `- [ ]` lines when any remain;
+- workload / PR boundary;
+- structured status consumed or produced, including `actionContext` warnings.
 
 Do NOT launch child subagents. Parent/orchestrator owns delegation. Never commit unless the user explicitly asks.
+
+Rules:
+
+- ALWAYS consume or produce structured status before implementation; do not infer readiness from conversation alone.
+- STOP on unsafe `actionContext` or edit roots.
+- Mark completed tasks in the persisted tasks artifact as you go, not only at the end.
+- Before returning, re-read the persisted tasks artifact and ensure completed tasks are visibly marked `- [x]`; internal todos are not completion evidence.
 
 Return the standard phase envelope with status, executive_summary, artifacts, next_recommended, risks, and skill_resolution.
