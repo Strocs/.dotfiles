@@ -2,28 +2,27 @@
   "compaction": {
     "enabled": true
   },
-  "defaultModel": "deepseek-v4-flash-free",
-  "defaultProvider": "opencode",
+  "defaultModel": "qwen3.7-plus",
+  "defaultProvider": "opencode-go",
   "defaultThinkingLevel": "high",
-  "lastChangelogVersion": "0.76.0",
+  "editorPaddingX": 0,
+  "lastChangelogVersion": "0.80.6",
   "packages": [
     "npm:gentle-pi",
     "npm:gentle-engram",
-    "npm:pi-subagents",
     "npm:pi-intercom",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-web-access",
     "npm:pi-lens",
     "npm:@juicesharp/rpiv-todo",
     "npm:pi-btw",
-    "npm:pi-mcp-adapter",
-    "npm:@upstash/context7-pi"
+    "npm:@upstash/context7-pi",
+    "npm:pi-mcp-adapter"
   ],
-  "theme": "dark",
+  "quietStartup": false,
   "terminal": {
     "clearOnShrink": false,
     "showTerminalProgress": true
   },
-  "editorPaddingX": 0,
-  "quietStartup": false
+  "theme": "dark"
 }

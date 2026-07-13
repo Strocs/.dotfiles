@@ -1,9 +1,9 @@
 {
   "sdd-init": {
-    "model": "opencode-go/minimax-m2.7"
+    "model": "opencode/deepseek-v4-flash-free"
   },
   "sdd-explore": {
-    "model": "opencode-go/deepseek-v4-pro"
+    "model": "opencode-go/qwen3.7-plus"
   },
   "sdd-spec": {
     "model": "opencode-go/deepseek-v4-pro"
@@ -15,18 +15,24 @@
     "model": "opencode/deepseek-v4-flash-free"
   },
   "sdd-design": {
-    "model": "opencode-go/kimi-k2.6"
+    "model": "opencode-go/qwen3.7-max"
   },
   "sdd-tasks": {
-    "model": "opencode-go/kimi-k2.6"
+    "model": "opencode/deepseek-v4-flash-free"
   },
   "sdd-apply": {
-    "model": "opencode-go/minimax-m2.7"
+    "model": "opencode/deepseek-v4-flash-free"
   },
   "sdd-sync": {
     "model": "opencode-go/deepseek-v4-pro"
   },
   "sdd-proposal": {
     "model": "opencode-go/deepseek-v4-pro"
+  },
+  "sdd-onboard": {
+    "model": "opencode-go/qwen3.7-plus"
+  },
+  "sdd-status": {
+    "model": "opencode/deepseek-v4-flash-free"
   }
 }
