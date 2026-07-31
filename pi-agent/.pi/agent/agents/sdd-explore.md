@@ -1,7 +1,8 @@
 ---
 name: sdd-explore
 description: Explore an SDD change idea before proposal.
-model: opencode-go/qwen3.7-plus
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, webfetch
 ---
 

@@ -1,7 +1,8 @@
 ---
 name: sdd-status
 description: Show read-only structured SDD status for an active change.
-model: opencode/deepseek-v4-flash-free
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools: read, grep, glob, bash
 ---
 

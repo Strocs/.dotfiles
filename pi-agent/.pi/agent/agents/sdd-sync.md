@@ -1,7 +1,7 @@
 ---
 name: sdd-sync
 description: Sync verified SDD delta specs into OpenSpec canonical specs without archiving the change.
-model: opencode-go/deepseek-v4-pro
+model: openai-codex/gpt-5.6-sol
 tools: read, grep, glob, write, edit, bash
 ---
 

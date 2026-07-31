@@ -1,0 +1,6 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "/home/strocs/.npm/_npx/c9e189b7f6775a3f/node_modules/opencode-codex-usage"
+  ]
+}

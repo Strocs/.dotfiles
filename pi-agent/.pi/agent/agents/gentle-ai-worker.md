@@ -1,6 +1,8 @@
 ---
 name: gentle-ai-worker
 description: Scoped package-owned implementation writer for bounded non-SDD work. Edits code, runs focused tests, and returns review-ready evidence without committing.
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools:
   - read
   - grep

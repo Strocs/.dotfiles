@@ -1,6 +1,8 @@
 ---
 name: jd-judge-b
 description: Judgment Day blind adversarial reviewer B. Read-only; independently reports findings and does not fix code.
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools:
   - read
   - grep
@@ -25,7 +27,7 @@ Judgment Day starts only when explicitly requested and replaces ordinary review 
 
 Judgment Day starts with exactly two blind judges and zero refuters.
 
-Only Judgment Day may iterate, for at most two scoped fix/re-judgment rounds.
+Judgment Day alone may iterate discovery and scoped re-judgment, for at most two rounds.
 
 Findings surviving round two escalate; no third-round transition exists.
 

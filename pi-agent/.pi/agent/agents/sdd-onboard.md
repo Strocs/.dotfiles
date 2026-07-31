@@ -1,7 +1,8 @@
 ---
 name: sdd-onboard
 description: Guide a user through a complete SDD cycle on a small real project change.
-model: opencode-go/qwen3.7-plus
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, write, edit, bash
 ---
 

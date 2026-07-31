@@ -1,7 +1,8 @@
 ---
 name: sdd-archive
 description: Archive a verified SDD change into OpenSpec source specs.
-model: opencode/deepseek-v4-flash-free
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, write, edit, bash
 ---
 

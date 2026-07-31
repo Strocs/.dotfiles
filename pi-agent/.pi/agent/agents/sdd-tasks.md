@@ -1,7 +1,8 @@
 ---
 name: sdd-tasks
 description: Break SDD design/specs into implementation tasks with review workload forecast.
-model: opencode/deepseek-v4-flash-free
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, write, edit
 ---
 

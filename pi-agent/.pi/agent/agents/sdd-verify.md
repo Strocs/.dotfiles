@@ -1,7 +1,8 @@
 ---
 name: sdd-verify
 description: Verify implementation against SDD specs, tasks, strict TDD evidence, and review workload boundaries.
-model: opencode-go/deepseek-v4-pro
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools: read, grep, glob, bash, write, edit
 ---
 

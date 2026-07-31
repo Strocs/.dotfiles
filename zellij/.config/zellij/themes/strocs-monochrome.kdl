@@ -13,7 +13,7 @@ themes {
         orange 255 150 108
 
         frame_unselected {
-            base 30 32 48
+            base 86 95 137
             background 30 32 48
             emphasis_0 30 32 48
             emphasis_1 30 32 48
@@ -21,7 +21,7 @@ themes {
             emphasis_3 30 32 48
         }
         frame_selected {
-            base 86 95 137
+            base 131 143 201
             background 30 32 48
             emphasis_0 53 57 86
             emphasis_1 65 72 104

@@ -1,7 +1,8 @@
 ---
 name: sdd-proposal
 description: Write an SDD proposal for an approved change idea.
-model: opencode-go/deepseek-v4-pro
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools: read, grep, glob, write, edit
 ---
 

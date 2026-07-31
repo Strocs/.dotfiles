@@ -1,7 +1,8 @@
 ---
 name: sdd-init
 description: Initialize project SDD context, testing capabilities, and skill registry.
-model: opencode/deepseek-v4-flash-free
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, write, bash
 ---
 

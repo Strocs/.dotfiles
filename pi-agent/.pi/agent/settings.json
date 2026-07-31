@@ -2,13 +2,13 @@
   "compaction": {
     "enabled": true
   },
-  "defaultModel": "deepseek-v4-flash-free",
-  "defaultProvider": "opencode",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "gpt-5.6-luna",
+  "defaultProvider": "openai-codex",
+  "defaultThinkingLevel": "low",
   "editorPaddingX": 0,
-  "lastChangelogVersion": "0.80.6",
+  "hideThinkingBlock": true,
+  "lastChangelogVersion": "0.80.10",
   "packages": [
-    "npm:gentle-pi",
     "npm:gentle-engram",
     "npm:pi-intercom",
     "npm:@juicesharp/rpiv-ask-user-question",
@@ -17,12 +17,14 @@
     "npm:@juicesharp/rpiv-todo",
     "npm:pi-btw",
     "npm:@upstash/context7-pi",
+    "npm:pi-subagents-j0k3r",
+    "npm:@narumitw/pi-codex-usage",
+    "npm:gentle-pi",
     "npm:pi-mcp-adapter"
   ],
   "quietStartup": false,
   "terminal": {
     "clearOnShrink": false,
     "showTerminalProgress": true
-  },
-  "theme": "dark"
+  }
 }

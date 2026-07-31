@@ -1,7 +1,8 @@
 ---
 name: sdd-apply
 description: Implement SDD tasks with strict TDD evidence and review workload guard.
-model: opencode/deepseek-v4-flash-free
+model: openai-codex/gpt-5.6-terra
+thinking: medium
 tools: read, grep, glob, edit, write, bash
 ---
 

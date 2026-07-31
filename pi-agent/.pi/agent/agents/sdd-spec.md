@@ -1,7 +1,8 @@
 ---
 name: sdd-spec
 description: Write SDD delta specs with requirements and scenarios.
-model: opencode-go/deepseek-v4-pro
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools: read, grep, glob, write, edit
 ---
 
