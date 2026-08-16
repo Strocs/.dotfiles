@@ -6,6 +6,11 @@ alias start="explorer.exe"
 alias fxnet="$HOME/.dotfiles/scripts/disable-lso-ipv4.sh" # Disable ipv4 of vEthernet for improve connections
 alias ocode="opencode . --port 4096 --hostname 0.0.0.0"
 
+# Gentle AI RC (temporal) — usa el binario RC de ~/go/bin; el main de brew sigue siendo el default
+alias gentle-rc='$HOME/go/bin/gentle-ai'
+alias ocrc='env PATH="$HOME/go/bin:$PATH" opencode'
+alias ocoderc='env PATH="$HOME/go/bin:$PATH" opencode . --port 4096 --hostname 0.0.0.0'
+
 # File editing
 alias tconf=$([ -z $IS_TERMUX ] && echo "nvim /mnt/c/Users/iganm/.wezterm.lua" || echo "nvim $HOME/.termux/termux.properties")
 alias nv="nvim"
