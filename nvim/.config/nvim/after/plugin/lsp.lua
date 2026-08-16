@@ -47,6 +47,11 @@ vim.lsp.config('lua_ls', {
 
 -- Astro LSP with on_attach to watch ts/js files
 vim.lsp.config('astro', {
+  -- New files are not always detected for auto-import until restart;
+  -- disabling the cache fixes that (#14642). Applies on server restart.
+  init_options = {
+    disableAutoImportCache = true,
+  },
   on_attach = function(client)
     vim.api.nvim_create_autocmd('BufWritePost', {
       pattern = { '*.js', '*.ts', '*.jsx', '*.tsx' },
