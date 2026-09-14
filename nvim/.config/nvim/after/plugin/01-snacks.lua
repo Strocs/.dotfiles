@@ -9,6 +9,29 @@ require('snacks').setup {
       },
     },
   },
+  image = {
+    -- WezTerm: limited Kitty graphics protocol support.
+    -- Inline rendering is NOT supported, so we use floating windows instead.
+    enabled = true,
+    doc = {
+      enabled = true,
+      inline = false,  -- WezTerm cannot render inline unicode placeholders
+      float = true,   -- render images in a floating window instead
+      max_width = 80,
+      max_height = 40,
+    },
+    wo = {
+      wrap = false,
+      number = false,
+      relativenumber = false,
+      cursorcolumn = false,
+      signcolumn = 'no',
+      foldcolumn = '0',
+      list = false,
+      spell = false,
+      statuscolumn = '',
+    },
+  },
 }
 
 -- Buscar archivos en el proyecto

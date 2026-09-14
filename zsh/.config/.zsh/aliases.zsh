@@ -2,17 +2,40 @@
 
 # General
 alias cls="clear"
-alias start="explorer.exe"
-alias fxnet="$HOME/.dotfiles/scripts/disable-lso-ipv4.sh" # Disable ipv4 of vEthernet for improve connections
 alias ocode="opencode . --port 4096 --hostname 0.0.0.0"
 
-# Gentle AI RC (temporal) — usa el binario RC de ~/go/bin; el main de brew sigue siendo el default
-alias gentle-rc='$HOME/go/bin/gentle-ai'
-alias ocrc='env PATH="$HOME/go/bin:$PATH" opencode'
-alias ocoderc='env PATH="$HOME/go/bin:$PATH" opencode . --port 4096 --hostname 0.0.0.0'
+# WSL-only aliases (not available in Termux)
+if [[ -z "$IS_TERMUX" ]]; then
+  alias start="explorer.exe"
+fi
+
+# Gentle AI switch — alterna main (brew) / RC (go install); aplica en la shell actual
+alias gentle-switch='source ~/.config/.zsh/gentle-switch.zsh'
+
+# FX Gateway Proxy (Eve pathway)
+unalias eve-proxy 2>/dev/null
+eve-proxy() {
+  local pid_file="${XDG_RUNTIME_DIR:-/tmp}/fx-gateway-proxy.pid"
+  local log_file="${XDG_RUNTIME_DIR:-/tmp}/fx-gateway-proxy.log"
+
+  if [[ -f "$pid_file" ]] && kill -0 "$(<"$pid_file")" 2>/dev/null; then
+    print "fx-gateway-proxy already running (PID $(<"$pid_file"))"
+    return 0
+  fi
+
+  nohup uvx --from git+https://github.com/Xeron2000/fx-gateway-proxy.git fx-gateway-proxy \
+    >| "$log_file" 2>&1 &
+  print $! >| "$pid_file"
+  print "fx-gateway-proxy started in background (PID $!)"
+  print "log: $log_file"
+}
 
 # File editing
-alias tconf=$([ -z $IS_TERMUX ] && echo "nvim /mnt/c/Users/iganm/.wezterm.lua" || echo "nvim $HOME/.termux/termux.properties")
+if [[ -n "$IS_TERMUX" ]]; then
+  alias tconf="nvim $HOME/.termux/termux.properties"
+else
+  alias tconf="nvim /mnt/c/Users/iganm/.wezterm.lua"
+fi
 alias nv="nvim"
 alias fzfnvim='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 
@@ -39,85 +62,93 @@ alias gcl="git clone"
 alias gm="git merge"
 alias gp="git push"
 
+# SSH — Desktop shortcut
+alias sshpc="ssh strocs@strocs"
 
-# Build GO App on windows
-gowin() {
-  local output="${@[-1]}"
-  local args="${@:1:-1}"
-  GOOS=windows GOARCH=amd64 go build $args -o "${output}.exe"
-}
 
-remote() {
-  sudo -v || return 1
+# Build GO App on windows (Desktop only)
+if [[ -z "$IS_TERMUX" ]]; then
+  gowin() {
+    local output="${@[-1]}"
+    local args="${@:1:-1}"
+    GOOS=windows GOARCH=amd64 go build $args -o "${output}.exe"
+  }
+fi
 
-  if systemctl is-active --quiet sshd; then
-    echo "sshd ya estaba activo"
-  else
-    sudo systemctl start sshd || return 1
-    echo "sshd iniciado"
-  fi
+# Remote access (Desktop only — requires systemctl + tailscale)
+if [[ -z "$IS_TERMUX" ]]; then
+  remote() {
+    sudo -v || return 1
 
-  if systemctl is-active --quiet tailscaled; then
-    echo "tailscaled ya estaba activo"
-  else
-    sudo systemctl start tailscaled || return 1
-    echo "tailscaled iniciado"
-  fi
-
-  local ip=""
-  local dns=""
-  local attempts=0
-
-  echo "Esperando conexión de Tailscale..."
-
-  while (( attempts < 15 )); do
-    ip=$(tailscale ip -4 2>/dev/null | head -n1)
-
-    if [[ -n "$ip" ]]; then
-      break
+    if systemctl is-active --quiet sshd; then
+      echo "sshd ya estaba activo"
+    else
+      sudo systemctl start sshd || return 1
+      echo "sshd iniciado"
     fi
 
-    sleep 1
-    (( attempts++ ))
-  done
+    if systemctl is-active --quiet tailscaled; then
+      echo "tailscaled ya estaba activo"
+    else
+      sudo systemctl start tailscaled || return 1
+      echo "tailscaled iniciado"
+    fi
 
-  if [[ -z "$ip" ]]; then
-    echo "Error: Tailscale no obtuvo una IP."
-    echo "Estado actual:"
-    tailscale status
-    return 1
-  fi
+    local ip=""
+    local dns=""
+    local attempts=0
 
-  # El segundo campo de la línea propia es el nombre MagicDNS corto.
-  dns=$(tailscale status --self 2>/dev/null | awk 'NR == 1 { print $2 }')
+    echo "Esperando conexión de Tailscale..."
 
-  echo
-  echo "Acceso remoto disponible:"
-  echo "  IP Tailscale: $ip"
-  echo "  MagicDNS:     $dns"
-  echo
-  echo "Conexiones SSH:"
-  echo "  ssh strocs@$ip"
+    while (( attempts < 15 )); do
+      ip=$(tailscale ip -4 2>/dev/null | head -n1)
 
-  if [[ -n "$dns" ]]; then
-    echo "  ssh strocs@$dns"
-  fi
-}
+      if [[ -n "$ip" ]]; then
+        break
+      fi
 
-remotedown() {
-  sudo -v || return 1
+      sleep 1
+      (( attempts++ ))
+    done
 
-  if systemctl is-active --quiet sshd; then
-    sudo systemctl stop sshd
-    echo "sshd detenido"
-  else
-    echo "sshd ya estaba detenido"
-  fi
+    if [[ -z "$ip" ]]; then
+      echo "Error: Tailscale no obtuvo una IP."
+      echo "Estado actual:"
+      tailscale status
+      return 1
+    fi
 
-  if systemctl is-active --quiet tailscaled; then
-    sudo systemctl stop tailscaled
-    echo "tailscaled detenido"
-  else
-    echo "tailscaled ya estaba detenido"
-  fi
-}
+    # El segundo campo de la línea propia es el nombre MagicDNS corto.
+    dns=$(tailscale status --self 2>/dev/null | awk 'NR == 1 { print $2 }')
+
+    echo
+    echo "Acceso remoto disponible:"
+    echo "  IP Tailscale: $ip"
+    echo "  MagicDNS:     $dns"
+    echo
+    echo "Conexiones SSH:"
+    echo "  ssh strocs@$ip"
+
+    if [[ -n "$dns" ]]; then
+      echo "  ssh strocs@$dns"
+    fi
+  }
+
+  remotedown() {
+    sudo -v || return 1
+
+    if systemctl is-active --quiet sshd; then
+      sudo systemctl stop sshd
+      echo "sshd detenido"
+    else
+      echo "sshd ya estaba detenido"
+    fi
+
+    if systemctl is-active --quiet tailscaled; then
+      sudo systemctl stop tailscaled
+      echo "tailscaled detenido"
+    else
+      echo "tailscaled ya estaba detenido"
+    fi
+  }
+fi

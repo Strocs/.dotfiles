@@ -28,26 +28,27 @@ if [ -z "$IS_TERMUX" ]; then
   export PKG_CONFIG_PATH="$PKG_CONFIG_PATH_BASE:$PKG_CONFIG_PATH"
 fi
 
-# bun completions
-[ -s "/home/strocs/.bun/_bun" ] && source "/home/strocs/.bun/_bun"
+# bun completions (Termux-aware)
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-
-
-# pnpm
-export PNPM_HOME="/home/strocs/.local/share/pnpm"
+# pnpm (Termux-aware)
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
-# pnpm end
 
 # Turso
-export PATH="$PATH:/home/strocs/.turso"
+export PATH="$PATH:$HOME/.turso"
 
 # opencode
-export PATH=/home/strocs/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
-# Brew
-if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+# Brew (Desktop only — not available in Termux)
+if [[ -z "$IS_TERMUX" ]] && [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+# Gentle AI switch — va después de brew para ganar precedencia
+export GENTLE_PATH="$HOME/.local/bin/gentle-ai/gentle-ai"
+export PATH="$GENTLE_PATH:$PATH"
