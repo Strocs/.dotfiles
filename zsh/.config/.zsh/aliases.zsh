@@ -1,6 +1,7 @@
 # User-defined aliases, grouped by purpose
 alias cls="clear"
 alias ocode="opencode . --port 4096 --hostname 0.0.0.0"
+alias dotinstall='bash "$HOME/.dotfiles/scripts/install.sh"'
 
 case "$PLATFORM" in
   termux) alias tconf="nvim $HOME/.termux/termux.properties" ;;
