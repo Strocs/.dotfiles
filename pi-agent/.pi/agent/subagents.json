@@ -1,131 +1,31 @@
 {
   "model_profiles": {
     "sdd-init": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
+      "model": "opencode-go/minimax-m2.7"
     },
     "sdd-explore": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
+      "model": "opencode-go/deepseek-v4-pro"
     },
     "sdd-proposal": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
+      "model": "opencode-go/deepseek-v4-pro"
     },
     "sdd-spec": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
+      "model": "opencode-go/deepseek-v4-pro"
     },
     "sdd-design": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
+      "model": "opencode-go/kimi-k2.6"
     },
     "sdd-tasks": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
+      "model": "opencode-go/kimi-k2.6"
     },
     "sdd-apply": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
+      "model": "opencode-go/minimax-m2.7"
     },
     "sdd-verify": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "sdd-sync": {
-      "model": "openai-codex/gpt-5.6-sol"
+      "model": "opencode-go/deepseek-v4-pro"
     },
     "sdd-archive": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
-    },
-    "sdd-onboard": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
-    },
-    "sdd-status": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "jd-judge-a": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "jd-judge-b": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "jd-fix-agent": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "context-builder": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "medium"
-    },
-    "delegate": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "medium"
-    },
-    "gentle-ai-explore": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
-    },
-    "gentle-ai-verify": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
-    },
-    "gentle-ai-worker": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "oracle": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "planner": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "researcher": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "high"
-    },
-    "review-readability": {
-      "model": "openai-codex/gpt-5.6-sol",
-      "effort": "low"
-    },
-    "review-refuter": {
-      "model": "openai-codex/gpt-5.6-sol",
-      "effort": "medium"
-    },
-    "review-reliability": {
-      "model": "openai-codex/gpt-5.6-sol",
-      "effort": "low"
-    },
-    "review-resilience": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "medium"
-    },
-    "review-risk": {
-      "model": "openai-codex/gpt-5.6-sol",
-      "effort": "medium"
-    },
-    "review-validator": {
-      "model": "openai-codex/gpt-5.6-sol",
-      "effort": "medium"
-    },
-    "reviewer": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
-    },
-    "scout": {
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "low"
-    },
-    "worker": {
-      "model": "openai-codex/gpt-5.6-terra",
-      "effort": "medium"
+      "model": "opencode/deepseek-v4-flash-free"
     }
   }
 }

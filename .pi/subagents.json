@@ -1,0 +1,7 @@
+{
+  "model_profiles": {
+    "sdd-sync": {
+      "model": "opencode-go/deepseek-v4-pro"
+    }
+  }
+}

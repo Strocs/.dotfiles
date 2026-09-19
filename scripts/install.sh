@@ -36,14 +36,15 @@ run() {
 detect_env() {
   if [[ -d "/data/data/com.termux" ]] && [[ -n "${PREFIX:-}" ]]; then
     ENV="termux"
-  elif grep -qi microsoft /proc/version 2>/dev/null; then
-    if command -v pacman &>/dev/null; then
-      ENV="wsl-arch"
-    else
-      ENV="wsl-ubuntu"
-    fi
+  elif [[ -r /etc/os-release ]]; then
+    . /etc/os-release
+    case "${ID:-}" in
+      ubuntu) ENV="ubuntu" ;;
+      arch) ENV="arch" ;;
+      *) fail "Distribución no soportada: ${ID:-unknown}" ;;
+    esac
   else
-    ENV="linux"
+    fail "No se pudo detectar una distribución soportada."
   fi
   info "Entorno detectado: ${ENV}"
 }
@@ -62,22 +63,21 @@ install_system_deps() {
         build-essential procps curl file git openssh \
         python3 xz-utils
       ;;
-    wsl-ubuntu)
+    ubuntu)
       run sudo apt-get update -y
       run sudo apt-get install -y \
         build-essential procps curl file git \
         xz-utils zip unzip \
-        ca-certificates gnupg lsb-release
+        ca-certificates gnupg lsb-release fd-find
       ;;
-    wsl-arch)
+    arch)
       run sudo pacman -Sy --noconfirm
       run sudo pacman -S --needed --noconfirm \
         base-devel procps curl file git \
-        xz zip unzip
+        xz zip unzip fd
       ;;
-    linux)
-      warn "Entorno Linux genérico — se omite instalación de paquetes del sistema."
-      ;;
+    *)
+      fail "Entorno no soportado: $ENV" ;;
   esac
   ok "Dependencias del sistema instaladas."
 }
@@ -116,7 +116,7 @@ install_brew() {
 install_core_tools() {
   header "Herramientas core"
 
-  # Estas SIEMPRE se instalan (zellij es el multiplexor default)
+  # Estas herramientas se instalan en todos los entornos soportados.
   CORE_PACKAGES=(
     stow
     zoxide
@@ -127,7 +127,6 @@ install_core_tools() {
     ripgrep
     fd
     carapace
-    zellij
     gh
   )
 
@@ -143,7 +142,7 @@ install_core_tools() {
   else
     case "$ENV" in
       termux)
-        for pkg in stow neovim fzf ripgrep fd-find lazygit zoxide atuin zellij gh; do
+        for pkg in stow neovim fzf ripgrep fd lazygit zoxide atuin gh carapace pnpm; do
           if command -v "$pkg" &>/dev/null || dpkg -l "$pkg" &>/dev/null 2>&1; then
             ok "  $pkg ya instalado"
           else
@@ -151,10 +150,6 @@ install_core_tools() {
             run pkg install -y "$pkg" || warn "  $pkg no disponible en pkg — instalar manualmente"
           fi
         done
-        if ! command -v carapace &>/dev/null; then
-          info "  Instalando carapace desde GitHub releases..."
-          run bash -c 'curl -fsSL https://carapace.dev/install.sh | bash'
-        fi
         ;;
       *)
         for pkg in "${CORE_PACKAGES[@]}"; do
@@ -178,8 +173,8 @@ install_zsh() {
     else
       case "$ENV" in
         termux) run pkg install -y zsh ;;
-        wsl-ubuntu) run sudo apt-get install -y zsh ;;
-        wsl-arch) run sudo pacman -S --needed --noconfirm zsh ;;
+        ubuntu) run sudo apt-get install -y zsh ;;
+        arch) run sudo pacman -S --needed --noconfirm zsh ;;
       esac
     fi
   fi
@@ -231,7 +226,8 @@ install_ohmyzsh() {
 install_zsh_plugins() {
   header "Plugins ZSH"
 
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
+  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  ZSH_PLUGIN_DIR="$ZSH_CUSTOM/plugins"
 
   declare -A ZSH_PLUGINS=(
     [zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions"
@@ -240,7 +236,7 @@ install_zsh_plugins() {
   )
 
   for name in "${!ZSH_PLUGINS[@]}"; do
-    dest="$ZSH_CUSTOM/$name"
+    dest="$ZSH_PLUGIN_DIR/$name"
     if [[ -d "$dest" ]]; then
       ok "  $name ya instalado"
     else
@@ -294,7 +290,7 @@ install_tmux() {
   header "Tmux (opcional)"
 
   if ! command -v tmux &>/dev/null; then
-    ok "Tmux no instalado — zellij es el multiplexor por defecto."
+    ok "Tmux no instalado."
     return
   fi
 
@@ -336,7 +332,7 @@ install_languages() {
     fi
 
     # Gentle AI (vía brew tap — no disponible en Termux)
-    if ! is_termux; then
+    if [[ "$ENV" == ubuntu || "$ENV" == arch ]]; then
       if ! command -v gentle-ai &>/dev/null; then
         info "Instalando gentle-ai..."
         run brew install gentleman-programming/tap/gentle-ai
@@ -344,10 +340,22 @@ install_languages() {
         ok "gentle-ai ya instalado"
       fi
     fi
+  elif is_termux; then
+    for pkg in nodejs; do
+      if ! command -v "$pkg" &>/dev/null; then
+        info "Instalando $pkg via pkg..."
+        run pkg install -y "$pkg"
+      else
+        ok "$pkg ya instalado"
+      fi
+    done
+    if ! command -v pi &>/dev/null; then
+      run pnpm install -g @earendil-works/pi-coding-agent
+    fi
   else
-    warn "Homebrew no disponible — instalar manualmente."
+    warn "Gestor de paquetes no disponible — instalar manualmente."
     echo "  Go:    https://go.dev/dl/"
-    echo "  Node:  pkg install nodejs"
+    echo "  Node:  instalar mediante el gestor de paquetes de la distribución"
     echo "  Bun:   curl -fsSL https://bun.sh/install | bash"
     echo "  pnpm:  npm install -g pnpm"
     echo "  pi:    pnpm install -g @earendil-works/pi-coding-agent"
@@ -362,17 +370,32 @@ apply_dotfiles() {
 
   DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-  # Paquetes base — siempre se aplican
-  STOW_PACKAGES=(zsh git nvim zellij npm)
+  # Paquetes base — zellij solo se aplica fuera de Termux
+  STOW_PACKAGES=(zsh git nvim npm)
+  if ! is_termux; then
+    STOW_PACKAGES+=(zellij)
+  fi
 
   # tmux solo si está instalado
   if command -v tmux &>/dev/null; then
     STOW_PACKAGES+=(tmux)
   fi
 
-  # wezterm solo en WSL
+  # wezterm solo fuera de Termux
   if ! is_termux; then
     STOW_PACKAGES+=(wezterm)
+  fi
+
+  # Symlink agent configurations only when the corresponding agent is installed.
+  # Pi is installed by this script in every supported environment.
+  if command -v pi &>/dev/null; then
+    STOW_PACKAGES+=(pi-agent)
+  fi
+  if command -v opencode &>/dev/null && [[ -d "$DOTFILES_DIR/opencode" ]]; then
+    STOW_PACKAGES+=(opencode)
+  fi
+  if command -v gemini &>/dev/null && [[ -d "$DOTFILES_DIR/gemini" ]]; then
+    STOW_PACKAGES+=(gemini)
   fi
 
   for pkg in "${STOW_PACKAGES[@]}"; do
@@ -394,32 +417,63 @@ setup_ssh_config() {
 
   SSH_DIR="$HOME/.ssh"
   SSH_CONFIG="$SSH_DIR/config"
+  local target_host expected_host host_value user_value port_value
 
   run mkdir -p "$SSH_DIR"
   run chmod 700 "$SSH_DIR"
 
-  if [[ -f "$SSH_CONFIG" ]] && grep -q "Host strocs" "$SSH_CONFIG" 2>/dev/null; then
-    ok "Entrada SSH para 'strocs' ya existe."
+  if is_termux; then
+    target_host="desktop"
+    expected_host="desktop"
+    host_value="${SSH_DESKTOP_HOST:-}"
+  else
+    target_host="strocs"
+    expected_host="strocs"
+    host_value="${SSH_TERMUX_HOST:-}"
+  fi
+
+  # Do not invent addresses or overwrite an existing personal config.
+  if [[ -f "$SSH_CONFIG" ]] && grep -qE "^[[:space:]]*Host[[:space:]]+$expected_host([[:space:]]|$)" "$SSH_CONFIG"; then
+    user_value=$(awk -v h="$expected_host" '
+      $1 == "Host" { active=($2 == h) }
+      active && $1 == "User" { print $2; exit }
+    ' "$SSH_CONFIG")
+    port_value=$(awk -v h="$expected_host" '
+      $1 == "Host" { active=($2 == h) }
+      active && $1 == "Port" { print $2; exit }
+    ' "$SSH_CONFIG")
+    if [[ -n "$user_value" && ( -z "$port_value" || "$port_value" == 22 ) ]]; then
+      ok "Entrada SSH para '$target_host' ya existe y parece válida."
+    else
+      warn "Entrada SSH '$target_host' existe, pero requiere revisión (User/Port)."
+    fi
     return
   fi
 
-  ENTRY=$(cat <<'SSHENTRY'
-
-Host strocs
-  HostName strocs
-  User strocs
-  StrictHostKeyChecking accept-new
-SSHENTRY
-)
-
-  if ! $DRY_RUN; then
-    echo "$ENTRY" >> "$SSH_CONFIG"
-    chmod 600 "$SSH_CONFIG"
-  else
-    echo -e "  ${YELLOW}[dry-run]${NC} Agregar entrada SSH a $SSH_CONFIG"
+  if [[ -z "$host_value" ]]; then
+    warn "No existe 'Host $target_host'. No se agregará una dirección automáticamente."
+    if is_termux; then
+      warn "Definir SSH_DESKTOP_HOST antes de ejecutar para crearla."
+    else
+      warn "Definir SSH_TERMUX_HOST antes de ejecutar para crearla."
+    fi
+    return
   fi
 
-  ok "SSH config actualizado."
+  local entry="
+Host $target_host
+  HostName $host_value
+  User strocs
+  Port 22
+  StrictHostKeyChecking accept-new
+"
+  if ! $DRY_RUN; then
+    printf '%s\n' "$entry" >> "$SSH_CONFIG"
+    chmod 600 "$SSH_CONFIG"
+  else
+    echo -e "  ${YELLOW}[dry-run]${NC} Agregar entrada SSH '$target_host' a $SSH_CONFIG"
+  fi
+  ok "SSH config actualizado para '$target_host'."
 }
 
 # ─── 12. GitHub CLI auth ───────────────────────────────────────────────
@@ -477,10 +531,19 @@ setup_termux_storage() {
 verify_installation() {
   header "Verificación"
 
+  if $DRY_RUN; then
+    warn "Verificación omitida en --dry-run; no se instalaron paquetes realmente."
+    return 0
+  fi
+
   local errors=0
 
-  # Verificar herramientas core
-  for cmd in zsh git stow nvim zellij zoxide atuin lazygit fzf rg fd gh pnpm pi gentle-ai; do
+  # Verificar herramientas core (zellij no forma parte de Termux)
+  local core_commands=(zsh git stow nvim zoxide atuin lazygit fzf rg gh pnpm pi)
+  if ! is_termux; then
+    core_commands+=(zellij)
+  fi
+  for cmd in "${core_commands[@]}"; do
     if command -v "$cmd" &>/dev/null; then
       ok "  $cmd"
     else
@@ -488,6 +551,14 @@ verify_installation() {
       ((errors++))
     fi
   done
+
+  # fd se llama fdfind en Ubuntu/Debian y fd en Termux/Arch/Brew.
+  if command -v fd &>/dev/null || command -v fdfind &>/dev/null; then
+    ok "  fd"
+  else
+    warn "  fd NO encontrado"
+    ((errors++))
+  fi
 
   # Verificar Oh My Zsh
   if [[ -d "$HOME/.oh-my-zsh" ]]; then
@@ -498,9 +569,9 @@ verify_installation() {
   fi
 
   # Verificar plugins ZSH
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
+  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
-    if [[ -d "$ZSH_CUSTOM/$plugin" ]]; then
+    if [[ -d "$ZSH_CUSTOM/plugins/$plugin" ]]; then
       ok "  $plugin"
     else
       warn "  $plugin NO encontrado"
@@ -532,7 +603,11 @@ summary() {
   echo -e "${GREEN}  Instalación completada para: ${ENV}${NC}"
   echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
   echo ""
-  echo -e "  ${BOLD}Multiplexor: zellij${NC} (wm.zsh → WM_CMD=\"zellij\")"
+  if is_termux; then
+    echo -e "  ${BOLD}Multiplexor: ninguno${NC} (Termux; WM_CMD=\"none\")"
+  else
+    echo -e "  ${BOLD}Multiplexor: zellij${NC} (wm.zsh → WM_CMD=\"zellij\")"
+  fi
   echo ""
   echo -e "  ${BOLD}Siguientes pasos manuales:${NC}"
   echo ""

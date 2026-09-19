@@ -1,235 +1,149 @@
 # .Strocs
 
-Dotfiles personales para **WSL** (Ubuntu/Arch) y **Termux** (Android). Un solo repositorio, detección automática del entorno.
+Dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/), designed to run on **Termux** and **Ubuntu/Arch Linux** (native or WSL) from a single repo.
 
-## Estructura
+## Platform model
 
-```
-.dotfiles/
-├── nvim/          # Neovim config (pack manager nativo)
-├── zsh/           # ZSH config (Oh My Zsh + plugins)
-├── tmux/          # Tmux config + TPM
-├── git/           # Git global config
-├── lazygit/       # Lazygit config
-├── wezterm/       # WezTerm config (solo WSL)
-├── zellij/        # Zellij config
-├── scripts/       # Scripts de instalación y utilidades
-└── atuin/         # Atuin config
-```
+All platform detection lives in **one file**: `zsh/.config/.zsh/platform.zsh`, loaded first from `.zshrc`. Everything else just consumes its variables.
 
-## Instalación rápida
+| Variable | Values | Description |
+|---|---|---|
+| `PLATFORM` | `termux` / `ubuntu` / `arch` | Detected platform |
+| `IS_TERMUX` | `true` / `false` | Exported so child processes (tmux, scripts) can read it |
+| `IS_WSL` | `true` / `false` | WSL (Windows Subsystem for Linux) |
+| `IS_DESKTOP` | `true` / `false` | Anything that is not Termux |
+| `WM_CMD` | `zellij` / `tmux` / `none` | Multiplexer to launch when the terminal opens |
+| `WM_CMD_IS_DEFAULT` | `true` / `false` | Whether `WM_CMD` was auto-picked or you forced it |
+
+Per-platform defaults:
+
+- **Termux:** `WM_CMD=none` (no multiplexer)
+- **Desktop:** `WM_CMD=zellij`
+
+To force another option, export it before zsh starts (e.g. in `~/.zshenv`):
 
 ```bash
-git clone https://github.com/strocs/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-bash scripts/install.sh
+export WM_CMD=tmux
 ```
 
-El script detecta automáticamente tu entorno e instala todo lo necesario:
+## Pre-install
 
-| Entorno | Detecta por | Gestor de paquetes |
-|---------|-------------|-------------------|
-| Termux | `/data/data/com.termux` | `pkg` (brew no soportado oficialmente) |
-| WSL Ubuntu | `microsoft` en `/proc/version` + `apt` | `brew` (primario) + `apt` (fallback) |
-| WSL Arch | `microsoft` en `/proc/version` + `pacman` | `brew` (primario) + `pacman` (fallback) |
+**Ubuntu/Arch:**
 
-Opciones:
-- `--dry-run` — muestra qué haría sin ejecutar nada
-
-## Instalación manual
-
-Si prefieres instalar paso a paso:
-
-### 1. Pre-requisitos del sistema
-
-**Ubuntu/Debian (WSL):**
 ```bash
-sudo apt-get install build-essential procps curl file git xz-utils zip unzip
-```
-
-**Arch (WSL):**
-```bash
-sudo pacman -S --needed base-devel procps curl file git xz zip unzip
+sudo apt-get install build-essential procps curl file git stow
 ```
 
 **Termux:**
+
 ```bash
-pkg install build-essential procps curl file git openssh
+pkg install build-essential procps curl file git stow
 ```
 
-### 2. Homebrew (WSL solamente)
+## Install the repo
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+git clone <your-remote> ~/.dotfiles
+cd ~/.dotfiles
+stow -t ~ zsh git tmux atuin carapace lazygit nvim zellij
 ```
 
-> Homebrew **no** se usa en Termux — los paquetes se instalan directo con `pkg`.
+> Not stow-managed (ignored in `.stow-local-ignore`): `.termux/`, `wezterm/`, `scripts/` — platform-specific files you may want to link by hand instead.
 
-### 3. Herramientas core
+## Shell: ZSH
 
-**Con brew (WSL):**
-```bash
-brew install stow zoxide atuin lazygit neovim fzf ripgrep fd carapace tmux zellij
-```
-
-**Con pkg (Termux):**
-```bash
-pkg install stow neovim fzf ripgrep fd-find lazygit zoxide atuin tmux zellij
-# carapace: instalar desde https://carapace.dev
-```
-
-### 4. ZSH
+**Desktop:**
 
 ```bash
-# Instalar zsh
-brew install zsh        # WSL
-pkg install zsh         # Termux
-
-# Cambiar shell por defecto
+brew install zsh
 command -v zsh | sudo tee -a /etc/shells
-chsh -s $(which zsh)
+chsh -s "$(command -v zsh)"
+```
 
-# Oh My Zsh
+**Termux:**
+
+```bash
+pkg install zsh
+chsh -s "$(command -v zsh)"
+```
+
+### Oh-my-zsh
+
+```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Plugins
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
-git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/zsh-autosuggestions"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/zsh-syntax-highlighting"
-git clone https://github.com/matheusml/zsh-ai "$ZSH_CUSTOM/zsh-ai"
 ```
 
-### 5. Tmux (opcional)
-
-Tmux se instala como alternativa a zellij (default). Si lo usas:
+The installer backs up your `.zshrc` to `.zshrc.pre-oh-my-zsh`; restore the symlink to your config afterwards:
 
 ```bash
-# TPM se instala automáticamente en el script
-# Dentro de tmux: C-Space + I para instalar plugins
+rm ~/.zshrc && ln -s .dotfiles/zsh/.zshrc ~/.zshrc
 ```
 
-Para cambiar a tmux, edita `~/.config/.zsh/wm.zsh`:
-```bash
-WM_CMD="tmux"
-```
-
-### 6. Aplicar dotfiles
+### Zsh plugins
 
 ```bash
-cd ~/.dotfiles
-stow -t ~ zsh git tmux nvim zellij   # Paquetes base
-stow -t ~ wezterm                    # Solo en WSL
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/matheusml/zsh-ai ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-ai
 ```
 
-### 7. Herramientas de lenguaje (opcional)
+### Secrets
+
+Copy the template and fill in your keys (`zsh-ai` and other tools read them from there):
 
 ```bash
-brew install go node oven-sh/bun/bun   # WSL
+cp .dotfiles/zsh/.config/.zsh/.zsh_secrets.example ~/.config/.zsh/.zsh_secrets
 ```
 
-## Entornos soportados
+Choose the `zsh-ai` provider in `zsh/.config/.zsh/plugins.zsh`: `ZSH_AI_PROVIDER="gemini"` (default) or `"ollama"` (local models).
 
-### WSL (Ubuntu / Arch)
+## Terminal multiplexer
 
-- **Shell**: ZSH con Oh My Zsh
-- **Terminal**: WezTerm
-- **Multiplexor**: Zellij (default, configurable en `wm.zsh`)
-- **Editor**: Neovim
-- **Alias relevantes**:
-  - `sshpc` — SSH a la máquina principal (`ssh strocs@strocs`)
-  - `ocode` — Iniciar opencode server
-  - `lg` — Lazygit
-  - `tconf` — Editar config de WezTerm
+The multiplexer is decided by `WM_CMD` (see the platform model).
 
-### Termux (Android)
-
-- **Shell**: ZSH con Oh My Zsh
-- **Multiplexor**: Zellij (default, configurable en `wm.zsh`)
-- **Editor**: Neovim
-- **Storage**: Ejecutar `termux-setup-storage` para acceder a archivos del dispositivo
-- **Alias relevantes**:
-  - `sshpc` — SSH a la máquina principal
-  - `tconf` — Editar `termux.properties`
-  - `ov` — Navegar al vault de Obsidian
-
-### Detección de entorno
-
-El archivo `paths.zsh` detecta automáticamente Termux:
-```bash
-if [ -d "/data/data/com.termux" ] && [ -n "$PREFIX" ]; then
-   export IS_TERMUX=true
-fi
-```
-
-Las funciones y aliases que dependen del entorno (WSL-only, systemctl, etc.) están protegidos con guards `[[ -z "$IS_TERMUX" ]]`.
-
-## Archivos importantes
-
-| Archivo | Propósito |
-|---------|-----------|
-| `zsh/.zshrc` | Entry point de ZSH — carga los archivos en orden |
-| `zsh/.config/.zsh/paths.zsh` | Variables de entorno y PATH (Termux-aware) |
-| `zsh/.config/.zsh/general.zsh` | Tema, editor, XDG_RUNTIME_DIR |
-| `zsh/.config/.zsh/plugins.zsh` | Config de Oh My Zsh, zoxide, atuin, carapace |
-| `zsh/.config/.zsh/aliases.zsh` | Todos los aliases (WSL/Termux separados) |
-| `zsh/.config/.zsh/wm.zsh` | Auto-start de zellij/tmux |
-| `nvim/.config/nvim/lua/config/plugins.lua` | Declaración centralizada de plugins |
-| `npm/.npmrc` | Seguridad npm (`ignore-scripts=true`) |
-| `scripts/install.sh` | Instalador automático |
-
-## SSH a desktop
-
-El alias `sshpc` conecta directamente a la máquina principal:
+- **Zellij** (desktop default) — config in `zellij/`
+- **tmux** — config in `tmux/`, with TPM:
 
 ```bash
-sshpc            # equivale a: ssh strocs@strocs
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# then C-Space + I inside tmux
 ```
 
-Asegúrate de que la máquina principal tenga SSH habilitado y el hostname `strocs` resuelva correctamente (via `/etc/hosts`, mDNS, o Tailscale).
+## Tools
 
-## Post-instalación
-
-Después de ejecutar `scripts/install.sh`, hay pasos manuales que requieren tu intervención:
-
-### GitHub CLI
+**Desktop:**
 
 ```bash
-gh auth login
-# Seleccionar: GitHub.com > HTTPS > Login with a web browser
+brew install stow carapace zoxide atuin lazygit neovim fzf ripgrep fd
 ```
 
-O autenticación no interactiva:
-```bash
-echo "tu-token-aqui" | gh auth login --with-token
-```
-
-Permisos recomendados del token: `repo`, `read:org`, `gist`
-
-### Termux (solo Android)
+**Termux:**
 
 ```bash
-termux-setup-storage
-# Otorga acceso a: documents, downloads, pictures, music, movies
+pkg install stow carapace zoxide atuin neovim fzf ripgrep fd
 ```
 
-### Tmux (solo si lo usas)
+- Carapace (autocompletion)
+- Zoxide (smart cd)
+- Atuin (shell history)
 
-Dentro de tmux:
-```
-C-Space + I    # Instalar plugins via TPM
-```
+Integrations (`zoxide init`, `atuin init`, carapace hook) activate automatically from `plugins.zsh`.
 
-### Zellij (default)
+## Languages
 
-Zellij se inicia automáticamente al abrir la terminal (via `wm.zsh`). No necesita pasos adicionales.
+#### Go
 
-Plugins incluidos: `zjstatus`, `vim-zellij-navigator`, `tab-names` hook.
+`brew install go` *(desktop)* / `pkg install golang` *(Termux)*
 
-## Actualizar
+#### JavaScript / TypeScript
 
-```bash
-cd ~/.dotfiles
-git pull
-stow -t ~ -R zsh git tmux nvim zellij npm   # Re-stow para aplicar cambios
-```
+`brew install node@22 oven-sh/bun/bun`
+
+#### Java
+
+`brew install gradle`
+
+## Platform notes
+
+- `OBSIDIAN_VAULT_PATH` points to `/mnt/d/documents/StrocsVault/` on desktop and `~/storage/documents/obsidian-vault` on Termux (defined in `paths.zsh`).
+- On WSL you also get the aliases `start` (explorer.exe) and `fxnet`; on Termux, `tconf` edits `termux.properties`.

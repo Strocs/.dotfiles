@@ -1,7 +1,12 @@
-# Window manager configuration
+# Window manager configuration.
+# WM_CMD is chosen per platform in platform.zsh:
+#   zellij (desktop default), tmux, or none (Termux default).
+# Override from the environment, e.g. WM_CMD=tmux zsh
 
-# Configurable window manager settings
-WM_CMD="zellij"          # Options: "tmux" or "zellij"
+# Skip window manager entirely if disabled
+if [[ "$WM_CMD" == "none" ]]; then
+  return 0
+fi
 
 # Function to start the window manager if conditions are met
 start_if_needed() {
@@ -14,14 +19,15 @@ start_if_needed() {
       WM_VAR="/$ZELLIJ"
       ;;
     *)
-      echo "Unknown WM_CMD: $WM_CMD. Supported: tmux, zellij" >&2
+      echo "Unknown WM_CMD: $WM_CMD. Supported: tmux, zellij, none" >&2
       return 1
       ;;
   esac
 
   # Check if WM_CMD is installed
   if ! command -v "$WM_CMD" >/dev/null 2>&1; then
-    echo "$WM_CMD not installed" >&2
+    # Only warn when the user explicitly requested a window manager
+    [[ "$WM_CMD_IS_DEFAULT" != "true" ]] && echo "$WM_CMD not installed" >&2
     return 1
   fi
 

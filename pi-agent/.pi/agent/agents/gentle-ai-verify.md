@@ -1,8 +1,6 @@
 ---
 name: gentle-ai-verify
 description: Read-only technical verification for generic non-SDD work.
-model: openai-codex/gpt-5.6-luna
-thinking: low
 tools:
   - read
   - grep
