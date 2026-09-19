@@ -45,10 +45,28 @@ pkg install build-essential procps curl file git stow
 ```bash
 git clone <your-remote> ~/.dotfiles
 cd ~/.dotfiles
-stow -t ~ zsh git tmux atuin carapace lazygit nvim zellij
+stow -t ~ zsh nvim npm atuin lazygit zellij tmux
 ```
 
-> Not stow-managed (ignored in `.stow-local-ignore`): `.termux/`, `wezterm/`, `scripts/` — platform-specific files you may want to link by hand instead.
+Git identity is configured in place by `scripts/install.sh`; the `git/` directory is not Stow-managed. Carapace remains a core installed tool, but it has no Stow package.
+
+Package ownership is conditional:
+
+- On Ubuntu and Arch, the installer checks each real executable first, then uses Homebrew for missing core, user-facing, and language tools. The distro package manager is limited to system prerequisites needed before Homebrew is available.
+- On Termux, packages continue to come from `pkg`; executable checks account for package/command differences such as `nodejs` providing `node`.
+- `wezterm` and `zellij` are desktop-only Stow packages.
+- `tmux` is stowed only when tmux is installed.
+- Agent configuration (`pi-agent`, `opencode`, and `gemini`) is stowed only when the matching executable exists. The installer does not restore dependencies inside agent directories; each agent owns its dependency lifecycle.
+- `npm` is always stowed.
+- `.termux/` and `scripts/` are not Stow-managed.
+
+### Existing configuration migration
+
+When `scripts/install.sh` first brings existing declarative configuration under Stow, it uses `stow --adopt` only for `npm`, `pi-agent`, and `opencode`, then restows each migrated package so the corresponding files in `HOME` become managed symlinks. Other packages use ordinary Stow and are never adopted automatically.
+
+Adoption can update the repository copy with the pre-existing `HOME` content. Review the resulting Git diff before keeping or reverting those migrated values. Package-local `.stow-local-ignore` rules exclude sensitive data, runtime state, and installed dependencies from adoption; those files remain local and must not be added to the dotfiles repository.
+
+`bash scripts/install.sh --dry-run` prints package installation, adoption, and restow commands without changing files or contacting the network.
 
 ## Shell: ZSH
 

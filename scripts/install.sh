@@ -71,10 +71,9 @@ install_system_deps() {
         ca-certificates gnupg lsb-release fd-find
       ;;
     arch)
-      run sudo pacman -Sy --noconfirm
-      run sudo pacman -S --needed --noconfirm \
-        base-devel procps curl file git \
-        xz zip unzip fd
+      run sudo pacman -Syu --needed --noconfirm \
+        base-devel procps-ng curl file git \
+        xz zip unzip ca-certificates
       ;;
     *)
       fail "Entorno no soportado: $ENV" ;;
@@ -100,7 +99,13 @@ install_brew() {
   fi
 
   info "Instalando Homebrew..."
-  run /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if $DRY_RUN; then
+    echo -e "  ${YELLOW}[dry-run]${NC} descargar y ejecutar el instalador oficial de Homebrew"
+    # Continue through the Homebrew branches so dry-run shows the full plan.
+    BREW_AVAILABLE=true
+    return
+  fi
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   if [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -131,9 +136,15 @@ install_core_tools() {
   )
 
   if is_brew; then
-    for pkg in "${CORE_PACKAGES[@]}"; do
-      if brew list "$pkg" &>/dev/null; then
-        ok "  $pkg ya instalado"
+    local pair pkg cmd
+    for pair in \
+      "stow:stow" "zoxide:zoxide" "atuin:atuin" "lazygit:lazygit" \
+      "neovim:nvim" "fzf:fzf" "ripgrep:rg" "fd:fd" \
+      "carapace:carapace" "gh:gh"; do
+      pkg="${pair%%:*}"
+      cmd="${pair##*:}"
+      if command -v "$cmd" &>/dev/null; then
+        ok "  $pkg ya instalado ($cmd)"
       else
         info "  Instalando $pkg..."
         run brew install "$pkg"
@@ -142,9 +153,15 @@ install_core_tools() {
   else
     case "$ENV" in
       termux)
-        for pkg in stow neovim fzf ripgrep fd lazygit zoxide atuin gh carapace pnpm; do
-          if command -v "$pkg" &>/dev/null || dpkg -l "$pkg" &>/dev/null 2>&1; then
-            ok "  $pkg ya instalado"
+        local pair pkg cmd
+        for pair in \
+          "stow:stow" "neovim:nvim" "fzf:fzf" "ripgrep:rg" "fd:fd" \
+          "lazygit:lazygit" "zoxide:zoxide" "atuin:atuin" "gh:gh" \
+          "carapace:carapace" "pnpm:pnpm"; do
+          pkg="${pair%%:*}"
+          cmd="${pair##*:}"
+          if command -v "$cmd" &>/dev/null; then
+            ok "  $pkg ya instalado ($cmd)"
           else
             info "  Instalando $pkg via pkg..."
             run pkg install -y "$pkg" || warn "  $pkg no disponible en pkg — instalar manualmente"
@@ -197,7 +214,13 @@ install_zsh() {
   fi
 
   if [[ "$(basename "${SHELL:-}")" != "zsh" ]]; then
-    ZSH_PATH="$(command -v zsh)"
+    ZSH_PATH="$(command -v zsh || true)"
+    if [[ -z "$ZSH_PATH" ]]; then
+      case "$ENV" in
+        ubuntu|arch) ZSH_PATH="/usr/bin/zsh" ;;
+        *) ZSH_PATH="zsh" ;;
+      esac
+    fi
     if ! grep -qx "$ZSH_PATH" /etc/shells 2>/dev/null; then
       echo "$ZSH_PATH" | run sudo tee -a /etc/shells >/dev/null
     fi
@@ -218,7 +241,11 @@ install_ohmyzsh() {
   fi
 
   info "Instalando..."
-  run sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  if $DRY_RUN; then
+    echo -e "  ${YELLOW}[dry-run]${NC} descargar y ejecutar el instalador oficial de Oh My Zsh --unattended"
+  else
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  fi
   ok "Oh My Zsh instalado."
 }
 
@@ -252,37 +279,18 @@ install_zsh_plugins() {
 setup_git() {
   header "Git config"
 
-  GITCONFIG="$HOME/.gitconfig"
+  local git_name="Ignacio Molina Palominos"
+  local git_email="strocsdev@gmail.com"
 
-  # Solo agregar si no existe configuración de usuario
-  if [[ -f "$GITCONFIG" ]] && grep -q "name = " "$GITCONFIG" 2>/dev/null; then
-    ok "Git ya configurado."
-    return
+  info "Normalizando la identidad global de Git sin alterar otras opciones..."
+  if $DRY_RUN; then
+    echo -e "  ${YELLOW}[dry-run]${NC} git config --global --replace-all user.name '$git_name'"
+    echo -e "  ${YELLOW}[dry-run]${NC} git config --global --replace-all user.email '$git_email'"
+  else
+    git config --global --replace-all user.name "$git_name"
+    git config --global --replace-all user.email "$git_email"
   fi
-
-  info "Configurando git con defaults útiles..."
-  if ! $DRY_RUN; then
-    cat > "$GITCONFIG" <<'GITCONF'
-[user]
-	name = Strocs
-	email = strocsdev@gmail.com
-[init]
-	defaultBranch = main
-[pull]
-	rebase = true
-[push]
-	autoSetupRemote = true
-[core]
-	editor = nvim
-[alias]
-	st = status
-	co = checkout
-	br = branch
-	cm = commit
-	lg = log --oneline --graph --decorate -20
-GITCONF
-  fi
-  ok "Git configurado."
+  ok "Identidad global de Git configurada."
 }
 
 # ─── 8. Tmux (opcional) ────────────────────────────────────────────────
@@ -341,14 +349,12 @@ install_languages() {
       fi
     fi
   elif is_termux; then
-    for pkg in nodejs; do
-      if ! command -v "$pkg" &>/dev/null; then
-        info "Instalando $pkg via pkg..."
-        run pkg install -y "$pkg"
-      else
-        ok "$pkg ya instalado"
-      fi
-    done
+    if ! command -v node &>/dev/null; then
+      info "Instalando nodejs via pkg..."
+      run pkg install -y nodejs
+    else
+      ok "Node ya instalado"
+    fi
     if ! command -v pi &>/dev/null; then
       run pnpm install -g @earendil-works/pi-coding-agent
     fi
@@ -371,7 +377,8 @@ apply_dotfiles() {
   DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
   # Paquetes base — zellij solo se aplica fuera de Termux
-  STOW_PACKAGES=(zsh git nvim npm)
+  # setup_git owns ~/.gitconfig; do not let Stow replace an existing host config.
+  STOW_PACKAGES=(zsh nvim npm atuin lazygit)
   if ! is_termux; then
     STOW_PACKAGES+=(zellij)
   fi
@@ -398,20 +405,48 @@ apply_dotfiles() {
     STOW_PACKAGES+=(gemini)
   fi
 
+  # These packages may already have declarative files in HOME from before Stow.
+  # Adoption is intentionally limited to this migration set; package-local
+  # .stow-local-ignore files keep sensitive, runtime, and dependency paths local.
+  local adoption_packages=(npm pi-agent opencode)
+  local needs_adoption candidate
+
   for pkg in "${STOW_PACKAGES[@]}"; do
-    if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
-      info "Stowing $pkg..."
-      run stow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"
-      ok "  $pkg aplicado"
-    else
+    if [[ ! -d "$DOTFILES_DIR/$pkg" ]]; then
       warn "  Paquete $pkg no encontrado — saltando"
+      continue
     fi
+
+    needs_adoption=false
+    for candidate in "${adoption_packages[@]}"; do
+      if [[ "$pkg" == "$candidate" ]]; then
+        needs_adoption=true
+        break
+      fi
+    done
+
+    if $needs_adoption; then
+      info "Adoptando archivos declarativos existentes para $pkg..."
+      if ! run stow --adopt -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+        fail "Falló la adopción de Stow para el paquete: $pkg"
+      fi
+      info "Restowing $pkg para asegurar enlaces administrados..."
+      if ! run stow --restow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+        fail "Falló el restow de Stow para el paquete: $pkg"
+      fi
+    else
+      info "Stowing $pkg..."
+      if ! run stow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+        fail "Falló Stow para el paquete: $pkg"
+      fi
+    fi
+    ok "  $pkg aplicado"
   done
 
   ok "Dotfiles aplicados."
 }
 
-# ─── 11. SSH config ────────────────────────────────────────────────────
+# ─── 12. SSH config ────────────────────────────────────────────────────
 setup_ssh_config() {
   header "SSH config"
 
@@ -485,7 +520,7 @@ setup_github() {
     return
   fi
 
-  if gh auth status &>/dev/null 2>&1; then
+  if ! $DRY_RUN && gh auth status &>/dev/null 2>&1; then
     ok "GitHub CLI ya autenticado."
     return
   fi
@@ -548,7 +583,7 @@ verify_installation() {
       ok "  $cmd"
     else
       warn "  $cmd NO encontrado"
-      ((errors++))
+      ((errors += 1))
     fi
   done
 
@@ -557,7 +592,7 @@ verify_installation() {
     ok "  fd"
   else
     warn "  fd NO encontrado"
-    ((errors++))
+    ((errors += 1))
   fi
 
   # Verificar Oh My Zsh
@@ -565,7 +600,7 @@ verify_installation() {
     ok "  oh-my-zsh"
   else
     warn "  oh-my-zsh NO encontrado"
-    ((errors++))
+    ((errors += 1))
   fi
 
   # Verificar plugins ZSH
@@ -575,17 +610,18 @@ verify_installation() {
       ok "  $plugin"
     else
       warn "  $plugin NO encontrado"
-      ((errors++))
+      ((errors += 1))
     fi
   done
 
-  # Verificar symlinks críticos
-  for f in .zshrc .gitconfig; do
+  # ~/.gitconfig is intentionally managed in place by setup_git, not by Stow.
+  # Verify only dotfiles that retain symlink ownership.
+  for f in .zshrc; do
     if [[ -L "$HOME/$f" ]]; then
       ok "  $f (symlink)"
     else
       warn "  $f NO es symlink — stow no se aplicó correctamente"
-      ((errors++))
+      ((errors += 1))
     fi
   done
 
@@ -659,7 +695,7 @@ main() {
   install_tmux
   install_languages
 
-  # Fase 5: Aplicar configs
+  # Fase 5: Aplicar configs declarativas; cada agente gestiona sus dependencias.
   apply_dotfiles
   setup_ssh_config
 
