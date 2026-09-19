@@ -2,6 +2,14 @@
 .pi/agent/sessions/
 .pi/agent/run-history.jsonl
 .pi/agent/intercom/
+.pi/agent/gentle-agents/
+.pi/agent/mcp-cache.json
+.pi/agent/models-store.json
+.pi/agent/trust.json
+
+# Installed extension dependencies; keep package manifests and lockfiles.
+.pi/agent/npm/node_modules/
+.pi/npm/node_modules/
 
 # Pi Lens cache
 .pi-lens/

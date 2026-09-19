@@ -1,0 +1,27 @@
+# Package control files
+^/\.gitignore$
+^/\.stow-local-ignore$
+
+# Sensitive local authentication
+^/\.pi/agent/auth\.json$
+
+# Generated runtime state
+^/\.pi/agent/gentle-agents($|/)
+^/\.pi/agent/sessions($|/)
+^/\.pi/agent/run-history\.jsonl$
+^/\.pi/agent/intercom$
+^/\.pi/agent/mcp-cache\.json$
+^/\.pi/agent/models-store\.json$
+^/\.pi/agent/trust\.json$
+^/\.pi/agent/pi-pretty($|/)
+^/\.pi/\.atl($|/)
+^/\.pi-lens$
+
+# Installed dependencies and generated binaries
+^/\.pi/agent/npm/node_modules($|/)
+^/\.pi/npm/node_modules($|/)
+^/\.pi/agent/bin($|/)
+
+# Skills provided by the shared ~/.agents registry
+^/\.pi/agent/skills/astro($|/)
+^/\.pi/agent/skills/typescript-advanced-types($|/)

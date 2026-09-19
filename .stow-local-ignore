@@ -2,9 +2,21 @@
 
 .termux/
 .termux/*
-wezterm/
-wezterm/*
 scripts/*
+
+# Generated agent state and installed dependencies
+^/\.pi/agent/gentle-agents/
+^/\.pi/agent/mcp-cache\.json$
+^/\.pi/agent/models-store\.json$
+^/\.pi/agent/trust\.json$
+^/\.pi/agent/auth\.json$
+^/\.pi/agent/npm/node_modules/
+^/\.pi/npm/node_modules/
+^/\.config/opencode/node_modules/
+^/\.config/opencode/opencode-notifier-state\.json$
+^/\.config/opencode/profile-versions/
+^/\.config/opencode/antigravity-accounts\.json$
+^/\.gemini/settings\.json\.orig$
 
 .config/go
 .config/fyne
