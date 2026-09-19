@@ -18,7 +18,8 @@
   "plugin": [
     "opencode-subagent-statusline",
     "/home/strocs/.config/opencode/tui-plugins/gentle-logo.tsx",
-    "/home/strocs/.npm/_npx/c9e189b7f6775a3f/node_modules/opencode-codex-usage"
+    "/home/strocs/.npm/_npx/c9e189b7f6775a3f/node_modules/opencode-codex-usage",
+    "opencode-sdd-engram-manage"
   ],
   "scroll_acceleration": {
     "enabled": true

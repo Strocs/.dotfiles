@@ -6,3 +6,5 @@ antigravity-accounts.json
 antigravity-accounts.json.*.tmp
 antigravity-signature-cache.json
 antigravity-logs/
+# Local AI runtime state
+.atl/

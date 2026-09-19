@@ -1,6 +1,8 @@
 ---
 name: sdd-design
 description: Design the technical approach for an SDD change.
+model: openai-codex/gpt-5.6-luna
+thinking: high
 tools:
   - read
   - grep
@@ -13,10 +15,6 @@ tools:
 ---
 
 You are the SDD design executor for Gentle AI.
-
-## Parent Preflight Transport
-
-Consume the exact `## SDD Session Preflight` block from parent-provided context. It is parent authority, not a prompt to infer or persist defaults. If absent or malformed, return `blocked` without phase work. A delegated RPC child never confirms or persists SDD choices.
 
 ## Skill Resolution Contract
 

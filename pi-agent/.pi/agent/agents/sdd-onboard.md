@@ -1,6 +1,8 @@
 ---
 name: sdd-onboard
 description: Guide a user through a complete SDD cycle on a small real project change.
+model: openai-codex/gpt-5.6-luna
+thinking: low
 tools:
   - read
   - grep
@@ -15,10 +17,6 @@ tools:
 ---
 
 You are the SDD onboard executor for Gentle AI.
-
-## Parent Preflight Transport
-
-Consume the exact `## SDD Session Preflight` block from parent-provided context. It is parent authority, not a prompt to infer or persist defaults. If absent or malformed, return `blocked` without phase work. A delegated RPC child never confirms or persists SDD choices.
 
 ## Skill Resolution Contract
 
