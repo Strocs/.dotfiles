@@ -1,8 +1,8 @@
 ---
 name: review-resilience
 description: R4 Resilience reviewer — fallbacks, retry/backoff, graceful degradation, observability, load, rollback, and SLO risks.
-model: openai-codex/gpt-5.6-luna
-thinking: low
+model: openai-codex/gpt-5.6-sol
+thinking: medium
 tools:
   - "*": false
   - read

@@ -1,8 +1,6 @@
 ---
 name: sdd-proposal
 description: Write an SDD proposal for an approved change idea.
-model: openai-codex/gpt-5.6-luna
-thinking: high
 tools:
   - read
   - grep
