@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+# Run development commands inside the managed Ubuntu proot environment.
+
+set -euo pipefail
+
+readonly UBU_DISTRO="${UBU_DISTRO:-ubuntu}"
+readonly UBU_GUEST_ROOT="${UBU_GUEST_ROOT:-/workspace}"
+readonly UBU_GUEST_PATH="${UBU_GUEST_PATH:-/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin}"
+readonly UBU_SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+readonly UBU_DOTFILES_DIR="$(cd "$(dirname "$UBU_SCRIPT_PATH")/../../.." && pwd)"
+readonly UBU_BOOTSTRAP_SCRIPT="${UBU_BOOTSTRAP_SCRIPT:-$UBU_DOTFILES_DIR/scripts/install-ubu-termux.sh}"
+
+fail() {
+  printf 'ubu: %s\n' "$*" >&2
+  exit 1
+}
+
+is_termux() {
+  [[ -n "${PREFIX:-}" && "$PREFIX" == */com.termux/files/usr ]]
+}
+
+require_termux() {
+  is_termux || fail "this command is available only in Termux"
+}
+
+require_proot_distro() {
+  command -v proot-distro >/dev/null 2>&1 ||
+    fail "proot-distro is not installed; run the dotfiles installer or 'pkg install proot-distro'"
+}
+
+is_distro_installed() {
+  proot-distro list --quiet 2>/dev/null | grep -Fxq "$UBU_DISTRO"
+}
+
+require_distro() {
+  is_distro_installed || fail "Ubuntu is not prepared; run 'ubu setup'"
+}
+
+project_context() {
+  local root
+  if root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null)"; then
+    :
+  else
+    root="$PWD"
+  fi
+
+  UBU_HOST_ROOT="$(cd "$root" && pwd -P)"
+  if [[ "$PWD" == "$UBU_HOST_ROOT" ]]; then
+    UBU_GUEST_CWD="$UBU_GUEST_ROOT"
+  else
+    UBU_GUEST_CWD="$UBU_GUEST_ROOT/${PWD#"$UBU_HOST_ROOT"/}"
+  fi
+}
+
+run_in_ubuntu() {
+  require_termux
+  require_proot_distro
+  require_distro
+  project_context
+
+  proot-distro login "$UBU_DISTRO" \
+    --isolated \
+    --env "PATH=$UBU_GUEST_PATH" \
+    --bind "$UBU_HOST_ROOT:$UBU_GUEST_ROOT" \
+    --work-dir "$UBU_GUEST_CWD" \
+    -- "$@"
+}
+
+cmd_setup() {
+  require_termux
+  [[ -x "$UBU_BOOTSTRAP_SCRIPT" ]] ||
+    fail "bootstrap script not found: $UBU_BOOTSTRAP_SCRIPT"
+  "$UBU_BOOTSTRAP_SCRIPT" "$@"
+}
+
+cmd_run() {
+  (($# > 0)) || fail "usage: ubu run <command> [args...]"
+  run_in_ubuntu "$@"
+}
+
+cmd_shell() {
+  run_in_ubuntu "${SHELL_IN_UBUNTU:-bash}" "$@"
+}
+
+cmd_doctor() {
+  local quiet=false
+  if [[ "${1:-}" == "--quiet" ]]; then
+    quiet=true
+    shift
+  fi
+  (($# == 0)) || fail "usage: ubu doctor [--quiet]"
+
+  require_termux
+  require_proot_distro
+  require_distro
+
+  local failed=0
+  local command_name
+  for command_name in node pnpm; do
+    if proot-distro login "$UBU_DISTRO" \
+      --isolated --env "PATH=$UBU_GUEST_PATH" \
+      -- "$command_name" --version >/dev/null 2>&1; then
+      $quiet || printf 'ok: %s\n' "$command_name"
+    else
+      $quiet || printf 'missing: %s\n' "$command_name" >&2
+      failed=1
+    fi
+  done
+
+  if ((failed != 0)); then
+    $quiet || printf 'Run `ubu setup` to repair the Ubuntu runtime.\n' >&2
+    return 1
+  fi
+
+  $quiet || printf 'ok: Ubuntu runtime is ready\n'
+}
+
+print_help() {
+  cat <<'EOF'
+Usage: ubu <command> [arguments]
+
+Run project tooling inside the managed Ubuntu proot environment.
+
+Commands:
+  setup             Install or update Ubuntu, Node.js, and pnpm
+  run <cmd> [...]   Run a command from the current project directory
+  shell             Open an Ubuntu shell in the current project directory
+  doctor [--quiet]  Verify the managed runtime
+  help              Show this help
+
+Examples:
+  ubu run pnpm install --frozen-lockfile
+  ubu run pnpm dev
+  ubu run node --version
+  ubu shell
+EOF
+}
+
+main() {
+  local command_name="${1:-help}"
+  (($# == 0)) || shift
+
+  case "$command_name" in
+    setup)  cmd_setup "$@" ;;
+    run)    cmd_run "$@" ;;
+    shell)  cmd_shell "$@" ;;
+    doctor) cmd_doctor "$@" ;;
+    help|-h|--help) print_help ;;
+    *)
+      printf 'ubu: unknown command: %s\n\n' "$command_name" >&2
+      print_help >&2
+      return 2
+      ;;
+  esac
+}
+
+main "$@"

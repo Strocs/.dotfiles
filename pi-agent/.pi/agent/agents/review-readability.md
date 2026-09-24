@@ -2,7 +2,7 @@
 name: review-readability
 description: R2 Readability reviewer — naming, complexity, intention, maintainability, review size, and context clarity.
 model: openai-codex/gpt-5.6-luna
-thinking: low
+thinking: high
 tools:
   - "*": false
   - read

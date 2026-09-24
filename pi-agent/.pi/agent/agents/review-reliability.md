@@ -1,8 +1,8 @@
 ---
 name: review-reliability
 description: R3 Reliability reviewer — behavior-first tests, coverage value, edge cases, determinism, contracts, and regressions.
-model: openai-codex/gpt-5.6-luna
-thinking: low
+model: openai-codex/gpt-5.6-sol
+thinking: medium
 tools:
   - "*": false
   - read

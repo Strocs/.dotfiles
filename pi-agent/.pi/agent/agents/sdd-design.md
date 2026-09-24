@@ -1,8 +1,8 @@
 ---
 name: sdd-design
 description: Design the technical approach for an SDD change.
-model: openai-codex/gpt-5.6-luna
-thinking: high
+model: openai-codex/gpt-5.6-sol
+thinking: medium
 tools:
   - read
   - grep

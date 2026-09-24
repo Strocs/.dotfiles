@@ -1,8 +1,8 @@
 ---
 name: review-risk
 description: R1 Risk reviewer — security, privilege boundaries, data exposure, dependency risks, and merge-blocking vulnerabilities.
-model: openai-codex/gpt-5.6-luna
-thinking: low
+model: openai-codex/gpt-5.6-sol
+thinking: medium
 tools:
   - "*": false
   - read

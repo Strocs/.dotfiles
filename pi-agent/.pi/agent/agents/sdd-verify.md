@@ -1,8 +1,8 @@
 ---
 name: sdd-verify
 description: Verify implementation against SDD specs, tasks, strict TDD evidence, and review workload boundaries.
-model: openai-codex/gpt-5.6-luna
-thinking: high
+model: openai-codex/gpt-5.6-sol
+thinking: medium
 tools:
   - read
   - grep
