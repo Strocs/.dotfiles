@@ -34,7 +34,7 @@ You are a sub-agent responsible for creating PROPOSALS. You take the exploration
 
 From the orchestrator:
 - Change name (e.g., "add-dark-mode")
-- Exploration analysis (from sdd-explore) OR direct user description
+- Confirmed pre-proposal handoff with state revision, confirmed decisions, and optional exploration/research references
 - Artifact store mode (`engram | openspec | hybrid | none`)
 
 ## Execution and Persistence Contract
@@ -48,22 +48,6 @@ From the orchestrator:
 - Never force `openspec/` creation unless user requested file-based persistence or mode is `hybrid`.
 
 ## What to Do
-
-### Step 0: Shape the Proposal in Interactive Mode
-
-- In interactive SDD mode, do not make the executor decide silently whether the proposal is "clear enough". Offer the user a proposal question round before finalizing the proposal: explain that the questions are meant to improve the PRD/proposal by uncovering business rules, implications, impact, edge cases, and product tradeoffs. Let the user answer, skip, correct the framing, or ask for a second question round.
-- Proposal-shaping questions should uncover business/product/PRD understanding, not harness mechanics. Cover the smallest useful subset of:
-  1. business problem: what pain, opportunity, user confusion, or operational cost makes this change worth doing now;
-  2. target users and situations: who is affected, in which workflow, at what moment, and with what level of urgency;
-  3. business rules: policies, permissions, thresholds, lifecycle rules, compliance/security expectations, or domain invariants the proposal must respect;
-  4. product outcome: what should feel, work, or become possible after the change;
-  5. current-state gap: what is wrong, inconsistent, missing, ad hoc, or hard to explain today;
-  6. implications and impact: which teams, workflows, data, UX expectations, support burden, or operational processes may be affected;
-  7. edge cases: empty states, partial data, failures, permissions, slow paths, unusual customers, migration states, or conflicting user needs;
-  8. decision gaps: which product unknowns would make the proposal ambiguous, risky, or easy to overbuild;
-  9. scope boundaries and non-goals: what belongs in the first product slice, what is later refinement, and what must stay unchanged even if related;
-  10. business risk or tradeoff: what downside matters most if the proposal chooses the wrong direction.
-- Prefer 3–5 concrete product questions per round. After the first answers, summarize the resulting proposal assumptions and ask whether the user wants to correct anything or run a second question round. Do not ask about test commands, PR shape, changed-line budget, or other harness decisions unless the user explicitly asks to discuss delivery. If blocked from asking directly, write a `## Proposal question round` section in the proposal result with the proposed questions and assumptions needing user review.
 
 ### Step 1: Load Skills
 Follow **Section A** from `skills/_shared/sdd-phase-common.md`.
@@ -115,7 +99,7 @@ Be specific about the user need or technical debt being addressed.}
 > Research `openspec/specs/` before filling this in.
 
 ### New Capabilities
-<!-- Capabilities being introduced. Each becomes a new `openspec/specs/<name>/spec.md`.
+<!-- Capabilities being introduced. Each gets a full spec at `openspec/changes/{change-name}/specs/<name>/spec.md` during the spec phase and becomes `openspec/specs/<name>/spec.md` at archive.
      Use kebab-case names (e.g., user-auth, data-export, api-rate-limiting).
      Leave empty if no new capabilities. -->
 - `<capability-name>`: <brief description of what this capability covers>
@@ -193,45 +177,15 @@ Ready for specs (sdd-spec) or design (sdd-design).
 - Keep the proposal CONCISE - it's a thinking tool, not a novel
 - Every proposal MUST have a rollback plan
 - Every proposal MUST have success criteria
+- Require the confirmed pre-proposal handoff. The proposer MUST NOT interview, infer consent, or repair pending decisions; return `blocked` instead.
 - Use concrete file paths in "Affected Areas" when possible
 - Apply any `rules.proposal` from `openspec/config.yaml`
 - **ALWAYS fill in the Capabilities section** — this is the contract with sdd-spec. Research `openspec/specs/` first to use correct existing capability names.
-- New Capabilities → each will become `openspec/specs/<name>/spec.md` (new full spec)
+- New Capabilities → each gets a full spec at `openspec/changes/{change-name}/specs/<name>/spec.md` during the spec phase and becomes `openspec/specs/<name>/spec.md` at archive
 - Modified Capabilities → each will become a delta spec in the change folder
 - If nothing changes at the spec level (pure refactor, config change), explicitly write "None" under both sub-sections — don't leave them as template placeholders
 - **Size budget**: Proposal artifact MUST be under 450 words. Use bullet points and tables over prose. Headers organize, not explain.
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-<!-- gentle-ai:codegraph-guidance -->
-## CodeGraph
-
-When answering structural or codebase questions, use CodeGraph before broad filesystem searches. This is a hard ordering rule for repo maps, architecture, call flow, dependencies, symbol references, impact analysis, and “how does X work” questions.
-
-CodeGraph-aware worktree placement:
-
-- Create Git worktrees that may need CodeGraph under the user's home directory, preferably as a sibling such as `<repo-parent>/<repo-name>-worktrees/<worktree-name>`. Never place a CodeGraph-dependent worktree under `/tmp`, `/var/tmp`, or `/tmp/opencode`; generic temporary-work guidance does not override this rule.
-- Every worktree needs its own `.codegraph/` index. Never copy, symlink, or reuse another checkout's index because its root and checked-out bytes may differ.
-
-CodeGraph intelligence surface:
-
-- Prefer the `codegraph_explore` MCP tool when it is available; it returns relevant source, call paths, and blast-radius context in one call.
-- If the MCP tool is unavailable, invoke the upstream CLI directly. Agents may use its read-only intelligence commands: `codegraph status`, `codegraph query`, `codegraph explore`, `codegraph node`, `codegraph files`, `codegraph callers`, `codegraph callees`, `codegraph impact`, and `codegraph affected`.
-- Do not use `gentle-ai codegraph` as a general proxy. Its `init` command exists only to validate the project root before initialization; intelligence queries belong to the upstream CLI.
-- Never run or recommend destructive or administrative lifecycle commands: `codegraph uninit`, `codegraph install`, `codegraph uninstall`, or `codegraph upgrade`. Reserve `codegraph index` for explicit index-corruption recovery, never routine use.
-
-Required order for structural/codebase questions:
-
-1. Resolve the project root with `git rev-parse --show-toplevel || pwd`.
-2. Confirm the root is a real project/workspace. Do not ask the user before initializing CodeGraph in a real project. Do not initialize CodeGraph in `$HOME`, temporary directories, or non-project folders.
-3. Check for `<project-root>/.codegraph/` before any broad Read/Glob/Grep filesystem exploration.
-4. If `.codegraph/` is missing and CodeGraph is enabled/available, immediately run `gentle-ai codegraph init --cwd <project-root>` once.
-5. Missing .codegraph/ is the trigger to initialize, not a reason to skip CodeGraph. Do not fall back just because `.codegraph/` is missing; a missing index is the trigger to lazy-initialize, not a reason to skip CodeGraph.
-6. Use `codegraph_explore` after initialization, or the read-only upstream CLI commands when MCP tools are absent.
-7. After edits, rely on watcher auto-sync by default. Run `codegraph sync` only when the watcher is disabled or CodeGraph reports stale files that do not refresh normally.
-8. Only fall back to normal filesystem tools after CodeGraph initialization or use fails, and briefly explain the fallback.
-
-Broad Read/Glob/Grep exploration before this CodeGraph check is explicitly discouraged for structural/codebase questions.
-<!-- /gentle-ai:codegraph-guidance -->
 
 <!-- gentle-ai:agent-language-contract -->
 ## Artifact Language Contract
