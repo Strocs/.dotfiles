@@ -31,6 +31,28 @@ alias sshpc="ssh strocs@strocs"
 
 if [[ "$IS_DESKTOP" == true ]]; then
   gowin() { local output="${@[-1]}"; local args="${@:1:-1}"; GOOS=windows GOARCH=amd64 go build $args -o "${output}.exe"; }
-  remote() { sudo -v || return 1; sudo systemctl start sshd tailscaled || return 1; tailscale ip -4; }
-  remotedown() { sudo systemctl stop sshd tailscaled; }
+  _remote_ssh_service() {
+    if systemctl cat sshd.service >/dev/null 2>&1; then
+      print -r -- sshd
+    else
+      print -r -- ssh
+    fi
+  }
+  remote() {
+    sudo -v || return 1
+    local ssh_service=$(_remote_ssh_service)
+    sudo ssh-keygen -A || return 1
+    sudo systemctl start "$ssh_service" tailscaled || return 1
+    print "SSH service ($ssh_service): $(systemctl is-active "$ssh_service")"
+    print "Tailscale service: $(systemctl is-active tailscaled)"
+    if ! tailscale status --self; then
+      print -u2 "Tailscale is not connected. Run 'sudo tailscale up' to authenticate this device."
+      return 1
+    fi
+    print "SSH address: $(tailscale ip -4)"
+  }
+  remotedown() {
+    local ssh_service=$(_remote_ssh_service)
+    sudo systemctl stop "$ssh_service" tailscaled
+  }
 fi

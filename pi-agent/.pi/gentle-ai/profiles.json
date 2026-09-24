@@ -2,7 +2,7 @@
   "kind": "gentle-pi.agent_model_profiles",
   "version": 1,
   "profiles": {
-    "cheap": {
+    "cheap-5.6": {
       "orchestrator": {
         "model": "openai-codex/gpt-5.6-sol",
         "thinking": "low"
@@ -104,7 +104,7 @@
         "thinking": "low"
       }
     },
-    "recommended": {
+    "recommended-5.6": {
       "orchestrator": {
         "model": "openai-codex/gpt-5.6-sol",
         "thinking": "low"
@@ -203,6 +203,210 @@
       },
       "sdd-sync": {
         "model": "openai-codex/gpt-5.6-luna",
+        "thinking": "low"
+      }
+    },
+    "cheap": {
+      "orchestrator": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "low"
+      },
+      "session": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "low"
+      },
+      "review-refuter": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "low"
+      },
+      "sdd-design": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "sdd-propose": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "sdd-verify": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "jd-judge-a": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "jd-judge-b": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "default": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "sdd-apply": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "jd-fix-agent": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "review-risk": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "review-reliability": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "review-resilience": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "review-validator": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "review-readability": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-spec": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-research": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-explore": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-tasks": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-init": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-archive": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-onboard": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-status": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-sync": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      }
+    },
+    "recommended": {
+      "orchestrator": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "session": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "low"
+      },
+      "sdd-propose": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "sdd-design": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "high"
+      },
+      "sdd-spec": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "sdd-apply": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "sdd-verify": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "jd-judge-a": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "jd-judge-b": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "jd-fix-agent": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "default": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "review-risk": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "high"
+      },
+      "review-reliability": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "review-resilience": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "review-refuter": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "high"
+      },
+      "review-validator": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "high"
+      },
+      "review-readability": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "high"
+      },
+      "sdd-explore": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-research": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-tasks": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      },
+      "sdd-init": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-archive": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-onboard": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-status": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "low"
+      },
+      "sdd-sync": {
+        "model": "openai-codex/gpt-6-luna",
         "thinking": "low"
       }
     }
