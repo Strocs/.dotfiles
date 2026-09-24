@@ -68,6 +68,44 @@ Adoption can update the repository copy with the pre-existing `HOME` content. Re
 
 `bash scripts/install.sh --dry-run` prints package installation, adoption, and restow commands without changing files or contacting the network.
 
+## Ubuntu project runtime on Termux
+
+The Termux installation provisions an Ubuntu 24.04 container through `proot-distro` and installs the Stow-managed `ubu` command. This provides Linux ARM64/glibc project tooling without adding compatibility configuration to individual repositories.
+
+The initial runtime includes Node.js 24 and pnpm. Bun and background process management are intentionally not included.
+
+Run commands from any Git repository or regular directory:
+
+```bash
+ubu run pnpm install --frozen-lockfile
+ubu run pnpm dev
+ubu run pnpm check
+ubu run node --version
+```
+
+`ubu run` mounts the current Git worktree at `/workspace`, preserves the current relative directory, forwards the command exit status, and keeps interactive processes in the foreground so `Ctrl+C` stops them normally. Open an interactive guest shell or inspect the runtime with:
+
+```bash
+ubu shell
+ubu doctor
+```
+
+Re-run the idempotent bootstrap after an interrupted installation or to repair missing tooling:
+
+```bash
+ubu setup
+```
+
+Project files remain in the Termux home directory. Project `node_modules` directories created through `ubu` contain Ubuntu/glibc dependencies, so all Node.js package-manager, formatter, linter, test, build, and development-server commands for those projects should also run through `ubu run`.
+
+The Ubuntu root filesystem is managed by `proot-distro` outside this repository. To permanently remove it and all packages installed inside it:
+
+```bash
+proot-distro remove ubuntu
+```
+
+This removal is destructive and does not prompt for confirmation. It does not remove projects stored in the Termux home directory.
+
 ## Shell: ZSH
 
 **Desktop:**

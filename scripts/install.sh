@@ -61,7 +61,7 @@ install_system_deps() {
       run pkg update -y
       run pkg install -y \
         build-essential procps curl file git openssh \
-        python3 xz-utils
+        proot-distro python3 xz-utils
       ;;
     ubuntu)
       run sudo apt-get update -y
@@ -370,7 +370,32 @@ install_languages() {
   ok "Herramientas de lenguaje listas."
 }
 
-# ─── 10. Aplicar dotfiles via stow ─────────────────────────────────────
+# ─── 10. Runtime Ubuntu para Termux ────────────────────────────────────
+setup_ubu_runtime() {
+  if ! is_termux; then
+    return
+  fi
+
+  header "Runtime Ubuntu para proyectos"
+
+  local dotfiles_dir bootstrap_script
+  dotfiles_dir="$(cd "$(dirname "$0")/.." && pwd)"
+  bootstrap_script="$dotfiles_dir/scripts/install-ubu-termux.sh"
+
+  if [[ ! -x "$bootstrap_script" ]]; then
+    fail "Bootstrap de ubu no encontrado o no ejecutable: $bootstrap_script"
+  fi
+
+  if $DRY_RUN; then
+    "$bootstrap_script" --dry-run
+  else
+    "$bootstrap_script"
+  fi
+
+  ok "Runtime Ubuntu listo."
+}
+
+# ─── 11. Aplicar dotfiles via stow ─────────────────────────────────────
 apply_dotfiles() {
   header "Aplicando dotfiles"
 
@@ -379,7 +404,9 @@ apply_dotfiles() {
   # Paquetes base — zellij solo se aplica fuera de Termux
   # setup_git owns ~/.gitconfig; do not let Stow replace an existing host config.
   STOW_PACKAGES=(zsh nvim npm atuin lazygit)
-  if ! is_termux; then
+  if is_termux; then
+    STOW_PACKAGES+=(agents ubu)
+  else
     STOW_PACKAGES+=(zellij)
   fi
 
@@ -566,6 +593,9 @@ setup_termux_storage() {
 verify_installation() {
   header "Verificación"
 
+  # Stow may have just installed user executables in this non-login shell.
+  export PATH="$HOME/.local/bin:$PATH"
+
   if $DRY_RUN; then
     warn "Verificación omitida en --dry-run; no se instalaron paquetes realmente."
     return 0
@@ -575,7 +605,9 @@ verify_installation() {
 
   # Verificar herramientas core (zellij no forma parte de Termux)
   local core_commands=(zsh git stow nvim zoxide atuin lazygit fzf rg gh pnpm pi)
-  if ! is_termux; then
+  if is_termux; then
+    core_commands+=(proot-distro ubu)
+  else
     core_commands+=(zellij)
   fi
   for cmd in "${core_commands[@]}"; do
@@ -593,6 +625,15 @@ verify_installation() {
   else
     warn "  fd NO encontrado"
     ((errors += 1))
+  fi
+
+  if is_termux; then
+    if ubu doctor --quiet; then
+      ok "  runtime de ubu"
+    else
+      warn "  runtime de ubu NO disponible"
+      ((errors += 1))
+    fi
   fi
 
   # Verificar Oh My Zsh
@@ -613,6 +654,15 @@ verify_installation() {
       ((errors += 1))
     fi
   done
+
+  if is_termux; then
+    if [[ -L "$HOME/dev/AGENTS.md" ]]; then
+      ok "  dev/AGENTS.md (symlink)"
+    else
+      warn "  dev/AGENTS.md NO es symlink — stow no se aplicó correctamente"
+      ((errors += 1))
+    fi
+  fi
 
   # ~/.gitconfig is intentionally managed in place by setup_git, not by Stow.
   # Verify only dotfiles that retain symlink ownership.
@@ -653,6 +703,11 @@ summary() {
   if is_termux; then
     echo "  3. Configura storage:"
     echo -e "       ${CYAN}termux-setup-storage${NC}"
+    echo ""
+    echo -e "  ${BOLD}Runtime Ubuntu para proyectos:${NC}"
+    echo -e "       ${CYAN}ubu run pnpm dev${NC}"
+    echo -e "       ${CYAN}ubu shell${NC}"
+    echo -e "       ${CYAN}ubu doctor${NC}"
   fi
   echo ""
   echo -e "  ${BOLD}Aliases:${NC}"
@@ -691,9 +746,10 @@ main() {
   # Fase 3: Git
   setup_git
 
-  # Fase 4: Multiplexor y lenguajes
+  # Fase 4: Multiplexor, lenguajes y runtime de proyectos
   install_tmux
   install_languages
+  setup_ubu_runtime
 
   # Fase 5: Aplicar configs declarativas; cada agente gestiona sus dependencias.
   apply_dotfiles

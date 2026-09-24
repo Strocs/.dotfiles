@@ -9,6 +9,8 @@ if [[ "$IS_DESKTOP" == true ]]; then
   [[ "$IS_WSL" == true ]] && add_path "/mnt/c/Windows" "/mnt/c/Windows/System32" "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" "/usr/lib/wsl/lib"
   [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
   [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+  add_path "$HOME/.local/bin"
 fi
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
