@@ -1,3 +1,9 @@
+# Source only: profiles.json is the sole durable Pi configuration.
+.pi/*
+!.pi/gentle-ai/
+.pi/gentle-ai/*
+!.pi/gentle-ai/profiles.json
+
 # Runtime artifacts
 .pi/agent/sessions/
 .pi/agent/run-history.jsonl

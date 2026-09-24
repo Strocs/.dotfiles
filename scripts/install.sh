@@ -403,7 +403,7 @@ apply_dotfiles() {
 
   # Paquetes base — zellij solo se aplica fuera de Termux
   # setup_git owns ~/.gitconfig; do not let Stow replace an existing host config.
-  STOW_PACKAGES=(zsh nvim npm atuin lazygit)
+  STOW_PACKAGES=(zsh nvim npm atuin lazygit agent-skills)
   if is_termux; then
     STOW_PACKAGES+=(agents ubu)
   else
@@ -435,13 +435,21 @@ apply_dotfiles() {
   # These packages may already have declarative files in HOME from before Stow.
   # Adoption is intentionally limited to this migration set; package-local
   # .stow-local-ignore files keep sensitive, runtime, and dependency paths local.
-  local adoption_packages=(npm pi-agent opencode)
+  local adoption_packages=(npm pi-agent opencode agent-skills)
   local needs_adoption candidate
+  local -a stow_options
 
   for pkg in "${STOW_PACKAGES[@]}"; do
     if [[ ! -d "$DOTFILES_DIR/$pkg" ]]; then
       warn "  Paquete $pkg no encontrado — saltando"
       continue
+    fi
+
+    # Pi keeps runtime files beside the managed profile. Prevent directory
+    # folding so package-local ignores are honored file by file.
+    stow_options=()
+    if [[ "$pkg" == "pi-agent" ]]; then
+      stow_options+=(--no-folding)
     fi
 
     needs_adoption=false
@@ -454,16 +462,16 @@ apply_dotfiles() {
 
     if $needs_adoption; then
       info "Adoptando archivos declarativos existentes para $pkg..."
-      if ! run stow --adopt -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+      if ! run stow "${stow_options[@]}" --adopt -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
         fail "Falló la adopción de Stow para el paquete: $pkg"
       fi
       info "Restowing $pkg para asegurar enlaces administrados..."
-      if ! run stow --restow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+      if ! run stow "${stow_options[@]}" --restow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
         fail "Falló el restow de Stow para el paquete: $pkg"
       fi
     else
       info "Stowing $pkg..."
-      if ! run stow -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
+      if ! run stow "${stow_options[@]}" -d "$DOTFILES_DIR" -t "$HOME" "$pkg"; then
         fail "Falló Stow para el paquete: $pkg"
       fi
     fi
