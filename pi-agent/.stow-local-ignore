@@ -2,9 +2,9 @@
 ^/\.gitignore$
 ^/\.stow-local-ignore$
 
-# Pi runtime and machine-local configuration; only
-# .pi/gentle-ai/profiles.json remains eligible for Stow.
-^/\.pi/agent($|/)
+# Pi runtime and machine-local configuration; profiles.json and
+# agent/keybindings.json remain eligible for Stow.
+^/\.pi/agent/(?!keybindings\.json$).+
 ^/\.pi/npm($|/)
 ^/\.pi/\.atl($|/)
 ^/\.pi/gentle-ai/(?!profiles\.json(?:/|$)).+

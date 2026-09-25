@@ -3,6 +3,15 @@
 !.pi/gentle-ai/
 .pi/gentle-ai/*
 !.pi/gentle-ai/profiles.json
+!.pi/agent/
+.pi/agent/*
+!.pi/agent/keybindings.json
+
+# Gentle Shell uses a separate agent directory.
+.gentle-shell/*
+!.gentle-shell/agent/
+.gentle-shell/agent/*
+!.gentle-shell/agent/keybindings.json
 
 # Runtime artifacts
 .pi/agent/sessions/
