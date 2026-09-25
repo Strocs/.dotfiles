@@ -1,6 +1,0 @@
-# Runtime state
-.config/opencode/opencode-notifier-state.json
-.config/opencode/profile-versions/
-
-# Installed dependencies; keep manifests and lockfiles.
-.config/opencode/node_modules/
