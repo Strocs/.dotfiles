@@ -331,7 +331,7 @@ install_languages() {
       fi
     done
 
-    # Pi agent (vía pnpm)
+    # Gentle Shell requires the standalone Pi executable; install it first.
     if ! command -v pi &>/dev/null; then
       info "Instalando pi agent..."
       run pnpm install -g @earendil-works/pi-coding-agent
@@ -339,14 +339,11 @@ install_languages() {
       ok "pi agent ya instalado"
     fi
 
-    # Gentle AI (vía brew tap — no disponible en Termux)
-    if [[ "$ENV" == ubuntu || "$ENV" == arch ]]; then
-      if ! command -v gentle-ai &>/dev/null; then
-        info "Instalando gentle-ai..."
-        run brew install gentleman-programming/tap/gentle-ai
-      else
-        ok "gentle-ai ya instalado"
-      fi
+    if ! command -v gentle-shell &>/dev/null; then
+      info "Instalando gentle-shell..."
+      run pnpm install -g gentle-pi
+    else
+      ok "gentle-shell ya instalado"
     fi
   elif is_termux; then
     if ! command -v node &>/dev/null; then
@@ -364,7 +361,8 @@ install_languages() {
     echo "  Node:  instalar mediante el gestor de paquetes de la distribución"
     echo "  Bun:   curl -fsSL https://bun.sh/install | bash"
     echo "  pnpm:  npm install -g pnpm"
-    echo "  pi:    pnpm install -g @earendil-works/pi-coding-agent"
+    echo "  pi:           pnpm install -g @earendil-works/pi-coding-agent"
+    echo "  gentle-shell: pnpm install -g gentle-pi"
   fi
 
   ok "Herramientas de lenguaje listas."
@@ -420,9 +418,8 @@ apply_dotfiles() {
     STOW_PACKAGES+=(wezterm)
   fi
 
-  # Symlink agent configurations only when the corresponding agent is installed.
-  # Pi is installed by this script in every supported environment.
-  if command -v pi &>/dev/null; then
+  # The shared profile is consumed by Gentle Shell or a standalone Pi installation.
+  if command -v gentle-shell &>/dev/null || command -v pi &>/dev/null; then
     STOW_PACKAGES+=(pi-agent)
   fi
   if command -v opencode &>/dev/null && [[ -d "$DOTFILES_DIR/opencode" ]]; then
@@ -612,7 +609,11 @@ verify_installation() {
   local errors=0
 
   # Verificar herramientas core (zellij no forma parte de Termux)
-  local core_commands=(zsh git stow nvim zoxide atuin lazygit fzf rg gh pnpm pi)
+  local core_commands=(zsh git stow nvim zoxide atuin lazygit fzf rg gh pnpm)
+  core_commands+=(pi)
+  if ! is_termux; then
+    core_commands+=(gentle-shell)
+  fi
   if is_termux; then
     core_commands+=(proot-distro ubu)
   else

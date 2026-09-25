@@ -56,7 +56,7 @@ Package ownership is conditional:
 - On Termux, packages continue to come from `pkg`; executable checks account for package/command differences such as `nodejs` providing `node`.
 - `wezterm` and `zellij` are desktop-only Stow packages.
 - `tmux` is stowed only when tmux is installed.
-- Agent configuration (`pi-agent`, `opencode`, and `gemini`) is stowed only when the matching executable exists. The installer does not restore dependencies inside agent directories; each agent owns its dependency lifecycle.
+- Agent configuration (`pi-agent`, `opencode`, and `gemini`) is stowed only when the matching executable exists. On non-Termux systems the installer installs both standalone Pi (required by Gentle Shell) and Gentle Shell (`gentle-pi`), without a separate Gentle AI installation; the shared `pi-agent` profile is stowed when either `gentle-shell` or `pi` exists. Gentle Shell still reads profiles from `~/.pi/gentle-ai/profiles.json` by default. Termux retains standalone Pi. The installer does not restore dependencies inside agent directories; each agent owns its dependency lifecycle.
 - `npm` is always stowed.
 - `.termux/` and `scripts/` are not Stow-managed.
 
