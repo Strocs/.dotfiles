@@ -18,5 +18,6 @@ add_path "$PNPM_HOME/bin"
 
 # Pi agent configuration is managed in dotfiles and exposed through ~/.pi/agent symlinks.
 export GENTLE_PI_COMMANDS_KEY="ctrl+shift+k"
+export GENTLE_PI_AGENTS_PI="gentle-shell"
 
 export PATH="$HOME/.opencode/bin:$PATH"

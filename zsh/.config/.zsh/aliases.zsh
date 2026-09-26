@@ -1,6 +1,7 @@
 # User-defined aliases, grouped by purpose
 alias cls="clear"
 alias ocode="opencode . --port 4096 --hostname 0.0.0.0"
+alias gs="gentle-shell"
 alias dotinstall='bash "$HOME/.dotfiles/scripts/install.sh"'
 
 case "$PLATFORM" in
@@ -20,7 +21,7 @@ alias nrd="npm run dev"
 alias py="python3"
 alias lua="luajit"
 alias lg="lazygit"
-alias gs="git status"
+alias gst="git status"
 alias gb="git branch"
 alias gco="git checkout"
 alias gpl="git pull"
