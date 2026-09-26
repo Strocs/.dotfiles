@@ -22,12 +22,22 @@ if [[ -z ${WM_CMD:-} ]]; then
   if [[ "$PLATFORM" == termux ]]; then
     export WM_CMD=none
   else
-    export WM_CMD=zellij
+    export WM_CMD=herdr
   fi
   export WM_CMD_IS_DEFAULT=true
 else
   export WM_CMD_IS_DEFAULT=false
 fi
+
+# Validate WM_CMD value
+case "$WM_CMD" in
+  zellij|tmux|herdr|none) ;;
+  *)
+    echo "WM_CMD='$WM_CMD' no soportado. Usando zellij." >&2
+    export WM_CMD=zellij
+    export WM_CMD_IS_DEFAULT=true
+    ;;
+esac
 
 add_path() {
   local p

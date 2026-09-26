@@ -1,6 +1,6 @@
 # Window manager configuration.
 # WM_CMD is chosen per platform in platform.zsh:
-#   zellij (desktop default), tmux, or none (Termux default).
+#   zellij (desktop default), tmux, herdr, or none (Termux default).
 # Override from the environment, e.g. WM_CMD=tmux zsh
 
 # Skip window manager entirely if disabled
@@ -18,8 +18,11 @@ start_if_needed() {
     "zellij")
       WM_VAR="/$ZELLIJ"
       ;;
+    "herdr")
+      WM_VAR="/$HERDR"
+      ;;
     *)
-      echo "Unknown WM_CMD: $WM_CMD. Supported: tmux, zellij, none" >&2
+      echo "Unknown WM_CMD: $WM_CMD. Supported: tmux, zellij, herdr, none" >&2
       return 1
       ;;
   esac
@@ -32,7 +35,19 @@ start_if_needed() {
   fi
 
   # Start WM if interactive, not already running, and stdout is a terminal
-  if [[ $- == *i* ]] && [[ -z "${WM_VAR#/}" ]] && [[ -t 1 ]]; then
+  # For herdr, check HERDR_ENV (set by herdr in pane env) to prevent nested launch
+  # Herdr itself blocks if HERDR_ENV=1 (see src/main.rs:should_block_nested)
+  local already_running=0
+  if [[ "$WM_CMD" == "herdr" ]]; then
+    # HERDR_ENV=1 is set by herdr in every pane it manages.
+    # If present, we are already inside a herdr session → don't re-exec.
+    [[ -n "${HERDR_ENV:-}" ]] && already_running=1
+  else
+    # For tmux/zellij: empty WM_VAR (after removing leading /) means not running
+    [[ -z "${WM_VAR#/}" ]] && already_running=0 || already_running=1
+  fi
+
+  if [[ $- == *i* ]] && [[ $already_running -eq 0 ]] && [[ -t 1 ]]; then
     exec "$WM_CMD"
   fi
 }
