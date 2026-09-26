@@ -117,7 +117,41 @@ install_brew() {
   ok "Homebrew instalado."
 }
 
-# ─── 3. Herramientas core ──────────────────────────────────────────────
+# ─── 3. Multiplexers opcionales (via brew) ────────────────────────────
+install_optional_multiplexers() {
+  header "Multiplexers opcionales (via brew)"
+
+  if ! is_brew; then
+    info "Homebrew no disponible — saltando multiplexers opcionales"
+    return
+  fi
+
+  # zellij
+  if ! command -v zellij &>/dev/null; then
+    info "Instalando zellij via brew..."
+    run brew install zellij
+  else
+    ok "zellij ya instalado"
+  fi
+
+  # tmux
+  if ! command -v tmux &>/dev/null; then
+    info "Instalando tmux via brew..."
+    run brew install tmux
+  else
+    ok "tmux ya instalado"
+  fi
+
+  # herdr
+  if ! command -v herdr &>/dev/null; then
+    info "Instalando herdr via brew..."
+    run brew install herdr
+  else
+    ok "herdr ya instalado"
+  fi
+}
+
+# ─── 4. Herramientas core ──────────────────────────────────────────────
 install_core_tools() {
   header "Herramientas core"
 
@@ -413,9 +447,9 @@ apply_dotfiles() {
     STOW_PACKAGES+=(tmux)
   fi
 
-  # wezterm solo fuera de Termux
-  if ! is_termux; then
-    STOW_PACKAGES+=(wezterm)
+  # herdr solo si está instalado (via brew o manual)
+  if command -v herdr &>/dev/null; then
+    STOW_PACKAGES+=(herdr)
   fi
 
   # The shared profile is consumed by Gentle Shell or a standalone Pi installation.
@@ -612,12 +646,10 @@ verify_installation() {
   local core_commands=(zsh git stow nvim zoxide atuin lazygit fzf rg gh pnpm)
   core_commands+=(pi)
   if ! is_termux; then
-    core_commands+=(gentle-shell)
+    core_commands+=(gentle-shell zellij herdr tmux)
   fi
   if is_termux; then
     core_commands+=(proot-distro ubu)
-  else
-    core_commands+=(zellij)
   fi
   for cmd in "${core_commands[@]}"; do
     if command -v "$cmd" &>/dev/null; then
@@ -701,7 +733,7 @@ summary() {
   if is_termux; then
     echo -e "  ${BOLD}Multiplexor: ninguno${NC} (Termux; WM_CMD=\"none\")"
   else
-    echo -e "  ${BOLD}Multiplexor: zellij${NC} (wm.zsh → WM_CMD=\"zellij\")"
+    echo -e "  ${BOLD}Multiplexor: herdr${NC} (wm.zsh → WM_CMD=\"herdr\")"
   fi
   echo ""
   echo -e "  ${BOLD}Siguientes pasos manuales:${NC}"
@@ -745,6 +777,7 @@ main() {
   # Fase 1: Infraestructura
   install_system_deps
   install_brew
+  install_optional_multiplexers
   install_core_tools
 
   # Fase 2: Shell
