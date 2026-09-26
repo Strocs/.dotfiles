@@ -1,0 +1,6 @@
+# Package control files
+^/\.gitignore$
+^/\.stow-local-ignore$
+
+# Ignore everything in .config/herdr/ EXCEPT config.toml
+^/\.config/herdr/(?!config\.toml$).+

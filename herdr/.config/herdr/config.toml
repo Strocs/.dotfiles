@@ -19,12 +19,6 @@ focus_pane_down = ["prefix+j", "ctrl+alt+j"]
 focus_pane_up = ["prefix+k", "ctrl+alt+k"]
 focus_pane_right = ["prefix+l", "ctrl+alt+l"]
 
-# Resize directo (opcional)
-resize_pane_left = "ctrl+shift+alt+left"
-resize_pane_down = "ctrl+shift+alt+down"
-resize_pane_up = "ctrl+shift+alt+up"
-resize_pane_right = "ctrl+shift+alt+right"
-
 # === WORKSPACE NAVIGATION ===
 # Quick switch workspace 1-9
 switch_workspace = ["alt+shift+1..9", "ctrl+1..9"]
@@ -68,7 +62,6 @@ rows = [
   ["branch", "git_status"],
   [{ token = "$cpu_ok" }, { token = "$cpu_warn", fg = "#f9e2af" }, { token = "$cpu_hot", fg = "#f38ba8" }],
   [{ token = "$mem_ok" }, { token = "$mem_warn", fg = "#f9e2af" }, { token = "$mem_hot", fg = "#f38ba8" }],
-  [{ token = "$load_ok" }, { token = "$load_warn", fg = "#f9e2af" }, { token = "$load_hot", fg = "#f38ba8" }],
 ]
 
 [terminal]
