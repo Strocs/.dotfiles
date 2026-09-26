@@ -1,0 +1,81 @@
+# ~/.dotfiles/herdr/.config/herdr/config.toml
+# Herdr minimal config — managed via stow
+
+onboarding = false
+
+[keys]
+prefix = "ctrl+space"
+
+# Splits tmux-style
+split_vertical = ["prefix+%"]
+split_horizontal = ["prefix+\""]
+
+# Tabs: alt+1..9 (sin leader)
+switch_tab = ["alt+1..9"]
+
+# Panes: prefix+h/j/k/l Y ctrl+alt+h/j/k/l (sin leader, familia segura)
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+
+# Resize directo (opcional)
+resize_pane_left = "ctrl+shift+alt+left"
+resize_pane_down = "ctrl+shift+alt+down"
+resize_pane_up = "ctrl+shift+alt+up"
+resize_pane_right = "ctrl+shift+alt+right"
+
+# === WORKSPACE NAVIGATION ===
+# Quick switch workspace 1-9
+switch_workspace = ["alt+shift+1..9", "ctrl+1..9"]
+# New workspace
+new_workspace = ["prefix+n", "ctrl+shift+n"]
+# Cycle workspaces
+next_workspace = ["prefix+tab", "ctrl+alt+tab", "ctrl+f1"]
+previous_workspace = ["prefix+shift+tab", "ctrl+alt+shift+tab", "ctrl+f2"]
+
+# === AGENT NAVIGATION ===
+# Focus agent by index
+focus_agent = "prefix+1..9"
+# Cycle agents (sin conflicto con copy mode prefix+[)
+next_agent = ["prefix+shift+]", "ctrl+alt+]", "ctrl+f3"]
+previous_agent = ["prefix+shift+[", "ctrl+alt+[", "ctrl+f4"]
+
+[theme]
+name = "terminal"
+auto_switch = false
+light_name = "tokyo-night-day"
+
+[ui]
+host_cursor = "native"  # Use terminal's native cursor (better for WezTerm GPU rendering)
+pane_borders = "auto"
+status_indicators = "symbols"
+
+[ui.toast]
+delivery = "herdr"
+
+[ui.sidebar.spaces]
+# Added by herdr-mem-cpu-load. The first two rows are the layout herdr shows
+# with no configuration at all; the three below them are this plugin's, one
+# per metric, and need its daemon running to have anything to say.
+#
+# A metric names all three of its level tokens because only one of them ever
+# has a value: the daemon sets the level that applies and clears the other
+# two, and herdr drops a token without a value along with its separator. The
+# result is one row that changes colour as the machine heats up.
+rows = [
+  ["state_icon", "workspace"],
+  ["branch", "git_status"],
+  [{ token = "$cpu_ok" }, { token = "$cpu_warn", fg = "#f9e2af" }, { token = "$cpu_hot", fg = "#f38ba8" }],
+  [{ token = "$mem_ok" }, { token = "$mem_warn", fg = "#f9e2af" }, { token = "$mem_hot", fg = "#f38ba8" }],
+  [{ token = "$load_ok" }, { token = "$load_warn", fg = "#f9e2af" }, { token = "$load_hot", fg = "#f38ba8" }],
+]
+
+[terminal]
+default_shell = "zsh"
+shell_mode = "auto"
+new_cwd = "follow"
+
+[update]
+version_check = true
+manifest_check = true
