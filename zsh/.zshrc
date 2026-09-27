@@ -13,6 +13,3 @@ ZSH_CONFIG_DIR="$HOME/.config/.zsh"
 
 typeset -U PATH
 alias xclean="/bin/bash $HOME/xclean.sh"
-
-# Turso
-export PATH="$PATH:/home/strocs/.turso"
