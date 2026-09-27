@@ -18,6 +18,11 @@ export IS_TERMUX=$([[ "$PLATFORM" == termux ]] && echo true || echo false)
 export IS_DESKTOP=$([[ "$PLATFORM" != termux ]] && echo true || echo false)
 export IS_WSL=$([[ -r /proc/version ]] && grep -qi microsoft /proc/version && echo true || echo false)
 
+# Recover WSL interop socket when missing in detached multiplexer panes (e.g. herdr/tmux)
+if [[ "$IS_WSL" == true && -z "$WSL_INTEROP" ]]; then
+  export WSL_INTEROP=$(ls -t /run/WSL/*_interop 2>/dev/null | head -n1)
+fi
+
 if [[ -z ${WM_CMD:-} ]]; then
   if [[ "$PLATFORM" == termux ]]; then
     export WM_CMD=none
