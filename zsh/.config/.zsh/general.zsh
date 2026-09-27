@@ -17,3 +17,10 @@ fi
 # Editor
 export EDITOR='nvim'
 
+# WSL screenshot clipboard daemon
+if [[ "$IS_WSL" == true && -n "$WSL_INTEROP" ]] && command -v wsl-screenshot-cli >/dev/null 2>&1; then
+  if ! pgrep -f "wsl-screenshot-cli.*start" >/dev/null 2>&1; then
+    wsl-screenshot-cli start --daemon --quiet 2>/dev/null
+  fi
+fi
+
